@@ -1,0 +1,278 @@
+%% This file is for producing a Doctoral Thesis proposal.  It should be fairly
+%% self-explanatory.  
+
+
+
+\bibliographystyle{plain}
+\pagestyle{empty}
+\markboth{{\sc thesis proposal}}{{\sc thesis proposal}}
+\def\title{Relationships Between Functionality, Security, and Privacy}
+\def\author{Rio LaVigne}
+\def\addrone{32 Vassar Street, G636}
+\def\addrtwo{Cambridge, MA  02139}
+
+\def\degree{Doctor of Philosophy}
+%% Added \deptname for PhD proposals in other fields.
+%% Krishna Sethuraman (1990)
+\def\deptname{Electrical Engineering \\ and Computer Science}
+\def\laboratory{Theory of Computation}
+
+\def\submissiondate{\today}
+\def\completiondate{June 2020}
+
+\def\supervisor{Professor Vinod Vaikuntanathan}
+\def\supertitleone{Associate Professor of Electrical Engineering}
+\def\supertitletwo{and Computer Science at MIT}
+
+
+\def\supervisortwo{Professor Virginia Vassilevska Williams}
+\def\supervisortwotitleone{Associate Professor of Electrical Engineering}
+\def\supervisortwotitletwo{and Computer Science at MIT}
+
+\def\readertwo{Doctor Tal Moran}
+\def\readertwotitleone{Faculty of School of Computer Science}
+\def\readertwotitletwo{at IDC Herzliya}
+
+%\def\readerthree{Professor Vinod Vaikuntanathan}
+%\def\readerthreetitleone{Associate Professor of Electrical Engineering}
+%\def\readerthreetitletwo{and Computer Science at MIT}
+
+
+\def\abstract{
+One of the core goals of cryptography is to be able to offer security and privacy without sacrificing functionality. This thesis describes three different functionalities and notions of security and privacy and how they interplay. First, we delve into Topology-Hiding Computation, which has a very restrictive definition of privacy making it difficult to construct; nevertheless we provide a two constructions. Second, we invent a new cryptographic concept called Property Preserving Hashes, where we want to compress inputs while securely preserving a certain property between them, e.g. hamming distance. Finally, we explore Fine-Grained Cryptography, and develop a public key cryptosystem. In this notion of cryptography, security takes on a much less restrictive role (e.g. adversaries must run in $O(n^{100})$ time), but the protocols and security reductions must run in ``fine-grained'' time, e.g. less than $O(n^2)$.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% You Should Not Need To Modify Anything Below Here %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Cover Page - Author signs %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+{\Large \bf 
+   Massachusetts Institute of Technology
+\\ Department of \deptname \\}
+\vspace{.25in}
+{\Large \bf
+   Proposal for Thesis Research in Partial Fulfillment
+\\ of the Requirements for the Degree of
+\\ \degree \\}
+\end{center}
+
+\vspace{.5in}
+
+\def\sig{{\small \sc (Signature of Author)}}
+
+\begin{tabular}{rlc}
+   {\small \sc Title:}                       & \multicolumn{2}{l}{\title}
+\\ {\small \sc Submitted by:}
+                            & \author  & \\
+                            & \addrone & \\
+                            & \addrtwo & \\
+                            \\
+                            \\         
+                            \\                 
+                            \cline{2-2}\\
+			    &	       \makebox[2in][c]{\sig}
+\\ {\small \sc Date of Submission:}          & \multicolumn{2}{l}{\submissiondate}
+\\ {\small \sc Expected Date of Completion:} & \multicolumn{2}{l}{\completiondate}
+\\ {\small \sc Laboratory:}                  & \multicolumn{2}{l}{\laboratory}
+\end{tabular}
+
+
+\vspace{.75in}
+{\bf \sc Brief Statement of the Problem:}
+
+\abstract
+
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage %%% Supervision Agreement %%%
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{flushright}
+   Massachusetts Institute of Technology
+\\ Department of \deptname
+\\ Cambridge, Massachusetts 02139
+\end{flushright}
+
+\underline{\bf Doctoral Thesis Supervision Agreement}
+
+\vspace{.25in}
+\begin{tabular}{rl}
+   {\small \sc To:}   & Department Graduate Committee
+\\ {\small \sc From:} & \supervisor
+\end{tabular}
+
+\vspace{.25in}
+The program outlined in the proposal:
+
+\vspace{.25in}
+\begin{tabular}{rl}
+   {\small \sc Title:}  & \title
+\\ {\small \sc Author:} & \author
+\\ {\small \sc Date:}   & \submissiondate
+\end{tabular}
+
+\vspace{.25in}
+is adequate for a Doctoral thesis.
+I believe that appropriate readers for this thesis would be:
+
+\vspace{.25in}
+\begin{tabular}{rl}
+   {\small \sc Other Supervisor:} & \supervisortwo
+\\ {\small \sc Reader 1:} & \readertwo
+%\\ {\small \sc Reader 3:} & \readerthree
+\end{tabular}
+
+\vspace{.25in}
+Facilities and support for the research outlined in the proposal are available.
+I am willing to supervise the thesis and evaluate the thesis report.
+
+\vspace{.25in}
+\begin{tabular}{crc}
+  \hspace{2in} & {\sc Signed:} & \\ \cline{3-3}
+               &               & {\small \sc \supertitleone} \\
+               &               & {\small \sc \supertitletwo} \\
+               &               &                             \\
+               & {\sc Date:}   & \\ \cline{3-3}
+\end{tabular}
+
+\vspace{0in plus 1fill}
+
+Comments: \\
+\begin{tabular}{c}
+  \hspace{6.25in} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+%  \mbox{} \\ \cline{1-1} \mbox{} \\
+%  \mbox{} \\ \cline{1-1} \mbox{} \\
+%  \mbox{} \\ \cline{1-1} \mbox{} \\
+\end{tabular}
+
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage %%% Second Supervision Agreement %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{flushright}
+	Massachusetts Institute of Technology
+	\\ Department of \deptname
+	\\ Cambridge, Massachusetts 02139
+\end{flushright}
+
+\underline{\bf Doctoral Thesis Supervision Agreement}
+
+\vspace{.25in}
+\begin{tabular}{rl}
+	{\small \sc To:}   & Department Graduate Committee
+	\\ {\small \sc From:} & \supervisortwo
+\end{tabular}
+
+\vspace{.25in}
+The program outlined in the proposal:
+
+\vspace{.25in}
+\begin{tabular}{rl}
+	{\small \sc Title:}  & \title
+	\\ {\small \sc Author:} & \author
+	\\ {\small \sc Date:}   & \submissiondate
+\end{tabular}
+
+\vspace{.25in}
+is adequate for a Doctoral thesis.
+I believe that appropriate readers for this thesis would be:
+
+\vspace{.25in}
+\begin{tabular}{rl}
+	{\small \sc Other Supervisor:} & \supervisor
+	\\ {\small \sc Reader 1:} & \readertwo
+	%\\ {\small \sc Reader 3:} & \readerthree
+\end{tabular}
+
+\vspace{.25in}
+Facilities and support for the research outlined in the proposal are available.
+I am willing to supervise the thesis and evaluate the thesis report.
+
+\vspace{.25in}
+\begin{tabular}{crc}
+	\hspace{2in} & {\sc Signed:} & \\ \cline{3-3}
+	&               & {\small \sc \supervisortwotitleone} \\
+	&               & {\small \sc \supervisortwotitletwo} \\
+	&               &                             \\
+	& {\sc Date:}   & \\ \cline{3-3}
+\end{tabular}
+
+\vspace{0in plus 1fill}
+
+Comments: \\
+\begin{tabular}{c}
+	\hspace{6.25in} \\
+	\mbox{} \\ \cline{1-1} \mbox{} \\
+	\mbox{} \\ \cline{1-1} \mbox{} \\
+	\mbox{} \\ \cline{1-1} \mbox{} \\
+	%  \mbox{} \\ \cline{1-1} \mbox{} \\
+	%  \mbox{} \\ \cline{1-1} \mbox{} \\
+	%  \mbox{} \\ \cline{1-1} \mbox{} \\
+\end{tabular}
+
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage  %%% Reader II Agreement %%%
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{flushright}
+   Massachusetts Institute of Technology
+\\ Department of \deptname
+\\ Cambridge, Massachusetts 02139
+\end{flushright}
+
+\underline{\bf Doctoral Thesis Reader Agreement}
+
+\vspace{.25in}
+\begin{tabular}{rl}
+   {\small \sc To:}   & Department Graduate Committee
+\\ {\small \sc From:} & \readertwo
+\end{tabular}
+
+\vspace{.25in}
+The program outlined in the proposal:
+
+\vspace{.25in}
+\begin{tabular}{rl}
+   {\small \sc Title:}          & \title
+\\ {\small \sc Author:}         & \author
+\\ {\small \sc Date:}           & \submissiondate
+\\ {\small \sc Supervisor:}     & \supervisor
+\\ {\small \sc Other Supervisor:}   & \supervisortwo
+%\\ {\small \sc Other Reader:}   & \readerthree
+\end{tabular}
+
+\vspace{.25in}
+is adequate for a Doctoral thesis.
+I am willing to aid in guiding the research
+and in evaluating the thesis report as a reader.
+
+\vspace{.25in}
+\begin{tabular}{crc}
+  \hspace{2in} & {\sc Signed:} & \\ \cline{3-3}
+               &               & {\small \sc \readertwotitleone} \\
+               &               & {\small \sc \readertwotitletwo} \\
+               &               &                                 \\
+               & {\sc Date:}   & \\ \cline{3-3}
+\end{tabular}
+
+\vspace{0in plus 1fill}
+
+Comments: \\
+\begin{tabular}{c}
+  \hspace{6.25in} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+  \mbox{} \\ \cline{1-1} \mbox{} \\
+\end{tabular}
+\newpage
