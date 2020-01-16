@@ -84,6 +84,8 @@
 
 %%%% Property Preserving Hashes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\PPH}{\textsf{PPH}}
+\newcommand{\matA}{\mathbf A}
+
 
 \renewcommand{\subparagraph}[1]{\textbf{#1}}
 
@@ -120,7 +122,6 @@
 \newcommand{\OPprime}{\mathop{\mbox{\it OP}^{\,\prime}}\nolimits}
 \newcommand{\ihat}{\hat{\imath}}
 \newcommand{\jhat}{\hat{\jmath}}
-\newcommand{\abs}[1]{\mathify{\left| #1 \right|}}
 
 
 %%%%% PROOF ENVIRONMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -203,7 +204,7 @@ of #1:\hspace*{1em}}{\qed\bigskip}
 \def\Psibar{\overline{\Psi}}
 
 %Security Parameter
-\newcommand{\secparam}{\kappa}
+%\newcommand{\secparam}{\kappa} % TODO: we need to make sec params consistent
 \newcommand{\secp}{\secparam}
 
 \newcommand{\svp}{\mathsf{SVP}}
@@ -221,6 +222,7 @@ of #1:\hspace*{1em}}{\qed\bigskip}
 \def\vecv{\vc{v}}
 \def\vecx{\vc{x}}
 \def\vecy{\vc{y}}
+\def\vecz{\vc{z}}
 
 \def\Z{\mathbb{Z}}
 \def\R{\mathbb{R}}
@@ -280,7 +282,7 @@ of #1:\hspace*{1em}}{\qed\bigskip}
 
 \newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
 \newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
-\newcommand{\round}[1]{\left\lfloor #1 \right\rceil}
+%\newcommand{\round}[1]{\left\lfloor #1 \right\rceil}
 
 
 % Other short-hands
@@ -371,7 +373,7 @@ of #1:\hspace*{1em}}{\qed\bigskip}
 
 % Probability
 
-\newcommand{\Ex}{\mathop{\bbE}}
+%\newcommand{\Ex}{\mathop{\bbE}}
 \newcommand{\cov}{\mathop{\text{\rm Cov}}}
 
 %\newcommand{\sd}{\mathop{\text{\tt dist}}}
@@ -386,10 +388,10 @@ of #1:\hspace*{1em}}{\qed\bigskip}
 
 % Cryptographic elements
 
-\newcommand{\pk}{{pk}}
+%\newcommand{\pk}{{pk}}
 \newcommand{\evk}{{evk}}
 \newcommand{\pp}{{pp}}
-\newcommand{\sk}{{sk}}
+%\newcommand{\sk}{{sk}}
 \newcommand{\vk}{{vk}}
 \newcommand{\td}{{td}}
 
@@ -409,13 +411,13 @@ of #1:\hspace*{1em}}{\qed\bigskip}
 % Algorithms
 
 
-\newcommand{\keygen}{\mathsf{Keygen}}
+%\newcommand{\keygen}{\mathsf{Keygen}}
 \newcommand{\gen}{\mathsf{Gen}}
 \newcommand{\eval}{\mathsf{Eval}}
 \newcommand{\setup}{\mathsf{Setup}}
 \newcommand{\extract}{\mathsf{Extract}}
-\newcommand{\enc}{\mathsf{Enc}}
-\newcommand{\dec}{\mathsf{Dec}}
+%\newcommand{\enc}{\mathsf{Enc}}
+%\newcommand{\dec}{\mathsf{Dec}}
 
 \newcommand{\symname}{\mathsf{SYM}}
 \newcommand{\symkeygen}{\mathsf{SYM.Keygen}}

@@ -33,6 +33,23 @@
 \usepackage[T1]{fontenc}
 \pagestyle{plain}
 
+\RequirePackage{etex} %Bug fix?
+\input{Asynchronous-THC/sty/packages.tex}  %<-------------- Add new packages here
+\input{Asynchronous-THC/sty/macros.tex}
+\input{Asynchronous-THC/sty/notation.tex}
+
+
+
+% ---- Theorem environments --- %
+\usepackage{amssymb,amsmath,amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}{\bfseries}{\itshape}
+\newtheorem{claim}{Claim}{\bfseries}{\itshape}
+\newtheorem{remark}{Remark}{\bfseries}
+
 \usepackage{macros}
 %% This bit allows you to either specify only the files which you wish to
 %% process, or `all' to process all files which you \include.
@@ -52,11 +69,11 @@
 % \include{signature}
 \pagestyle{plain}
 \include{contents}
-\include{chap1}
-\include{chap2}
-\include{sections/chap3}
-\include{sections/chap4}
-\include{sections/chap5}
+\include{chap1} % TODO: Copy Failstop over. Already copied Asynch over!
+\include{chap2} % TODO
+\include{chap3} % Copied over! 
+\include{chap4} % PPH TODO
+\include{chap5} % FHGCrypto TODO
 \appendix
 \include{appa}
 \include{appb}
