@@ -49,6 +49,22 @@
 \newtheorem{definition}{Definition}{\bfseries}{\itshape}
 \newtheorem{claim}{Claim}{\bfseries}{\itshape}
 \newtheorem{remark}{Remark}{\bfseries}
+%This might work with amsthm
+\makeatletter
+\newtheorem{repeatthm@}{Theorem}{\bfseries}{\itshape}
+\newenvironment{repeatthm}[1]{%
+    \def\therepeatthm@{\ref{#1}}
+    \repeatthm@
+}
+{\endrepeatthm@}
+\makeatletter
+\newtheorem{repeatlem@}{Lemma}{\bfseries}{\itshape}
+\newenvironment{repeatlem}[1]{%
+	\def\therepeatlem@{\ref{#1}}
+	\repeatlem@
+}
+{\endrepeatlem@}
+
 
 \usepackage{macros}
 %% This bit allows you to either specify only the files which you wish to
@@ -69,9 +85,9 @@
 % \include{signature}
 \pagestyle{plain}
 \include{contents}
-\include{chap1} % TODO: Copy Failstop over. Already copied Asynch over!
+\include{chap1} % Copied over...
 \include{chap2} % TODO
-\include{chap3} % Copied over! 
+\include{chap3} % Copied over...
 \include{chap4} % PPH TODO
 \include{chap5} % FHGCrypto TODO
 \appendix
