@@ -1,0 +1,354 @@
+\section{Fine-Grained Key Exchange}
+\label{sec:FineGrainedKeyExchange}
+
+Now we will explain a construction for a \emph{key exchange} using general distributions. We will then specify the properties we need for problems to generate a secure key exchange. We will finally generate a key exchange using the strong zero $k$-clique hypothesis.
+
+\newcommand{\keyER}{KER}
+
+Before doing this, we will define a class of problems as being Key Exchange Ready (KER). So, there will be algorithms $\Generate(n,b)$ for planting, 
+
+\begin{definition}[Key Exchange Ready (KER)]
+	A problem $P$ is $\ell(n)$-\keyER~ with generate time $G(n)$, solve time $S(n)$ and lower bound solving time $T(n)$ if
+	\begin{itemize}
+		\item has an algorithm which runs in $\tilde\Theta(S(n)))$ time that determines if an instance has a solution or not,
+		\item the problem is $(\ell(n), \delta_{LH})$-\ACLH where $\delta_{LH} \le \frac 1 {33}$,
+		\item is Generalized Splittable with error $\leq 1/(128 \ell(n))$ to the problem $P'$ and,
+		\item $P'$ is plantable in time $G(n)$ with error $\leq 1/(128 \ell(n))$.
+		\item $\ell(n)T(n) \in \~ \omega(\ell(n)G(n) + \sqrt{\ell(n)}S(n))$, and
+		\item there exists an $n'$ such that for all $n \ge n'$, $\ell(n) \ge 2^{14}$.
+	\end{itemize}
+\end{definition}
+
+\subsection{Description of a Weak Fine-Grained Interactive Key Exchange}
+
+The high level description of the key exchange is as follows. Alice and Bob each produce $\ell(n) - \sqrt{\ell(n)}$ instances using $\Generate(n,0)$ and $\sqrt{\ell(n)}$ generate instances with $\Generate(n,1)$. Alice then shuffles the list of $\ell(n)$ instances so that those with solutions are randomly distributed. Bob does the same thing (with his own private randomness). Call the set of indices that Alice chooses to plant solutions $S_A$ and the set Bob picks $S_B$. The likely size of $S_A \cap S_B$ is $1$. The index $S_A \cap S_B$ is the basis for the key.
+
+Alice determines the index $S_A \cap S_B$ by brute forcing all problems at indices $S_A$ that Bob published. Bob can brute force all problems at indices $S_B$ that Alice published and learn the set  $S_A \cap S_B$. 
+
+If after brute forcing for instances either Alice or Bob find a number of solutions not equal to 1 then they communicate this and repeat the procedure (using interaction). They only need to repeat a constant number of times. 
+
+More formally our key exchange does the following:
+\begin{construction}[Weak Fine-Grained Interactive Key Exchange]\label{const:fg-interactive-keyxc}
+	A fine-grained key exchange for exhanging a single bit key.
+	\begin{itemize}
+		\item $\setup(1^n)$: output $\mpk= (n, \ell(n))$ and $\ell(n)>2^{14}$.
+		\item $\keygen(\mpk)$: Alice and Bob both get parameters $(n,\ell)$.
+		\begin{itemize}
+			\item Alice generates a random $S_A \subset [\ell]$, $|S_A| = \sqrt \ell$. She generates a list of instances $\vec I_A = (I_A^1, \ldots, I_A^\ell)$ where for all $i \in S_A$, $I_i = \Generate(n,1)$ and for all $i \nin S_A$, $I_A^i = \Generate(n,0)$ (using Alice's private randomness). Alice publishes $\vec I_A$ and a random vector $\vec v \getsr \{0,1\}^\{\log \ell\}$.
+			\item Bob computes $\vec I_B = (I_B^1, \ldots, I_B^\ell)$ similarly: generating a random $S_B \subset [\ell]$ of size $\sqrt \ell$ and for every instance $I_j \in \vec I_B$, if $j \in S_B$, $I_j = \Generate(n,1)$ and if $j \nin S_B$, $I_j = \Generate(n,0)$. Bob publishes $\vec I_B$.
+		\end{itemize}
+		\item Compute shared key: Alice receives $\vec I_B$ and Bob receives $\vec I_A$.
+		\begin{itemize}
+			\item Alice computes what she believes is $S_A \cap S_B$: for every $i \in S_A$, she brute force checks if $I_B^i$ has a solution or not. For each $i$ that does, she records in in list $L_A$. 
+			\item Bob computes what he thinks to be $S_B \cap S_A$: for every $j \in S_B$, he checks if $I_A^j$ has a solution. For each that does, he records it in $L_B$.
+		\end{itemize}
+		\item Check: Alice takes her private list $L_A$: if $|L_A| \neq 1$, Alice publishes that the exchange failed. Bob does the same thing with his list $L_B$: if $|L_B| \neq 1$, Bob publishes that the exchange failed. If either Alice or Bob gave or recieved a failure, they both know, and go back to the $\keygen$ step.
+		
+		If no failure occurred, then $|L_A| = |L_B| = 1$. Alice interprets the index $i \in L_A$ as a vector and computes $i \cdot \vec v$ as her key. Bob uses the index in $j \in L_B$ and also computes $j \cdot \vec v$. There will be a high probability that $i = j$ and so the keys are the same.
+	\end{itemize}
+\end{construction}
+
+
+
+
+
+\subsection{Proof of Correctness}
+We want to show that with high probability, once the key exchange succeeds, both Alice and Bob get the same shared index.
+
+\begin{lemma}\label{lem:keyxc-is-correct}
+	After running construction \ref{const:fg-interactive-keyxc}, Alice and Bob agree on a key $k$ with probability at least $1 - \frac{1}{10,000 \ell e^2}$.
+\end{lemma}
+\begin{proof}
+	Since we are allowing interaction, the only way Alice and Bob can fail is if one of Alice's $\Generate(n,0)$ contains a solution that overlaps with $S_B$, one of Bob's $\Generate(n,0)$ contains a solution that overlaps with $S_A$, \emph{and} $S_A \cap S_B = \emptyset$.
+	
+	First, let's compute $p_0 = \Pr[S_A \cap S_B = \emptyset]$. We have $p_0 = \prod_{i = 0}^{\sqrt \ell} \left(\frac{\ell - \sqrt \ell - i}{\ell} \right)$, the chance that every time Bob chooses an element for $S_B$, he does not choose an element in $S_A$. Rearranging this expression, we have
+	\[ p_0 = \prod_{i = 0}^{\sqrt \ell-1} \left(\frac{\ell - \sqrt \ell - i}{\ell} \right) = \prod_{i=0}^{\sqrt \ell-1} (1 - \frac{a + i}{x}) \ge \prod_{i=0}^{\sqrt \ell} (1 - \frac{2\sqrt \ell}{\ell}) = \left( 1 - \frac {2 \sqrt \ell}{\ell}\right)^{\sqrt \ell} \approx \frac 1 {e^2}  \]
+	
+	Now, assuming that $S_A$ and $S_B$ do not intersect, we need to compute the probability that \emph{both} Alice and Bob see an incorrectly generated instance (generated by $\Generate(n,0)$, but contains a solution). Let $\epsilon_{plant} \le \frac{1}{100 \ell}$ be the planting error. Since there is no overlap between $S_A$ and $S_B$, these probabilities are independent. The probability that $S_A$ overlaps is $\le \sqrt \ell \epsilon_{plant} \le \frac{1}{100 \sqrt \ell}$ via a union bound over all $\sqrt \ell$ instances corresponding to the indices in $S_A$. Therefore, the probability that this happens for both Alice and Bob is $\le \frac{1}{10,000\ell} = \left(\frac{\sqrt \ell }{10,000\ell}\right)^2$.
+	
+	Thus, the probability that this event occurs is at most $\frac{1}{10,000 \ell e^2}$, and it is the only way the protocol ends without Alice and Bob agreeing on a key.
+	
+	Therefore, the probability Alice and Bob agree on a key at the end of the protocol is $1 - \frac{1}{10,000 \ell e^2}$. \qed
+\end{proof}
+
+\subsection{Proof of Soundness}
+We show that the key-exchange results in gaps in running time and success probability between Alice and Bob and Eve. Then, we will show that this scheme can be boosted in a fine-grained system to get larger probability gaps while preserving the running time gaps. 
+
+First, we need to show that the time Alice and Bob take to compute a shared key is less (in a fine-grained sense) than the time it takes Eve, given the public transcript, to figure out the shared key. This includes the number of times we expect Alice and Bob to need to repeat the process before getting a useable key.
+
+\paragraph{Time for Alice and Bob.}
+
+\begin{lemma}\label{lem:alice-bob-time}
+	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ when $\ell(n)>100$,
+	then Alice and Bob take expected time $O(\ell G(n) + \sqrt{\ell} S(n))$ to run the key exchange.
+\end{lemma}
+\begin{proof}
+	First, we will compute a bound on the number of times Alice and Bob need to repeat the key exchange before they match on exactly one index. Alice and Bob repeat any time there isn't exactly one overlap between $S_A$ and $S_B$ or the key exchange fails, as described in the proof of lemma \ref{lem:keyxc-is-correct}. Since the probability of the bad event happening is small, $\le 1/(10,000 e^2 \ell)$, we will ignore it. Instead, saying $\Pr[\mbox{Key Exchange Stops after this round}] = \Pr[\mbox{bad event}] + \Pr[\mbox{Exactly one overlap} | \mbox{ no bad event}] \Pr[\mbox{no bad event}] \ge \frac 1 2 \Pr[\mbox{Exactly one overlap} | \mbox{ no bad event}] = \Pr[\mbox{ Exactly one overlap}]/2$. This is a standard birthday paradox argument.
+	
+	\paragraph{Computing the probability that there is exactly one overlap.} Recall in the proof of lemma \ref{lem:keyxc-is-correct}, we computed the probability that there was no overlap: $p_0 \ge \frac 1 {e^2}$. Now we will compute $p_1$ by first showing $\frac{p_1}{p_0} \ge 1$:
+	\begin{align*}
+	\frac{p_1}{p_0} &= \frac{\sqrt \ell \binom{\ell - \sqrt \ell}{\sqrt \ell - 1}}{\binom x {\sqrt \ell}} \cdot \frac{\binom x {\sqrt \ell}}{ \binom {\ell - \sqrt \ell}{\sqrt \ell} }\\
+	&= \frac{\sqrt \ell (\ell - \sqrt \ell)!}{(\sqrt \ell - 1)!(\ell - 2\sqrt \ell + 1)!} \cdot \frac{(\sqrt \ell)!(\ell - 2\sqrt \ell)!}{(\ell - \sqrt \ell)!}\\
+	&= \frac{(\sqrt \ell)^2}{\ell - 2 \sqrt \ell + 1} = \frac{\ell}{\ell - 2\sqrt \ell + 1} \ge 1
+	\end{align*}
+	Now, we have that $p_1 = \frac{p_1}{p_0} \cdot p_0 \ge 1 \cdot \frac{1}{e^2} \ge 1 / 10$.
+	
+	Finally, putting this all together, the probability that Alice and Bob stop after a round of the protocol is at least $\frac 1 {20}$. And so, we expect Alice and Bob to stop after a constant number of rounds. Each round consists of calling $\Generate$ $\ell(n)$ times and solving $\sqrt{\ell(n)}$ instances; so, each round takes $\ell G(n) + \sqrt{\ell}S(n)$ time. Therefore, Alice and Bob take $O(\ell G(n) + \sqrt{\ell}S(n))$.
+	\qed
+\end{proof}
+
+\paragraph{Time for Eve.}
+
+\begin{lemma}\label{lem:eve-time}
+	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ when $\ell(n)\ge 2^{14}$,
+	then an eavesdropper Eve, when given the transcript $\vec I_T$, requires $\~\Omega(\ell(n) T(n))$ to solve for the shared key.
+\end{lemma}
+\begin{proof}
+	This proof requires two steps: first, if Eve can figure out the shared key in time $\PFT{\ell(n)T(n)}$ with advantage $\delta_{Eve}$, then she can also figure out the index in $\PFT{\ell(n)T(n)}$ time with probability $\delta_{Eve}/4$. Then, if Eve can compute the index with advantage $\delta_{Eve}/4$, we can use Eve to solve the list-version of $P$ in $\PFT{\ell(n)T(n)}$ with probability $\delta_{Eve}/16$, which is a contradiction to the list-hardness of our problem.
+
+	\paragraph{Finding a bit finds the index.} This is just the Goldreich-Levin (GL) trick used in classical cryptography to convert OWFs to OWFs with a hardcore bit. We have to be careful in this scenario since the security reduction for GL requires polynomial overhead ($O(N^2)$). However, this is only because we are trying to find $N$ bits based off of linear combinations of those bits. If instead we were trying to find $\poly \log N$ bits, we would only require $\poly\log N$ time to do so with this trick. $i \in \ell(n)$ is an index, so $|i| = \log(\ell(n))$. Because $\ell(n)$ is polynomial in $n$, $|i|$ is polynomial in the $\log$ of $n$, therefore, using the same techniques as used in the proof of theorem \ref{thm:fine-grained-GL}, being able to determine $i \xor r$ with $\delta$ advantage allows us to determine $i$ in the same amount of time, with probability $\delta/4$.
+	
+	\paragraph{Finding the index solves $P$} Now, let $\vec I = ( I_1, \ldots, I_\ell )$ be an instance of the list problem for $P$: for a random index $i$, $I_i \gets D_1$, and for all other $j \neq i, I_j \gets D_0$.
+	Because $P$ is generalized splittable, we can take every $I_i$ and turn it into a list of $m$ instances. With probability $1 - \ell \epsilon_{split})$, we turn $\vec I$ to $m$ different instances: for every $c \in [m]$, $\vec I^{(c)} = ( (I_1^{(1,c)}, I_1^{(2,c)}), \ldots  (I_\ell^{(1,c)}, I_\ell^{(2, c)} ))$.
+	For all $c$ and $j \neq i$, $(I_j^{(1, c)}, I_j^{(2,c)}) \sim D_0 \x D_0$, and for at least one $c^* \in [m]$, $( I_i^{(1, c^*)}, I_i^{(2,c^*)} ) \sim D_1 \x D_1$. Because $P$ is plantable, for $\sqrt \ell - 1$ random coordinates $h \in [\ell]$, for all $c \in [m]$, we will change $I_h^{(1, c)}$ to $I_h'^{(1, c)} \sim \Generate(n,1)$, and for $\sqrt \ell - 1$ random coordinates $g \in [\ell]$, disjoint from all $h$'s, for every $c \in [m]$, we will similarly plant solutions in the second list, changing $I_g^{(2, c)}$ to $I_g'^{(2, c)} \sim \Generate(n,1)$.
+	
+	Now, notice that we have changed the list version of the problem into $m$ different lists of pairs of instances, $\{ ( (\vec I_1^{(c)}, \vec I_2^{(c)}) ) \}_{c \in [m]}$, and there exists a $c^*$ such that the $c^*$'th list is distributed, with probability $O(1 - 1/\sqrt \ell)$, indistinguishably to the transcript of a successful key exchange between Alice and Bob. We planted $\sqrt \ell - 1$ solutions into random indices, and as long as we avoided the index with the solution (which happens with probability $1 - \frac 2 {\sqrt \ell}$), the rest of the pairs will be of the form $D_0 \x D_0$ with exactly one coordinate of overlapping instances with solutions. That coordinate will be the same as the index in the list problem with the solution.
+	
+	So, since we are assuming Eve can run in $\PFT{\ell(n) T(n)}$ time and we can create instances that look like key-exchange transcripts from list-problems, we can run Eve on each of these $m$ different list-pair problems, and as long as she answers correctly for the $c^*$ instance, we can solve our original problem in time $O((\ell(n)T(n))^{1 - \delta})$ for $\delta > 0$. This is a contradiction to the hardness of the list problem, meaning Eve's time is bounded by $\Omega(\ell(n) T(n))$.
+	
+	Analyzing the error in this case, when the key exchange succeeds, the total variation distance between an instance of the list problem being split and the original key-exchange transcript is bounded above by the following two sides:
+	\begin{itemize}
+		\item For the $c^*$ that splits the $D_1$ instance of the list into one sampled from $D_1 \x D_1$, this succeeds with probability $1 - \epsilon_{split} \cdot \ell$.
+		\item Given that we successfully split, the distance between the generated pairs of lists \emph{after} we plant $\sqrt{\ell} - 1$ instances with a solution between this and the idealized list of $(D_b, D_{b'})$ instances with one $(D_1, D_1)$, $\sqrt{\ell} - 1$ of the form $(D_1, D_0)$ and $\sqrt{\ell}-1$ of the form $(D_0, D_1)$ is at most $\frac{2}{\sqrt \ell} + (1 - \frac 2 {\sqrt \ell})(\sqrt \ell \cdot \epsilon_{plant}) \le \frac{2}{\sqrt \ell} + \sqrt{\ell}\epsilon_{plant}$.
+		\item For the generated instances generated in a successful key exchange transcript, the error between this and the idealized list-pairs (described above) is at most $\ell \cdot \epsilon_{plant}$.
+		\item Recall that $\epsilon_{plant}, \epsilon_{split} \le \frac{1}{100 \ell}$ and that $\ell \ge 100$. So, combined, the key-exchange transcript distribution and splitting the list-hard problem distribution are indistinguishable with probability at most
+		\begin{align*}
+		1 &- (\epsilon_{split} \ell  + \frac{2}{\sqrt \ell} + \sqrt{\ell} \epsilon_{plant} + \ell \epsilon_{plant})\\
+		&= 1 - (\ell(\epsilon_{split} + \epsilon_{plant}) + \sqrt{\ell} \epsilon_{plant} + \frac{2}{\sqrt \ell})\\
+		&\ge 1 - (\ell(\frac 2 {128 \ell}) + \frac{1}{128 \sqrt \ell} + \frac 2 {\sqrt \ell})\\
+		&\ge 1 - (\frac{2}{128} + \frac{2}{128} + \frac{128^2}) = 1 - \frac{1}{32} - \frac{1}{2^7}\\
+		&> 1 - \frac{1}{33}
+		\end{align*}
+	\end{itemize}
+	Therefore, the total variation distance between key-exchange transcripts and the transformed ACLH instances is at most $\frac 1 {33}$.
+
+	Now, recall that if we have a $\PFT{\ell(n)T(n)}$ algorithm $E$ that resolves the single-bit key with advantage $\delta$, then there exists a $\PFT{\ell(n) T(n)}$ algorithm $E^*$ that resolves the index of the key exchange transcript with probability $\delta/4$. Let $Transf$ be the algorithm that transforms an ACLH instance $\vec I$ to the key-exchange transcript (with TVD from a successful key-exchange transcript of $\frac 1 {33}$) Therefore, the probability that we fool Eve into solving our ACLH problem is
+	\[ \Pr[ E^*(Transf(\vec I)) = i ] \ge \delta/4 - \frac 1{33} \ge \frac{1}{16} - \frac 1 {33} > \frac 1 {33} \]
+	Now, since the ACLH problem $P$ allows for $\PFT{\ell(n)T(n)}$ adversaries to have advantage at most $\frac 1 {33}$, this is a contradiction. Therefore, there does not exist a $\PFT{\ell(n)T(n)}$ eavesdropping adversary that can resolve the single bit key with advantage $\frac 1 4$ (so resolving the key with probability $1/2 + 1/4 = 3/4$).
+	\qed
+\end{proof}
+
+\begin{theorem}\label{thm:fg-pkc}
+	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ when $\ell(n)\ge2^{14}$,
+	then construction \ref{const:fg-interactive-keyxc} is a $\fgkeyxc{\ell(n)T(n)}{\alpha}{\gamma}$, with $\gamma \le \frac{1}{10,000 \ell(n)e^2}$ and $\alpha \le \frac 1 4$.
+\end{theorem}
+\begin{proof}
+	This is a simple combination of the correctness of the protocol, and the fact that an eavesdropper must take more time than the honest parties. We have that the $\Pr[b_A = b_B] \ge 1 - \frac{1}{10,000 \ell e^2}$, implying $\gamma \le \frac{1}{10,000 \ell e^2}$ from lemma \ref{lem:keyxc-is-correct}. We have that Alice and Bob take time $O(\ell(n) G(n) + \sqrt{\ell(n)}S(n))$ and Eve must take time $\~\Omega(\ell(n)T(n))$ to get an advantage larger than $\frac 1 4$ by lemmas \ref{lem:alice-bob-time} and \ref{lem:eve-time}. Because $P$ is \keyER~, $\ell(n)T(n) \in \~\omega(\ell(n)G(n) + \sqrt{\ell(n)}S(n))$, implying there exists $\delta > 0$ so that $\ell(n)G(n) + \sqrt{\ell(n)}S(n) \in \~O(\ell(n)T(n)^{1 - \delta})$. So, we have correctness, efficiency and security.\qed
+\end{proof}
+
+%We use the constant $100$ in this definition to drive the produced errors down by constants to make the growth beyond $2/3$ small and allow us to bound the probability of the adversary guessing the key by $4/5$. However, the choice of $100$ is fairly arbitrary. Any number large enough to keep the adversary's chance of guessing bellow $1$ will suffice. 
+%
+%\begin{lemma}[Weak Fine-grained key exchange]
+%	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ when $\ell(n)>100$	
+%	then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(\ell(n))$ bits in time $\tilde{O}(\sqrt{\ell(n)}S(n) + \ell(n)G(n))$ with probability $\geq 1-1/(100 \sqrt{\ell(n)})$. 
+%	
+%	Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)T(n)}$ algorithms $A$ 
+%	$$Pr_{r}[A(I_T)=key]<4/5+2/\sqrt{\ell(n)}.$$	
+%	\label{lem:keyexchangebasic}
+%\end{lemma}
+%\begin{proof}
+%We will be using the weak non-interactive protocol described above. 	
+	
+%Let $\Plant(I)$ be the planting procedure. Let $\Split(I)$ be the splitting procedure were it produces $m$ pairs in its output. Let $\Split_h(I)$ return the $h^{th}$ pair output by 	$\Split(I)$.
+%	
+%We know that finding the index of the instance which has a solution out of a list of $O(\ell(n))$ instances with probability greater than $7/10$ takes time $\tilde{\Omega}(\ell(n) T(n))$. 
+%
+%Let $\mathbf I = I_1,I_2,\ldots,I_{\ell(n)}$, each of size $n$
+%distributed as follows: $i \getsr [\ell(n)]$ and $I_i \sim D_1(P,n)$ and for all $j \neq i$, $I_j \sim D_0(P,n)$
+%
+%We will use a similar trick to the one used in Theorem \ref{thm:zkcSelfReduce}. We will make many calls where we only care about one. The other calls need to simply not return false positives, because we can brute force the returned index to check.
+%For every $h\in[1,m]$ we will produce an output using $\Split_h(I_i)$. 
+%Each will have an error probability $\leq 1/(100 \ell(n) m)$. We can run each independently, we only care about two things. First, we want to not get a false positive on any instance that started with no solution, this happens with probability $\leq ( \ell(n) m)/(100 \ell(n) m) \leq 1/100$. Let $I_i$ be the instance drawn from $D_1(P',n)$. Second, we want that for the $h$ where $\Split_h(I_i)$ is drawn from $D_1(P',n)$ that $\Split_h(I_j)$ where $j\ne i$ is drawn from $D_0(P',n)$. This has probability $\leq ( \ell(n))/$ $(100 \ell(n) m) \leq 1/100$. 
+%
+%Apply the splittable procedure to every instance creating $\Split_h(I_j) = I^1_j,I^2_j$ for $j\in[1,s(n)]$. Then, choose $2\sqrt{\ell(n)}-2$ unique indices put $\sqrt{\ell(n)}-1$ in $T_1$ and $\sqrt{\ell(N)}-1$ in $T_2$. Note $T_1 \cap T_2 = \emptyset$.  
+%
+%For all $i\in T_1$ replace $I_i^1$ with $\Plant(I_i^1)$. For all $i\in T_2$ replace $I_i^2$ with $\Plant(I_i^2)$. Let $j$ be the index where $I_j$ had a solution and now $I_j^1,I_j^2$ both have solutions (if we have not run into errors). Call this list of problems $\mathbb L$.  If $j \in T_1 \cup T_2$. This happens with probability $1/\sqrt{\ell(n)}$. Finally, we have the potential error from planting which introduces a term of $1/(100\sqrt{\ell(n)})$.
+%
+%So, first lets note the computational hardness of solving for $j$ given the input of $L$.
+%Finding $j$ with probability greater than $7/10+1/100+2/\sqrt{\ell(n)}$ requires time $\tilde{\Omega}(T(N)\ell(n))$. 
+%
+%Next, we want to show that the distribution produced by splitting and planting has total variation distance $3/100+1/\sqrt{\ell(n))}$ from Alice and Bob's distribution. Alice and Bob produce the instances using the generator $2\ell(n)$ times to generate the instances of $P'$ and then plant in $\sqrt{\ell(n)}$ locations each, call the produced lists $L_{AB}$. If these collide in more than $1$ location then Alice and Bob repeat. Using the generator Alice and Bob's initial unplanted instances have a total variation distance of  $\leq(n) 1/50$ from $D_{0}^{2\ell(n)}(P',n)$. They plant instances using the same planter $\Plant$ as we did above. With probability $1-1/\sqrt{\ell(n)}$ both $L$ and $L_{AB}$ have $\sqrt{\ell(n)}$ instances planted in each half of the list. Finally, the splitting procedure also introduces a chance of error, specifically $1/100$. Thus, the total variation distance is bounded by $3/100+2/\sqrt{\ell(n)}$ between $L$ and $L'$. Thus, if Eve has a very high chance of success ($\geq 4/5 +2/\sqrt{\ell(n)}$)of returning the $key$, we can use Eve's algorithm to find the value of $j$. This gives us a computational lower bound for Eve.  
+%
+%Using the procedure we described before for Alice and Bob they have to generate $\ell(n)$ instances and brute force $\sqrt(\ell(n))$ instances. This takes time\\ $\tilde{O}(\sqrt{\ell(n)}T(n) + \ell(n)G(n))$. Alice and Bob get an error whenever their planted instance collides with an erroneously generated solution. This happens with probability $\leq 1/(100 \sqrt{\ell(n)})$ probability. 
+%\end{proof}
+
+
+%TODO: boost! boost! boost!
+%\xxx{Rio: This is where I left off. Working on getting the boosting params right next.}
+%\begin{theorem}[Fine-grained boosted key exchange]
+%	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ and $\ell(n)>2^{14}$
+%then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(\alpha(n))$ bits in time $\tilde{O}\left((\sqrt{\ell(n)}S(n) + \ell(n)G(n))\alpha(n)\right)$ with probability $\geq 1-1/(n)^{\lg(n)}$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)T(n)}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+%\label{thm:keyExchange}
+%\end{theorem}
+%\begin{proof}	
+%Using the procedure from Lemma \ref{lem:keyExchangeAllErrorsLow} we can communicate one bit between Alice and Bob. Simply repeat this procedure $\alpha(n)$ times. All the bits are independent so Eve's chance of discovering any one of them is still 
+%$$Pr_{r}[A(I_T)=key]<1/2+1/f(n)$$
+%for all functions $f(n)=\left(T(n)\ell(n)\right)^{o(1)}$. Further note that $T(n)= \Omega(n)$. So, the advantage that $A$ can have can not be \emph{any} insignificant function, thus it must be significant.
+%%TODO: a bit more detail is required
+%\end{proof}
+
+
+%\begin{construction}[Weak Fine-Grained Noninteractive Key Exchange]\label{const:fg-noninteractive-keyxc}
+%	A fine-grained key exchange for exchanging a single bit key.
+%	\begin{itemize}
+%		\item $\setup(1^n)$: output $\mpk= (n, \ell(n))$ and $\ell(n)>2^{14}$.
+%		\item $\keygen(\mpk)$: Alice and Bob both get parameters $(n,\ell)$. Repeat the following procedure $\lg^2(n)$ times for $q\in [1,\lg^2(n)]$. 
+%		\begin{itemize}
+%			\item Alice generates a random $S_A \subset [\ell]$, $|S_A| = \sqrt \ell$. She generates a list of instances $\vec I_A = (I_A^1, \ldots, I_A^\ell)$ where for all $i \in S_A$, $I_i = \Generate(n,1)$ and for all $i \nin S_A$, $I_A^i = \Generate(n,0)$ (using Alice's private randomness). Alice publishes $\vec I_A^q$ and a random vector $\vec v \getsr \{0,1\}^\{\log \ell\}$.
+%			\item Bob computes $\vec I_B = (I_B^1, \ldots, I_B^\ell)$ similarly: generating a random $S_B \subset [\ell]$ of size $\sqrt \ell$ and for every instance $I_j \in \vec I_B$, if $j \in S_B$, $I_j = \Generate(n,1)$ and if $j \nin S_B$, $I_j = \Generate(n,0)$. Bob publishes $\vec I_B^q$.
+%		\end{itemize}
+%		\item Compute shared key: Alice receives $\vec{I_B^1},\ldots, \vec{I_B^{\lg^2(n)}}$ and Bob receives $\vec{I_A^1},\ldots, \vec{I_A^{\lg^2(n)}}$.
+%		\begin{itemize}
+%			\item For every $q\in [1,\lg^2(n)]$  Alice computes what she believes is $S_A^q \cap S_B^q$: for every $i \in S_A^q$, she brute force checks if $I_B^q[i]$ has a solution or not. For each $i$ that does, she records in in list $L_A^q$. 
+%			\item Bob computes what he thinks to be $S_B^q \cap S_A^q$: for every $i \in S_B$, he checks if $I_A^q[i]$ has a solution. For each that does, he records it in $L_B^q$.
+%		\end{itemize}
+%		\item Check: Alice takes her private lists $L_A^1,\ldots,L_A^{\lg^(n)}$: Alice accepts the list $L_A^q$ where $q= max\{q||L_A^q=1\}$. So, Alice accepts the first list where there is exactly one overlap. 
+%		Bob does the same thing with his lists $L_B^1,\ldots, L_B^{\lg(n)}$: Bob accepts the list $L_B^u$ where $u= max\{u||L_A^u=1\}$.
+%		
+%		So then $|L_A^q| = |L_B^u| = 1$. Alice interprets the index $i \in L_A^q$ as a vector and computes $i \cdot \vec v$ as her key. Bob uses the index in $j \in L_B^u$ and also computes $j \cdot \vec v$. 
+%	\end{itemize}
+%\end{construction}
+
+Finally, we are going to amplify the security of our cryptosystem using lemmas from \cite{DNR04}.
+
+
+\begin{theorem}\label{thm:fgkeyx-fgpkc}
+	If we have a weak $T(n)$-fine-grained public-key cryptosystem with correctness $1 - \insig(n)$, and soundness against adversaries with constant advantage, then there exists a strong $T(n)$-fine-grained public-key cryptosystem.
+\end{theorem}
+\begin{proof}
+	We will reference two key lemmas from \cite{DNR04}: lemmas 1 and 2. First, \cite{DNR04} deals in the one-way properties of an encryption scheme. If a scheme is $\beta$-one-way ($\beta$-OW), then that just means that it is difficult to invert as a one-way function, not that an adversary could not win in a security game. However, in the case where $\beta = \frac 1 2 + \alpha$ where $\alpha$ is the advantage an adversary has in winning the CPA game in a single-bit encryption scheme, then one-way-ness has a way of translating.
+	
+	So, let $\beta = \frac 1 2 + \alpha$ for our weak $T(n)$-fine-grained public key cryptosystem $(\keygen, \enc, \dec)$. Let our amplified $T(n)$ cryptosystem just be the parallel repetition of the original $2\log(n)$ times, and the message be the XOR of all encrypted bits.
+	
+	Lemma 1 states that if we repeat an encryption scheme in parallel $k$ times, then the one-way-ness of the protocol is $\frac 1 {\poly}$ for any polynomial greater than $32/(1 - \beta) \cdot e^{-k(1 - \beta)^2/256}$, against adversaries running in time $T(n)$. Note that this comes from a setting where we allow honest parties polynomial time to work. In our setting, we only allow parties $\~O(T(n))$ time. This changes the result to be $\frac 1 {\poly}$ for any polynomial at most $\~O(T(n))$ (see theorem 4.1 of \cite{BIN97} --- our simulator can only run in $T(n)$ time).
+	So, we will let $k = \log n$, which is sub-polynomial in $n$. Recall that $T(n) = \~\omega(n)$. So, this yields $32/(1 - \beta) \cdot e^{-k(1 - \beta)^2/256} = \~Omega(\frac 1 {n})$ for constant $\beta$.
+	
+	Lemma 2 states that if we convert a message of length $k$ to a message of length $1$ by XOR'ing all of the bits together, a one-way-ness of $\beta'$ translates into an advantage of $\sqrt{\beta '}$. This takes our $1/n$-OW scheme from above and yields a function that an adversary would have advantage $\frac 1 {\sqrt n}$ in distinguishing from random. This is an insignificant advantage, and so we have accomplished our goal.
+	\qed
+\end{proof}
+
+We would like to note that this encryption scheme can be used to send any number of sub-polynomial bits, just by running it in sequence or parallel that many times. We also note that public keys can be reused a subpoly number of times. However, any more than that, and we may leak too much about the secret, depending on the gap between $T(n)$ and the amount of time honest parties require. We also want to note that the adversary's advantage cannot be any less than $\frac 1 \poly$ since, due to the fine-grained nature of the scheme, the adversary can always solve the hard problem via guessing.
+We can also boost the probability Alice and Bob successfully communicate just by having them send the same bit multiple times.
+
+
+\begin{corollary}
+	Given the \strongzkc~ over range $R = \ell(n)^2 n^{2k}$, there exists a $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
+	
+	There also exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
+	
+	Both of these protocols are optimized when $\ell(n) = n^{2k-4}$.
+	\label{cor:kcliqueKeyExchange}
+\end{corollary}
+\begin{proof}
+	This comes from the fact that \strongzkc implies that Zero-$k$-Clique is a KER problem, and so we can use construction \ref{const:fg-interactive-keyxc} to get the key-exchange by theorem \ref{thm:keyExchange}. We can also use it to get the fine-grained public-key cryptosystem by theorem \ref{thm:fg-pkc}.
+	
+	The optimization comes from minimizing $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$, which is simply to set $n^k \sqrt{\ell(n)} = n^2 \ell(n)$. This results in $\ell(n) = n^{2k - 4}$.
+	
+	The gap between honest parties and dishonest parties is computed as follows. Honest parties take $H(n) = \~O(\ell(n)n^2) = \~O(n^{2k - 2})$. Dishonest parties take $E(n) = \~O(\ell(n)n^k) = \~O(n^{3k - 4})$. We have that $E(n) = H(n)^t$ where $t = \frac{3k-4}{2k-2}$, which approaches $1.5$ as $k \to \infty$. So, we have close to a 1.5 gap between honest parties and dishonest ones as long as we assume $T(n) = n^{k}$.
+\end{proof}
+
+The zero $3$-clique hypothesis (the zero triangle hypothesis) is generally better believed than the zero $k$-clique hypothesis for larger $k$. Note that even with the strong zero $3$-clique hypothesis we get a key exchange with a gap in the running times of Alice and Bob vs Eve. In this case, the gap is $t = 5/4 = 1.2$.
+
+%The proof of this is simple: if Bob wants to encrypt a message to Alice, he uses his own information to run $\sharedKey$, and then sends his public key and message $m$ xor'd with the shared key to Alice. An adversary able to gain any information about any part of $m$ must have learned at least a bit of the shared key, but this is impossible if the adversary is $\PFT{T(n)}$.
+%
+%We have a corollary for zero k clique specifically. 
+%We specify that\\$R = 10 \binom{k}{2}2^{4\binom{k}{2}} n^{x} n^{2k}$, note that $R = O( n^{2x} n^{2k})$ the other terms are just constants. 
+
+
+%\begin{corollary}
+%	Given the \strongzkc~ over range $R = \ell(n)^2 n^{2k}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)=\tilde{\Theta}(n^c)$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)n^k}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+%	\label{cor:kcliqueKeyExchange}
+%\end{corollary}
+%\begin{proof}
+%	We will simply plug in the constants from our proofs Theorems \ref{thm:zkcPlantable}, \ref{thm:zkcSelfReduce} and, 
+%	\ref{thm:zkcsplittable} into Theorem \ref{thm:keyExchange}. 
+%	
+%	Let the number of instances in the list be $\ell(n)$ be a polynomial $n^c$. Our tightest constraint comes from splitting. It gives us  
+%	$\binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R} \leq 1/(\ell(n)100)$. Which implies 
+%	$R \geq \ell(n)^2 n^{2k}\binom{k}{2}^22^{4\binom{k}{2}}90000$. 
+%	
+%	Note that $\binom{k}{2}^22^{4\binom{k}{2}}90000$ is a constant. So, we can use the \strongzkc~ over the range $R = \ell(n)^2 n^{2k}$.
+%\end{proof}
+
+%\begin{corollary}
+%	Given the strong zero $3$-clique hypothesis over range $R = n^{6+4c}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(n^{3+c} + n^{2+2c}\right)$ for any constant $c$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{n^{3+2c}}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+%	\label{cor:3cliqueKeyExchange}
+%\end{corollary}
+%\begin{proof}
+%	Simply plug in $k=3$ and $\ell(n)=n^{2c}$ into Corollary \ref{cor:kcliqueKeyExchange}.
+%\end{proof}
+%
+%Finally we note that if the zero $3$-clique hypothesis over range $R = n^{6+c}$ is true for any constant $c>0$ then a key exchange exists. 
+%
+%\begin{corollary}
+%	For any constant $c>0$ there exists a $\delta>0$ such that given the strong zero $3$-clique hypothesis over range $R = n^{6+c}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(\alpha(n)\right)$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\alpha(n)^{1+\delta}}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+%	\label{cor:3cliqueKeyExchangeSmallGap}
+%\end{corollary}
+%\begin{proof}
+%	In Corollary \ref{cor:3cliqueKeyExchange} if we choose range $R=n^{6+4c'}$, then set $\alpha(n)= n^{3+c'} + n^{2+2c'}$ note that $n^{3+2c'}= \alpha(n)^{1+\min(c'/(3+c'), 1/(2+2c'))}$. If $c>0$ then $c'>0$. If $c'>0$ then set $\delta = \min(c'/(3+c'), 1/(2+2c'))$ and we have the desired statement. 
+%\end{proof}
+
+
+%\subsection{Amplifying a Fine-Grained Public Key Cryptosystem}
+%Now we will use repetition techniques and Goldreich-Levin techniques to boost the probability gaps between Alice and Bob and Eve.
+%\begin{theorem}[Fine-Grained Boosted Key-Exchange]
+%	If we have a $\fgkeyxc{T(n)}{\alpha(n)}{\gamma(n)}$ where $\alpha(n)$ is any subpolynomial and $\gamma(n)$ is insignificant, then there exists a $\strongfgkeyxc{T(n)}$.
+%\end{theorem}
+%\begin{proof}
+%	This proof will use techniques from showing that ``medium'' fine-grained OWFs imply strong fine-grained OWFs, see the proof of theorem ??? in the appendix, as well as getting fine-grained hardcore bits, see the proof of theore ??? in the appendix.
+%	
+%	Let $\Pi$ be the original key exchange protocol, and $c(n) = 2\alpha(n)^2$, which is also a sub-polynomial. Let $\Pi'$ be the following key-exchange protocol:
+%	\begin{enumerate}
+%		\item Alice and Bob run $\Pi$ $c(n)$ times, each producing a $c(n)$-length bit vector $\vec b = (b_1, \ldots, b_c)$.
+%		\item Alice generates $\vec v \getsr \{0,1\}^c$ and broadcasts it.
+%		\item The shared key between Alice and Bob is $key = \vec b \cdot \vec v$.
+%	\end{enumerate}
+%	Correctness occurs when both Alice and Bob generate the same $\vec b$ after the $c$ key exchanges. All $c$ key exchanges succeed with probability $1 - \gamma'(n)$, where $\gamma'(n) = c \gamma(n)$, which is insignificant because $c$ is sub-polynomial. Therefore, the key exchange satisfies the strong notion of correctness.
+%	
+%	Security comes from the following reduction. Assume, for sake of contradiction, that there existed a $\PFT{T(n)}$ adversary $\cA$ that has advantage $\frac{1}{p(n)}$ in guessing $key$ from the transcript, for some subpolynomial $p$. Using the Goldreich-Levin techniques from the proof of ???, we can use $\cA$ to get a $\PFT{T(n)}$ adversary $\cA^*$ that can correctly output the entire vector $\vec b$ with probability at least $\frac 1 {4p(n)}$, which is a significant probability. We will now create an algorithm $\cB$ that uses $\cA^*$ as follows to attempt to break the original key exchange $\Pi$:
+%	\begin{enumerate}
+%		\item On the input of a transcript from $\Pi$, $T$, $\cB$ chooses $i \getsr [c(n)]$
+%		\item $\cB$ then runs $\Pi$ $c(n)-1$ times in its head and produces a list of transcripts $T_1, \ldots, T_c$ where $T_i = T$ and for $j \neq i$, $T_j$ was something $\cB$ generated.
+%		\item $\cB$ runs $\cA^*(T_1, \ldots, T_c)$ and gets a $c$-length bit-string $\vec b' = (b'_1, \ldots, b'_c)$
+%		\item $\cB$ checks if $b'_i$ is the correct key(??)
+%		\xxx{Rio: This is where things break down...}
+%	\end{enumerate}
+%\end{proof}
+%
+%\begin{theorem}[Fine-grained boosted key exchange]
+%	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ and $\ell(n)>100\lg^3(n)$
+%then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(\alpha(n))$ bits in time $\tilde{O}\left((\sqrt{\ell(n)}S(n) + \ell(n)G(n))\alpha(n)\right)$ with probability $\geq 1-1/(n)^{\lg(n)}$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)T(n)}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+%\label{thm:keyExchange}
+%\end{theorem}
+%\begin{proof}
+%	\xxx{Rio: This might have to be rephrased...}
+%%Using the procedure from Lemma \ref{lem:keyExchangeAllErrorsLow} we can communicate one bit between Alice and Bob. Simply repeat this procedure $\alpha(n)$ times. All the bits are independent so Eve's chance of discovering any one of them is still 
+%%$$Pr_{r}[A(I_T)=key]<1/2+1/f(n)$$
+%%for all functions $f(n)=\left(T(n)\ell(n)\right)^{o(1)}$. Further note that $T(n)= \Omega(n)$. So, the advantage that $A$ can have can not be \emph{any} insignificant function, thus it must be significant.
+%%%TODO: a bit more detail is required
+%\end{proof}
+
+
+%\subsection{Description of Weak Key Non Interactive Exchange}
+%We will define this key exchange in terms of the interactive exchange. 
+%
+%$\setup'(1^n)$ outputs $\mpk= (n, \ell(n))$ and $\ell(n)>100$.
+%
+%$\keygen'(ID, \mpk)$ runs $\keygen(ID, \mpk)$ $\lg^2(n)$ times with independent randomness returning $pk_1,\ldots, pk_{\lg(n)}$ and $sk_1,\ldots,sk_{\lg(n)}$. Now $pk'= (pk_1,\ldots$, $pk_{\lg^2(n)})$ and $sk=(sk_1,\ldots,sk_{\lg^2(n)})$.
+%
+%Once $\setup'(1^n)$, $\keygen'(ID_1, \mpk)$ and $\keygen(ID_2, \mpk)$ have run we can run 
+%$\sharedKey'(ID_1, pk_1, ID_2, sk_2)$. We simply run $\sharedKey(ID_1,pk_{i,1}, ID_2, sk_{i,2})=key_i$ for $i \in [1,\lg^2(n)]$. Let $j$ be the smallest index such that $\sharedKey(ID_1,pk_{j,1}$, $ID_2, sk_{j,2})$ returns a key and not an error. Return the $key =key_j$. If there is no such $j$ error. However, the probability of this is $O(1/n^{\lg(n)})$ and is thus very unlikely. 
+%
+%\subsection{Fine Grained Public Key Cryptography}
+%
+%\xxx{TODO:}

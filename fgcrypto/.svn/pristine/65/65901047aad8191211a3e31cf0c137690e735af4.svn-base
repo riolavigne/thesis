@@ -1,0 +1,159 @@
+\documentclass{llncs}
+%\documentclass[11pt]{article}
+\pagestyle{plain}
+%\usepackage{fullpage} %This should be removed before submission
+
+%\usepackage{amsthm}
+%\usepackage{fullpage}
+\usepackage{amssymb,amsmath,url}%ifplatform}
+%\usepackage{amsthm}
+\usepackage[pdfstartview=FitH,colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{stmaryrd}
+%\usepackage{MnSymbol}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{palatino}
+\usepackage{xcolor}
+\usepackage{macros}
+\usepackage{float}
+\floatstyle{boxed} \restylefloat{figure}
+
+%\usepackage{draftwatermark}
+%\SetWatermarkText{DRAFT}
+%\SetWatermarkScale{1}
+
+
+\newtheorem{construction}[theorem]{Construction}
+
+% Complex \xxx for making notes of things to do.  Use \xxx{...} for general
+% notes, and \xxx[who]{...} if you want to blame someone in particular.
+% Puts text in brackets and in bold font, and normally adds a marginpar
+% with the text ``xxx'' so that it is easy to find.  On the other hand, if
+% the comment is in a minipage, figure, or caption, the xxx goes in the text,
+% because marginpars are not possible in these situations.
+%{\makeatletter
+%	\gdef\xxxmark{%
+%		\expandafter\ifx\csname @mpargs\endcsname\relax % in minipage?
+%		\expandafter\ifx\csname @captype\endcsname\relax % in figure/caption?
+%		\marginpar{xxx}% not in a caption or minipage, can use marginpar
+%		\else
+%		xxx % notice trailing space
+%		\fi
+%		\else
+%		xxx % notice trailing space
+%		\fi}
+%	\gdef\xxx{\@ifnextchar[\xxx@lab\xxx@nolab}
+%	\long\gdef\xxx@lab[#1]#2{\textbf{[\xxxmark #2 ---{\sc #1}]}}
+%	\long\gdef\xxx@nolab#1{\textbf{[\xxxmark #1]}}
+%	% This turns them off:
+%	% \long\gdef\xxx@lab[#1]#2{}\long\gdef\xxx@nolab#1{}%
+%}
+
+%\newtheorem*{theorem*}{Theorem}
+%\newtheorem*{theorem-non}{Theorem}
+
+\def\theoremNon{\par\noindent{\bf Theorem.\ } \ignorespaces}
+\def\endtheoremNon{}
+
+\newcommand{\ttildeo}{\tilde{o}}
+\newcommand{\tO}{\tilde{O}}
+\newcommand{\tTheta}{\tilde{\Theta}}
+\newcommand{\tOmg}{\tilde{\Omega}}
+
+\newcommand{\strongksum}{strong $k$-sum-$R(n)$ hypothesis }
+\newcommand{\Strongksum}{Strong $k$-sum-$R(n)$ hypothesis }
+\newcommand{\weakksum}{weak $k$-sum-$R(n)$ hypothesis }
+\newcommand{\Weakksum}{Weak $k$-sum-$R(n)$ hypothesis }
+
+\newcommand{\strongzkc}{strong zero $k$-clique-$R(n)$ hypothesis }
+\newcommand{\Strongzkc}{Strong zero $k$-clique-$R(n)$ hypothesis }
+\newcommand{\weakzkc}{weak zero $k$-clique-$R(n)$ hypothesis }
+\newcommand{\Weakzkc}{Weak zero $k$-clique-$R(n)$ hypothesis }
+
+\newcommand{\Plantable}{Plantable problem}
+\newcommand{\plantable}{plantable problem}
+\newcommand{\Splitable}{Splittable problem}
+
+\newcommand{\zkclique}{zero $k$-clique}
+
+\newcommand{\nin}{\not\in}
+
+\def\keygen{\mathsf{KeyGen}}
+\def\hash{\mathsf{Hash}}
+\def\compute{\mathsf{Eval}}
+
+\def\secp{\lambda}
+
+\def\vecx{\mathbf{x}}
+\def\vecy{\mathbf{y}}
+\def\matA{\mathbf{A}}
+\def\CLOSE{\emph{\textbf{CLOSE}}}
+\def\FAR{\emph{\textbf{FAR}}}
+
+\def\SETINT{\mathsf{L2}}
+
+%%%%%%%%%%%%  Defining theorem-like environments %%%%%%%%%%
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{claim}{Claim}
+%\newtheorem{conjecture}{Conjecture}
+
+%%%%%%%%%%%% macros
+\newcommand{\wmin}{w_{\mathrm{min}}}
+\newcommand{\wmax}{w_{\mathrm{max}}}
+\newcommand{\Ls}{\mathcal L}
+\title{Public-Key Cryptography\\
+	 in the Fine-Grained Setting}
+\author{}
+\institute{}
+%\author{Rio LaVigne, Andrea Lincoln and, Virginia Vassilevska Williams}
+
+\begin{document}
+\maketitle
+
+\input{abstract}
+
+%Make our pitch
+\input{introduction}
+% A section of defintions mostly
+% We need various defintions like definitions of FGOWF, FGPRG, FG key exchange, etc
+% We should also define what we need for the fine grained one way function (so we can later say that the assumptions we want to make fit)
+% We should define what we need for the key exchange as generally as possible (and later we show the assumptions fit)
+\input{preliminaries}
+% Define and try to justify our assumptions 
+% Define the general class of hypothesis which generate OWF and a key exchange
+% Show our assumptions generate those assumptions
+\input{avgCaseAssumptions}
+%
+\input{assumptionJustification}
+
+% We whould try writing this in full generality
+\input{merklePuzzle}
+
+
+
+% Decrease the space between bibliography items.
+%\let\realbibitem=\bibitem
+%\def\bibitem{\par \vspace{-0.4ex}\realbibitem}
+
+\bibliographystyle{alpha}
+\bibliography{mybib} 
+
+\section*{Supplementary Materials}
+\appendix
+% We should try writing this in full generality 
+\input{fineGrainedOWF}
+\input{fgowfAppendix}
+%ZKC
+\input{zkcisAllTheThings}
+\input{zkcAppendix}
+%\input{KeySystemAppendix}
+\input{rangeExtend}
+%Conclusion 
+%\input{Conclusion}
+
+%TODO: add ack section for Russel and NSF
+
+\end{document}

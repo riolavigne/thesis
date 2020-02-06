@@ -1,0 +1,192 @@
+\section{Notation and Defintions}
+
+\xxx{Should the constructions that appear later in here be moved to another section with constructions? }
+
+Just as in normal exponential-gap cryptography we have a notion of probabilistic polynomial-time (PPT) adversaries, we can similarly define an adversary that runs in time less than expected for our fine-grained polynomial-time solvable problems. This notion is something we call probabilistic fine-grained time (or $\PFT{}$). Using this notion makes it easier to define things like OWFs and doesn't require carrying around time parameters through every reduction.
+
+\begin{definition}
+	An algorithm $\cA$ is an $\alpha(n)$ probabilistic fine-grained time, $\PFT{\alpha(n)}$, algorithm if there exists a constant $\delta > 0$ such that $\cA$ expects to run in time $\tilde{O}(\alpha(n)^{1-\delta})$.
+\end{definition}
+Note that in this definition, we suppress sub-polynomial factors.
+
+\xxx{Rio:Do we want to suppress sub-polynomial factors? Is this the right way to do so?}
+
+Additionally, we will want a notion of 'negligibility' that cryptography has. Recall that a function $\negl(n)$ is negligible if for all polynomials $Q(n)$ and sufficiently large $n$, $\negl(n) < 1/Q(n)$. We will have a similar notion here, but we will use the words 'significant' and 'insignificant' corresponding to non-negligible and negligible respectively.
+
+%But first we need to define a notion of a function being 'sub-polynomial.' That is, a function is sub-polynomial if it is eventually dominated by every polynomial in $n$, even $n^{.001}$.
+%\begin{definition}
+%	A function $f$ is \emph{sub-polynomial} (sub-poly) if for every constant $c>0$, there exist sufficiently large $N$ such that for all $n > N$, $f(n) < n^c$.
+%\end{definition}
+
+\begin{definition}
+	A function $\insig(n)$ is \emph{insignificant} if
+	\[\insig(n) < \frac{1}{n^{\Omega(1)}}.\]
+	A function $\sig(n)$ is \emph{significant} if 
+	\[\sig(n) \ge \frac{1}{n^{o(1)}}.\]
+\end{definition}
+
+Note that for every polynomial $f$, $1/f(n)$ is insignificant. Also notice that if a probability is significant for an event to occur after some process, then we only need to run that process a sub-polynomial number of times before the event will happen almost certainly. So, if we're calling a function that succeeds with a significant probability to get that event, we only need to call it a sub-polynomial number of times before getting a result, meaning our run-time doesn't increase even in a fine-grained sense; i.e. we can boost the probability of success of a randomized algoirthm from $1/\log(n)$ to $O(1)$ just by repeating it $O(\log(n))$ times.
+
+\subsection{Fine-Grained Symmetric Crypto Primitives}
+
+
+
+\xxx{We want to have $t(n)>n$ and insist that $d$ is a constant.}
+
+
+
+
+\xxx{I think we want our defintions to capture the $\delta'$ more than we want them to caputre the $\alpha(n)$. The $\alpha(n)$ is, in my oppinion, not really the useful piece of information. } 
+
+Ball et all defined fine-grained one-way functions (OWFs) in their work from 2017 \cite{avgCaseFineGrained}. They parameterize their OWFs with two functions: an inversion-time function $\alpha$ (how long it takes to \emph{invert} the function on $n$ bits), and an probability-of-inversion function $\epsilon$ (given $\alpha(n)^{1-\delta'}$ time, the probability any adversary can invert). The computation time is implicitely defined to be anything (noticeably) less than the time to invert: there exists a $\delta > 0$ such that $\alpha(n)^{1-\delta}$.
+%We will make a slightly altered definition that captures the $\delta$ between the computer and the inverter.
+
+\xxx{Rio: I edited this definition because having a parameter $d$ makes very little sense.}
+\begin{definition}[$(\alpha, \epsilon)$-one-way functions]
+	A function $f:\{0,1\}^* \to \{0,1\}^*$ is \emph{$(t, \epsilon)$-one-way} if, for some $\delta > 0$, it can be evaluated on $n$ bits in $O(\alpha(n))$ time, but for any $\delta' > 0$ and any adversary $\cA$ running in $O(\alpha(n)^{1 - \delta'})$ time and all sufficiently large $n$,
+	\[\Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \epsilon(n, \delta').\]
+\end{definition}
+
+Using our notation of $\PFT{\alpha(n)}$, we will similarly define OWFs, but with one fewer parameter. We will only be caring about $\alpha(n)$, the time to invert, and assume that the probability an adversary inverts with less time is insignificant.
+
+\begin{definition}\label{def:fg-owf}
+	A function $f:\{0,1\}^* \to \{0,1\}^*$ is $\alpha(n)$ fine-grained one-way (is an $\alpha(n)$-FGOWF) if there exists a constant $\delta > 0$ such that it takes time $\alpha(n)^{1-\delta}$ to evaluate $f$ on any input, and for all $\PFT{\alpha(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \frac{1}{n^\Omega(1)}. \]
+\end{definition}
+
+With traditional notions of cryptography there was always an exponential or at least super-polynomial gap between the amount of time required to evaluate and invert one-way functions. In the fine-grained setting we have a polynomial \emph{gap} to consider.
+\begin{definition}\label{def:gap}
+	The (relative) \emph{gap} of an $\alpha(n)$ fine-grained one-way function $f$ is the constant $\delta > 0$ such that it takes $\alpha(n)^{1-\delta}$ to compute $f$ but for all $\PFT{\alpha(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \frac{1}{n^{\Omega(1)}}. \]
+\end{definition}
+
+\subsubsection{Weak and Strong OWFs in the Fine-Grained Setting}
+
+In traditional cryptography, we have notions of weak and strong OWFs. Weak OWFs can be inverted most of the time, but a polynomial-fraction of the time, they cannot be. These weak OWFs can be compiled into strong OWFs (showing that weak OWFs imply strong OWFs), where there is a negligible chance that the resulting strong OWF is invertable over the choice of inputs.
+
+Here we will briefly discuss how a 'medium' $\alpha(n)$-FGOWF can imply a 'strong' $\alpha(n)$-FGOWF, where 'strong' refers to definition \ref{def:fg-owf}
+
+\begin{definition}
+	A function $f$ is a medium $\alpha(n)$-FGOWF if there exists a sub-polynomial function $Q(n)$ such that for all $\PFT{\alpha(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \getsr \{0,\}^n}[ \cA(f(x)) \in f\inv(f(x)) ] \le 1 - \frac 1 {Q(n)}. \]
+\end{definition}
+
+\begin{claim}
+	Medium $\alpha(n)$-FGOWFs imply strong $\alpha(n)$-FGOWFs.
+\end{claim}
+\begin{proof}
+	Let $f$ be a medium $\alpha(n)$-FGOWF, where the probability any $\PFT{\alpha(n)}$ adversary inverts it is $1 - \frac 1 {Q(n)}$. The basic idea will be to produce $f'$ that is just a concatination of many $f$s, just as in the traditional cryptographic case.
+	
+	Let $\epsilon = 1 - 1/Q(n)$ be the probability of an adversary's success in inverting $f$. For any constant positive integer function $c(n)$, let $f'(x_1 || \dots || x_{c(n)}) = f(x_1)|| \dots ||f(x_{c(n)})$. Now, for any $\PFT{c(n) \cdot \alpha(n)}$ adversary $\cA'$, there exists a $\PFT(\alpha(n))$ adversary $\cA$ such that
+	\[\Pr[\cA'(f'(x_1 || \dots || x_c)) \in f'^{-1}(f'(x_1 || \dots || x_c))] \le \prod_{i=1}^c\Pr[\cA(f'(x_i))] = \epsilon^c.\]
+	Now, if $c$ is subpolynomial, then $\PFT{c(n) \cdot \alpha(n)} = \PFT{\alpha(n)}$, since we ignore sub-polynomial factors.
+	
+	So, we let $c(n) = Q(n) \cdot \log^2(n)$, which is still subpolynomial. Then, for any $\PFT{\alpha(n)}$ adversary $\cA'$, 
+	\[\Pr[\cA'(f'(x_1 || \dots || x_c)) \in f'^{-1}(f'(x_1 || \dots || x_c))] \le (1 - \frac 1 {Q(n)})^{Q(n)\log^2(n)} \sim \frac 1 {e^{\log^2(n)}} = \frac{1}{n^{\log n}} = \insig(n).\]
+\end{proof}
+
+\paragraph{Weaker Fine-Grained OWFs.} Now, because we are in the fine-grained setting, we can talk about gaps. There is a notion of weak-OWFs in cryptography where we can say if there exists \emph{any} polynomial such that we can invert with probability $1 - 1/\poly$, we can construct strong OWFs. We want a similar notion for fine-grained OWFs. Here we can't just choose any polynomial --- we have to choose a polynomial that respects the gap.
+
+Formally, for an $\alpha(n)$-FGOWF $f$ that has $\PFT{\alpha(n)}$ adversaries inverting it with probability $1 - 1/P(n)$, we can get that a $\PFT{\alpha(n)}$ adversary can invert $f'$ with probability $(1 - 1/P(n))^{c(n)}$. Now, as long as there exists $\delta'$ such that $\alpha(n)^{1-\delta}P(n) = \alpha(n)^{1-\delta'}$, there is still a gap ($\delta' < \delta$) even if we compute $f$ $P(n)$ times to evaluate $f'$. Therefore, we are able to get a strong fine-grained OWF from a weak one, as long as it's not \emph{too} weak.
+
+\xxx{Rio: I put the rest of this section into a tex comment (talks about the even weaker FG-OWFs).}
+
+\subsection{Fine-Grained Hard-Core Bits and Pseudorandom Generators}
+One way functions serve as the building block for a lot of symmetric encryption, and are (usually) implied by any other cryptographic primitive, from collision-resistant hash functions to symmetric-key encryption, to any flavor of public key encryption, and so on. The next step to building more cryptographic primitives with one-way functions is to see if we can use them to construct pseudorandom generators. While we do not yet have a construction of a fine-grained pseudorandom generator that can generate some number of polynomially many pseudorandom bits, we take the first steps, showing how to get hardcore bits in section \ref{sec:fg-prgs}. In this section, we propose a definition for pseudorandom generators in the fine-grained setting; note that since we are only dealing with polynomial gaps, we will not be able to generate \emph{too} many pseudorandom bits.
+
+\begin{definition}\label{def:fg-hcb}
+	A function $b$ is a fine-grained hard-core (FGHC) predicate for a $\alpha(n)$-FGOWF if for all $\PFT{\alpha(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \getsr \{0,1\}^n}[ \cA(f(x)) = b(x) ] \le \frac 1 2 + \insig(n) \]
+\end{definition}
+
+Recall that in traditional cryptography, any OWF implies the existance of another OWF with a hardcore bit with the Goldreich-Levin (GL) construction \cite{GL89}. The bad news: the GL construction required a security reduction with $O(n^2)$ evaluations of the one-way function. This is fine if the gap $\alpha(n)^\delta$ is bigger than $O(n^2)$, but we sometimes have smaller gaps than this to work with. So, we are proposing a GL-like construction that works for some FG OWFs (and we will see later that it works for all of our proposed FG OWF constructions).
+
+\begin{theorem}
+	Let $f$ be an $\fgowf{\alpha(n)}$. acting on strings $(x, y)$, where $x = \tilde O(n)$ and $y = Q(n)$ for some subpolynomial $Q$, and let $\cA$ be a $\PFT{\alpha(n)}$ such that
+	\[ \Pr[\cA(f(x,y), y) \in f^{-1}(f(x,y))] \ge \frac 1 2 + \sig(n) \] 
+	Then, $f'(x,y,r) = f(x,y)||r$ where $|r| = |y|$ has the hardcore bit $y \cdot r$.
+\end{theorem}
+\begin{proof}
+	\xxx{This is just the GL proof we had before.}
+	%TODO: this is the hard part -- plug and chug
+\end{proof}
+
+\subsubsection{Attempting to Construct Pseudorandom Generators}
+\xxx{Rio: I'm still looking into this. It's complicated...}
+It is worth noting that we have some hard lower-bounds to wade through with respect to how many bits we can generate with a fine-grained PRG based off of a FG OWF or FG OWP. First, Gennaro and Trevison showed that a PRG from $n$ bits to $n+k$ based off of a OWP requires $\Omega(k/\log S)$ calls to the underlying OWP (where $S$ is the size of circuit the OWP is secure against, typically slightly super-polynomial). Here, $S$ will be polynomial since we care about polynomial gaps. So, we have the following lower bound on the number of bits we can produce from a given FG OWF.
+%TODO: does this bound apply to fine-grained owfs?
+
+\begin{lemma}
+	Let $f$ be an $\fgowp{\alpha(n)}$. Any fine-grained PRG $g$ based off of ...
+	%TODO: finish writing this if it's relevant
+\end{lemma}
+
+%TODO: constructions from GL and hc bits
+
+%TODO: Hill construction? What about https://people.seas.harvard.edu/~salil/research/OWFtoPRG-stoc10.pdf
+
+\subsection{Asymmetric Notions of Fine-Grained Cryptography}
+Finally, in this paper, we will propose a fine-grained key-exchange. It will be inspired by Merkle Puzzles \cite{???}.
+%TODO: cite this...
+
+
+%\begin{definition}
+%	A function $f$ is a nearly-weak $k,k'$-FGOWF if there exists a function $Q(n) \le O(n^{k-k'-\delta})$ for a constant $\delta > 0$ such that for all $\PFT{n^k}$ adversaries $\cA$,
+%	\[ \Pr_{x \getsr \{0,\}^n}[ \cA(f(x)) \in f\inv(f(x)) ] \le 1 - \frac 1 {Q(n)}. \]
+%\end{definition}
+%
+%\begin{claim}
+%	Nearly-weak $k,k'$-FGOWFs imply strong $k$-FGOWFs.
+%\end{claim}
+%\begin{proof}
+%	%TODO: it's gonna look like the previous proof
+%\end{proof}
+%
+%%\remove{
+%\xxx{There are some problems with these definitions. Need to work out where $\delta'$ comes in etc.}
+%
+%Just like in the usual cryptographic setting we have weak and strong OWFs (and weak OWFs imply strong OWFs), we have our own fine-grained version of weak and strong OWFs -- one will imply the other. There will be two versions: a `gap preserving' one-way function we will call a medium OWF, and an $\epsilon$-weak OWF.
+%
+%%TODO: there are some problems with these definitions...
+%
+%\paragraph{Definitions } 
+%These functions will define the $\epsilon(n,\delta')$ to be different functions. In our first definition $\epsilon$ won't even depend on $\delta'$. It asks that the adversary have a sub-polynomial error in $n$.
+%
+%\begin{definition}[$d$-medium one-way functions]
+%	A function $f: \{0,1\}^n \to \{0,1\}^*$ is $d$-medium one-way if $f(x)$ can be computed in $O(t(n))$ time and for all adversaries $\cA$ taking $O(t(n)^{g-\delta'})$ time for some $\delta'>0$, there exists a sub-polynomial function $
+%	\epsilon(n)$ such that,
+%	\[ \Pr_{x \gets \{0,1\}^n}\left[ \cA(f(x)) \in f\inv(x) \right] \le 1 - \frac 1 {\epsilon(n)} \]
+%	%TODO: where does \delta' factor into this definition?
+%	%%Andrea: I don't think it does. I think that we beleive that we can construct functions where, when \delta'>0 for any delta, the success is thus bounded. 
+%\end{definition}
+%
+%In the above definition we force the adversary to err quite a bit. What about adversaries that err only $\frac{1}{\text{poly}(n)}$? Well, given that computing $f(n)$ takes $t(n)$ time and inverting $f(n)$ takes $t(n)^g$ time if the adversary errs, for example, $\frac{1}{t(n)^{g+1}}$ of the time, we could not detect this in $t(n)^g$ time. 
+%
+%But, the difference between inverting and solving gives us some space to work with, and in that space we can have certain amounts of error. 
+%
+%\begin{definition}
+%	A function $f: \{0,1\}^n \to \{0,1\}^*$ is $(d,\epsilon)$-weak one-way if $f(x)$ can be computed in $O(t(n))$ time and for all adversaries $\cA$ taking $O(t(n)^{d-\delta'})$ time, there exists a function $g(n) = o(t(n)^{d-1-\epsilon})$ such that
+%	\[ \Pr_{x \gets \{0,1\}^n}\left[ \cA(f(x)) \in f\inv(x) \right] \le 1 - \frac 1 {g(n)} \]
+%\end{definition}
+%
+%\paragraph{Implications } 
+%\begin{theorem}
+%	The existence of a $d$-medium one-way function, $f$, implies the  existence of a $(d, n^{-c})$-one-way function, $f'$, for all constants $c$.
+%\end{theorem}
+%\begin{proof}
+%	Let the probability of correct inversion of $f$ be upper bounded by $1-\frac 1 {g(n)}$. 
+%	
+%	We can draw $2cg(n)\lg(n)$  independent samples $x_1, \ldots , x_{2cg(n)\lg(n)}$ from $\{0,1\}^n$. Now, our new one way function is $f'(x_1|x_2| \ldots |x_{2cg(n)\lg(n)}) = f(x_1)||f(x_2)||\ldots||f(x_{2cg(n)\lg(n)})$. Correctly inverting the function $f'$ requires inverting $2cg(n)\lg(n)$ samples. The probability of correct inversion of this new function will be 
+%	$(1-\frac 1 {g(n)})^{2g(n)\cdot c\lg(n)} < $
+%	
+%\end{proof}
+%
+%\begin{theorem}
+%	The existence of a $(d,\epsilon)$-weak one-way function implies the  existence of a $(d/(d-\epsilon), n^{-c})$-one-way function for all constants $c$.
+%\end{theorem}
+%\begin{proof}
+%	
+%	\xxx{We build this proof by doing many repetitions of the medium one way functions. Repeating the function $cg(n)\lg(n)$ times achieves this while preserving the polynomial gap.}
+%\end{proof}
+
+

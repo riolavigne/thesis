@@ -1,0 +1,45 @@
+\section{Our assumptions - background and justification}
+\label{sec:justifyAssumptions}
+In this section, we justify why we make average-case hardness assumptions for $k$-SUM and Zero $k$-Clique --- and why we do not for other fine-grained problems. We start with some background on these problems, and then given that background, justify why our hypotheses are believable.
+
+\subsection{Background for Fine-Grained Problems}
+Among the most popular hypotheses in fine-grained complexity is the one concerning the 3-SUM problem defined as follows: given three lists $A,B$ and $C$ of $n$ numbers each from $\{-n^t,\ldots,n^t\}$ for large enough $t$, determine whether there are $a\in A, b\in B, c\in C$ with $a+b+c=0$. There are multiple equivalent variants of the problem (see e.g. \cite{3sumIntroduction})  - when a single list is given, when one instead searches for $c=a+b$, and finally, when the sum is modulo $q\geq 3n^t+1$.  
+
+The fastest $3$-SUM algorithms run in $n^2(\log\log n)^{O(1)}/\log^2 n)$ time (Baran, Demaine and Patrascu for integer inputs \cite{BaranDP08}, and more recently Chan'18 for real inputs \cite{Chan18}). Since the 1990s, $3$-SUM has been an important problem in computational geometry. Gajentaan and Overmars \cite{3sumIntroduction} formulated the hypothesis that $3$-SUM requires quadratic time (nowadays this means
+$n^{2-o(1)}$ time on a word-RAM with $O(\log n)$ bit words), and showed via reductions that many geometry problems also require quadratic time under this hypothesis . Their work spawned many more within geometry. In recent years, many more consequences of this hypothesis have been derived, for a variety of non-geometric problems, such as sequence local alignment \cite{abboud2014consequences}, triangle enumeration \cite{Patrascu10,KopelowitzPP16}, and others.
+
+As shown by Vassilevska Williams and Williams'2010, $3$-SUM can be reduced to a graph problem, 0-Weight Triangle, so that if $3$-SUM requires $n^{2-o(1)}$ time on inputs of size $n$, then 0-Weight Triangle requires $N^{3-o(1)}$ time in $N$-node graphs. In fact, Zero-Weight Triangle is potentially harder than $3$-SUM, as one can also reduce to it the All-Pairs Shortest Paths (APSP) problem, which is widely believed to require essentially cubic time in the number of vertices. There is no known relationship (via reductions) between APSP and $3$-SUM.
+
+The Zero-Weight Triangle problem is as follows: given an $n$-node graph with edge weights from $\{-n^c,\ldots,n^c\}$ for large enough $c$, are there three nodes $p,q,r$ so that $w(p,q)+w(q,r)+w(r,p)=0$? Zero-Weight Triangle is just Zero $3$-Clique where the numbers are from a polynomial range.
+
+An equivalent formulation assumes that the input graph is tripartite and complete (between partitions).
+
+Both $3$-SUM and Zero-Weight Triangle have generalizations for $k\geq 3$: $k$-SUM and Zero-Weight $k$-Clique, defined in the natural way: (1) given $k$ lists of $n$ numbers each from $\{-n^{ck},\ldots,n^{ck}\}$ for large $c$, are there $k$ numbers, one from each list, summing to $0$? and (2) given a complete $k$-partite graph with edge weights from $\{-n^{kc},\ldots,n^{kc}\}$ for large $c$, is there a $k$-clique with total weight sum $0$?
+
+\subsection{Justifying the Hardness of Some Average-Case Fine-Grained Problems}
+The $k$-SUM problem is conjectured to require $n^{\lceil k/2\rceil-o(1)}$ time (for large enough $c$), and the Zero-Weight $k$-Clique problem is conjectured to require $n^{k-o(1)}$ time (for large enough $c$), matching the best known algorithms for both problems (see \cite{icm-survey}). Both of these conjectures have been used in fine-grained complexity to derive conditional lower bounds for other problems (e.g. \cite{BackursT16},  \cite{abboud2014consequences}, \cite{sparseGraphsLVWW}, \cite{treeEditDistance}).
+
+It is tempting to conjecture average-case hardness for the key hard problems within fine-grained complexity: Orthogonal Vectors (OV), APSP, $3$-SUM. However, it is known that APSP is not hard on average, for many natural distributions (see e.g. \cite{PeresSSZ13,averageAPSP}), and OV is likely not (quadratically) hard on average (see e.g. \cite{Valiant15}).
+
+On the other hand, it is a folklore belief that $3$-SUM is actually hard on average.
+In particular, if one samples $n$ integers uniformly at random from $\{-cn^3,\ldots,cn^3\}$ for constant $c$, the expected number of $3$-SUMs in the instance is $\Theta(1)$, and there is no known truly subquadratic time algorithm that can solve $3$-SUM reliably on such instances. The conjecture that this is a hard distribution for $3$-SUM was formulated for instance by Pettie \cite{avgCase3Sum}. 
+
+The same folklore belief extends to $k$-SUM. Here a hard distribution seems to be to generate $k$ lists uniformly from a large enough range $\{-cn^k,\ldots, cn^k\}$, so that the expected number of solutions is constant. 
+
+Due to the tight relationship between $3$-SUM and Zero-Weight Triangle, one might also conjecture that uniformly generated instances of the latter problem are hard to solve on average. In fact, if one goes through the reductions from the worst-case $3$-SUM problem to the worst-case Zero-Weight Triangle, via the $3$-SUM Convolution problem \cite{Patrascu10,WilliamsW13j} starting from an instance of $3$-SUM with numbers taken uniformly at random from a range, then one obtains a list of Zero-Weight Triangle instances that are essentially average-case. This is easier to see in the simpler but less efficient reduction in \cite{WilliamsW13j} which from a $3$-SUM instance creates $n^{1/3}$ instances of (complete tripartite) Zero-Weight Triangle on $O(n^{2/3})$ nodes each and whose edge weights are exactly the numbers from the $3$-SUM instance. Thus, at least for $k=3$, average-case hardness for $3$-SUM is strong evidence for the average-case hardness for Zero-Weight Triangle.
+
+In Appendix \ref{thm:rangeExtendThm} we give a reduction between uniform instances of uniform Zero-Weight k-Clique with range $\Theta(n^k)$ and instances of planted Zero-Weight k-Clique with large range. Working with instances of planted Zero-Weight k-Clique with large range is easier for our hardness constructions, so we use those in most of this paper.  
+
+\textbf{Justifying the Hardness of Distinguishing.~}
+Now, our main assumptions consider distinguishing between the distributions $D_0$ and $D_1$ for
+$3$-SUM and Zero-Weight Triangle. Here we take inspiration from the Planted Clique assumption from Complexity \cite{HazanK11,Jerrum92,Kucera95}. In Planted Clique, one first generates an Erd\"os-Renyi graph that is expected to not contain large cliques, and then with probability $1/2$, one plants a clique in a random location. Then the assertion is that no polynomial time algorithm can distinguish whether a clique was planted or not.
+
+We consider the same sort of process for Zero-$k$-Clique. Imagine that we first generate a uniformly random instance that is expected to have no Zero-$k$-Cliques, by taking the edge weights uniformly at random from a large enough range, and then we plant a Zero-$k$-Clique with probability $1/2$ in a random location. Similarly to the Planted Clique assumption, but now in a fine-grained way, we can assume that distinguishing between the planted and the not-planted case is computationally difficult.
+
+Our actual hypothesis is that when one picks an instance that has no zero $k$-Cliques at random with probability $1/2$ and picks one one that has a zero $k$-Clique with probability $1/2$, then distinguishing these two cases is hard. As we show later, this hypothesis is essentially equivalent to the planted version (up to some slight difference between the underlying distributions). 
+
+Similarly to Planted Clique, no known approach for Zero-$k$ Clique seems to work in this average-case scenario, faster than essentially $n^k$, so it is natural to hypothesize that the problem is hard. 
+We leave it as a tantalizing open problem to determine whether the problem is actually hard, either by reducing a popular worst-case hypothesis to it, or by providing a new algorithmic technique.
+
+
+

@@ -1,0 +1,30 @@
+\begin{abstract}
+	%The last few years have seen a resurgence in interest in fine-grained cryptography, which had its origins in fine-grained key exchanges from the 1970s (see [Merkle'78] and [BGI'08]). 
+	%There are two main motivations. The first is that all known c
+	Cryptography is largely based on unproven assumptions, which, while believable, might fail. Notably if $P = NP$, or if we live in Pessiland, then all current cryptographic assumptions will be broken. An interesting question is if any interesting cryptography might exist in Pessiland.
+	
+	%This motivates constructing cryptographic primitives from a variety of {\em unrelated} yet plausible complexity assumptions. %Ideally these assumptions would be simultaneously consistent with $P=NP$ and non-algebraic. %makes sense - if one assumption fails, another might prevail. 
+	%It is thus worthwhile to build primitives from combinatorial assumptions in \emph{polynomial time} that are markedly different from the typical exponential algebraic hardness hypotheses in cryptography. %A second important goal 
+	%is the search for practically efficient protocols. %Striving for security against all polynomial time adversaries often carries with it the cost of higher (though polynomial) runtime for the honest parties. Practically speaking, it makes sense to weaken the security requirement: have very efficient, hopefully linear time, honest parties, and a large but fixed polynomial cost for the adversary.
+	
+A natural approach to tackle %both goals 
+this question is to base cryptography on an assumption from fine-grained complexity.
+Ball, Rosen, Sabin, and Vasudevan [BRSV'17] attempted this, starting from popular hardness assumptions, such as the Orthogonal Vectors (OV) Conjecture. They obtained problems that are hard on average, assuming that OV and other problems are hard in the worst case. They obtained proofs of work, and hoped to use their average-case hard problems to build a fine-grained one-way function.
+Unfortunately, they proved that constructing one using their approach would violate a popular hardness hypothesis. This motivates the search for other fine-grained average-case hard problems. % and were able to prove that getting their approach to work might be hard.
+	
+The main goal of this paper is to identify sufficient properties for a fine-grained average-case assumption so that it implies cryptographic primitives such as fine-grained public key cryptography.
+Our main
+contribution is a novel construction of a cryptographic key exchange, 
+together with the definition of a small number of relatively weak structural properties, such that if a computational problem satisfies them, our key exchange has provable fine-grained security guarantees, based on the hardness of this problem. We then show that a natural and plausible average-case assumption for the key problem Zero $k$-Clique from fine-grained complexity satisfies our properties. We also develop fine-grained one-way functions and fine-grained hard-core bits even under weaker assumptions.
+
+%If we make an even more believable conjecture that Zero $k$-Clique, or even the related $k$-SUM problem, require super-linear time to solve on average, we build fine-grained one-way functions and fine-grained hard-core bits.
+	
+Where previous works had to assume random oracles or the existence of strong one-way functions to get a key-exchange computable in $O(n)$ time secure against $O(n^2)$ adversaries (see [Merkle'78] and [BGI'08]), our assumptions seem much weaker. Our key exchange has a similar gap between the honest party computation and the cost of the adversary as prior work, and is also non-interactive, implying fine-grained public-key encryption.
+	
+	%
+	%Our contribution is to start building fine-grained one-way functions and key exchanges from fine-grained average-case problems, like $k$-sum and zero $k$-clique, as well as explore the implications. First, we characterize which problems with which properties can be used to build these one-way functions, and we show that relatively weak assumptions about fine-grained problems can yield these one-way functions; these assumptions are only that it takes super-linear time for an adversary to solve such a problem. We also show that there exist fine-grained versions of hardcore bits. 
+	%
+	%Second, we provide a novel construction for a fine-grained key exchange based on a fine-grained assumption. Where previous works had to assume random oracles or the existence of strong one-way functions to get a key-exchange computable in $n$ time secure against $O(n^2)$ adversaries, such as Merkle and Biham et al respectively, we make a much weaker assumption: zero $k$-clique is requires $\tilde \Omega(n^k)$ time to solve on average. This key exchange, like Merkle and Biham's constructions, will be non-interactive, and therefore will imply fine-grained public key encryption.
+\end{abstract}
+
+%		In 2016 Degwekar, Vaikuntanathan, and Vasudevan [DVV'16] explored a circuit-complexity-based approach, bounding computation power of adversaries by NC$^0$ or AC$^0$ for both symmetric-key and public-key primitives. While in 2017

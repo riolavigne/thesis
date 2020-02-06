@@ -1,0 +1,76 @@
+\section{Average Case Assumptions and their Justifications}
+
+We will describe our results in key exchanges and one way functions using generic properties needed for our constructions. However, for concreteness we will describe a few specific plausible average case conjectures that satisfy the needed properties. 
+
+These average case conjectures are based on popular worst case assumptions. 
+
+\subsection{Problem Description}
+We will consider the average case $k$-sum problem and the average case zero $k$-clique problems. 
+
+First we consider the $k$-sum problem and define an average case distribution for this problem. The worst case hypothesis of the polynomial time hardness of $3$-sum was introduced by Gajentaan and Overmars \cite{3sumIntroductionOrig,3sumIntroduction}. The first statement of a conjectured the average case hard $3$-sum distribution was by Seth Pettie \cite{avgCase3Sum}. We propose a different distribution. 
+\begin{definition}
+	An average case k-sum instance over range $R$ is an instance with $kn$ numbers in $k$ lists $L_1, \ldots, L_k$. These numbers are chosen uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a k-sum instance is a set of $k$ numbers $a_1 \in L_1$, \ldots, $a_k \in L_k$ such that the sum is zero mod $R$, $\sum_{i=1}^k a_i \equiv 0 \mod R$. 
+\end{definition}
+
+We will also define the uniform distributions over $k$-sum instances that have a certain number of solutions. 
+\begin{definition}
+	The distribution $D_{sum}[R,i,k]$ is the uniform distribution over $k$-sum instances where there are exactly $i$ distinct solutions. 
+\end{definition}
+
+
+We also consider the zero k-clique problem and define the average case assumption for the $k$-clique problem. The first statment of the worst case hardness for zero 3-clique (zero triangle) was by Vassilevska Williams and Williams \cite{3cliqueIntro}. The zero k-clique assumption has been used in many papers \cite{BackursT16, abboud2014consequences, sparseGraphsLVWW, treeEditDistance}
+
+\begin{definition}
+	An average case zero k-clique instance over range $R$ is an instance with $kn$ nodes in a $k$-partite graph with partitions $P_1, \ldots, P_k$. There are edges between a node  $v\in P_i$ and a node $u \in P_j$ if and only if $i \ne j$. Thus, every instance has $kn^2$ edges. Weights are assigned to each of these edges uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a zero k-clique instance is a set of $k$ nodes $v_1 \in V_1$, \ldots, $v_k \in V_k$ such that the sum of all the weights on the $\binom{k}{2}$ edges in the $k$ clique formed by $v_1,\ldots,v_k$ is congruent to zero mod $R$, $\sum_{i \in [1,k]}\sum_{j \in [1,k] \text{ and } j\ne i} weight(v_i,v_j) \equiv 0 \mod R$. A solution is also called a zero weighted $k$-clique, or a zero $k$-clique. 
+\end{definition}
+
+We will additionally define the distributions of these instances in which a certain number of solutions appear. 
+\begin{definition}
+The distribution $D_{zkc}[R,i,k]$ is the uniform distribution over zero k-clique instances where there are exactly $i$ distinct zero k-cliques in the graph. 
+\end{definition}
+
+
+\subsection{Hypotheses} 
+
+We have weak and strong variants of the hypotheses. We can make the strong assumption these average case problems take as long as their worst case variants are hypothesized to take. Or, we can make the significantly weaker assumption that these average case problems take super-linear time over their input size. 
+
+We will define general properties needed in a hypothesis for it to be usable for our fine-grained one way functions and our fine-grained key exchange. These classes will be \plantable and \selfReducable.
+
+\begin{definition}[\Plantable]
+Something is a \plantable if the hypotheses is about a problem $P$, there is an algorithm $A$ that plants an solution in an instance in time $n^t$, and that the hypothesis implies that finding the solution in a planted instance that $A$ takes time $n^{(1+ \delta) t}$ for some constant $\delta>0$.
+\end{definition}
+
+\begin{definition}[\SelfReducable]
+Something is a \selfReducable if the original hypothesis about a problem $P$ implies. \xxx{TODO!}
+\end{definition}
+
+
+\begin{definition}[\Weakksum]
+	There exists some large enough $c$ such that for all $c'>c$ returning the solution (returning the $k$ indicies of the numbers that sum to zero) from an instance drawn from $D_{zkc}[n^{c'},1,k]$ with probability greater than $1/3$ takes $n^{1+\delta-o(1)}$ time for some $\delta>0$. 
+\end{definition}
+
+
+\begin{definition}[\Strongksum]
+	There exists some large enough $c$ such that for all $c'>c$ returning the solution  (returning the $k$ indicies of the numbers that sum to zero) the instance drawn from $D_{sum}[n^{c'},1,k]$ with probability greater than $1/3$ takes $n^{\lceil k/2 \rceil-o(1)}$ time. 
+\end{definition}
+
+\begin{definition}[\Weakzkc]
+	There exists some large enough $c$ such that for all $c'>c$ returning a zero $k$-clique (returning the $k$ nodes involved in the clique) from an instance drawn from $D_{zkc}[n^{c'},1,k]$ with probability greater than $1/3$ takes $n^{2+\delta-o(1)}$ time for some $\delta>0$. 
+\end{definition}
+
+
+\begin{definition}[\Strongzkc]
+	There exists some large enough $c$ such that for all $c'>c$ returning a zero $k$-clique (returning the $k$ nodes involved in the clique) from an instance drawn from $D_{zkc}[n^{c'},1,k]$ with probability greater than $1/3$ takes $n^{k-o(1)}$ time. 
+\end{definition}
+
+\subsection{\Weakzkc and \weakksum are \plantable hypotheses}
+
+Our assumptions make reference to the uniform distribution of zero $k$-clique instances and $k$-sum instances in which there are one solution. The distributions $D_{zkc}[R,1,k]$ and $D_{sum}[R,1,k]$ respectively. We will demonstrate an efficiently sampleable distribution 
+\xxx{TODO: fill in this section}
+
+\subsection{\Strongzkc is a \selfReducable hypothesis}
+\xxx{TODO: fill in this section}

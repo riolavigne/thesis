@@ -1,0 +1,82 @@
+\section{Fine Grained One Way Functions}
+
+Recall the definition of a fine-grained OWF from BRSV.
+
+\begin{definition}[BRSV]
+	A function $f:\{0,1\}^* \to \{0,1\}^*$ is \emph{$(t, \epsilon)$-one-way} if, for some $\delta > 0$, it can be computed in $O(t(n)^{1 - \delta}$ time, but for any $\delta' > 0$ and any adversary $\cA$ running in $O(t(n)^{1 - \delta'})$ time and all sufficiently large $n$,
+	\[\Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \epsilon(n, \delta').\]
+\end{definition}
+
+\subsection{Weak and Strong OWFs}
+\xxx{There are some problems with these definitions. Need to work out where $\delta'$ comes in etc.}
+Just like in the usual cryptographic setting we have weak and strong OWFs (and weak OWFs imply strong OWFs), we have our own fine-grained version of weak and strong OWFs -- one will imply the other. There will be two versions: a `gap preserving' one-way function we will call a medium OWF, and an $\epsilon$-weak OWF.
+
+%TODO: there are some problems with these definitions...
+\begin{definition}[$\delta$-medium one-way functions]
+	A function $f: \{0,1\}^n \to \{0,1\}^*$ is $\delta$-medium one-way if $f(x)$ can be computed in $O(n^c)$ time and for all adversaries $\cA$ taking $O(n^{c\delta-\epsilon})$ time for some $\epsilon>0$, there exists a sub-polynomial function $g(n)$ such that,
+	\[ \Pr_{x \gets \{0,1\}^n}\left[ \cA(f(x)) \in f\inv(x) \right] \le 1 - \frac 1 {g(n)} \]
+	%TODO: where does \delta' factor into this definition?
+\end{definition}
+
+\begin{definition}
+	A function $f: \{0,1\}^n \to \{0,1\}^*$ is $\epsilon$-weak one-way if $f(x)$ can be computed in $O(n^c)$ time and for all adversaries $\cA$ taking $O(n^{c\delta-\epsilon})$ time, there exists a function $g(n) = O(t(n)^{\delta}\cdot n^\epsilon)$ such that
+	\[ \Pr_{x \gets \{0,1\}^n}\left[ \cA(f(x)) \in f\inv(x) \right] \le 1 - \frac 1 {g(n)} \]
+\end{definition}
+\subsection{Construction of a FG OWF}
+
+\begin{lemma}
+Given an average case instance of k-clique with values drawn from a sufficiently large range $R$ we can efficiently generate an average case instance by planting a solution. 
+
+That is, there exists a procedure $P$ which runs in time $O(n^{k-2}+k^2)$ time which generates an instance with one solution uniformly from all instances with one solution, given that we were given an instance with no solutions uniformly at random. 
+	\label{lem:kcliquePlant}
+\end{lemma}
+\begin{proof}
+	\xxx{TODO: but you know, its not so hard to prove this}
+\end{proof}
+
+Given $I,(a,b,c)$ and, $(w_{a,b}, w_{b,c})$ let $I'$ be an instance of $I$ with three edge weights changed. Specifically, set $w(e_{a,b})= w_{a,b}$, $w(e_{b,c})= w_{b,c}$ and, $w(e_{c,a})= -w_{a,b}-w_{b,c}$.
+
+\begin{definition}
+Let $I$ be an instance of $0$ k-clique
+Let $f_{kClique}$ be the function 
+$$f_{kClique}(I,(a,b,c),(w_{a,b}, w_{b,c})) =
+\begin{cases}
+\emptyset , & \text{if }e(a,b), e(b,c),\text{or } e(c,a) \text{ are involved in a }0 \text{-triangle in I} \\
+\emptyset , & \text{if }e(a,b), e(b,c),\text{or } e(c,a) \text{ are involved in }> \text{1  }0 \text{-triangles in I'} \\
+I', & \text{else}
+\end{cases}
+$$
+\end{definition}
+
+\xxx{TODO: can we get away with not checking for the null characters? It will still be hard over the distribution when the inputs are average case 0 solutions. Then computing $f$ will be $O(n^2)$ this doesn't matter unless $k>4$.}
+
+\begin{theorem}
+The function $f_{kClique}$ is a fine-grained one way function over the distribution of inputs drawn uniformly from $k$-Clique instances with $0$ solutions given the average case $0$-k Clique assumption. 
+\label{thm:kcliqueOWF}
+\end{theorem}
+\begin{proof}
+Computing $f_{kClique}$ takes $n^{k-2}$ time when the instance $I$ has $n$ nodes. 
+
+Let $D_I$ be the uniform distribution over $0$-k clique instances with $0$ solutions. \\
+Let $D_{a,b,c)}$ be the uniform distribution of triples with each value chosen uniformly from $[1,n]$.\\
+Let $D_{w}$ be the distribution from Lemma \ref{lem:kcliquePlant} that generates average case solutions. \\
+Let $D_{in}$ be the distribution made by sampling $I$ from $D_I$, $(a,b,c)$ from $D_{(a,b,c)}$ and $(w_{a,b},\ldots)$ from $D_{w}$.
+
+Let the Adversary have a $\epsilon$ probability of inverting the function when the input to the function is chosen from $D_{in}$.
+
+We will then use the adversary to distinguish a random $0$ solution instance from a $1$ solution instance. If we are given an instance $\hat{I}$ then we give the adversary this instance and ask for an inversion. 
+
+If the instance has $0$ solutions the adversary will be unable to invert (no $(a,b,c)$ triple will form a $0$-triangle). If the instance has $1$ solution, this is by Lemma \ref{lem:kcliquePlant} going to be the same distribution as applying the function to the distribution from $D_{in}$. 
+
+Thus, the Adversary will invert the function and find the $0$-k clique an $\epsilon$ fraction of the time. If the Adversary fails we will guess $0$ solutions, if the Adversary succedes we will guess $1$ solution. 
+
+Given that  $\hat{I}$ has a $1/2$ chance of being a $0$ input then we guess correctly $1/2+\epsilon$ of the time. 
+
+Thus, the Adversary can not invert the function correctly with probability $\geq 1/3$.
+\end{proof}
+
+\subsection{Hardcore Bits}
+\xxx{TODO: standardize this notation with the notation used earlier.}
+The standard GL construction for getting hardcore bits out of a OWF may not actually work in some cases. However, for our construction, there is an obvious candidate: note that the only hard part of inverting our construction is figuring out where the 0-clique is (in particular, it's just the indices $(a_1, \dots, a_{\binom k 2})$). So, we will take our $f$ and produce $f'$ such that for $r \in \{0,1\}^{k \log R}$,
+\[ f'(I, (a_1, \dots, a_{\binom k 2}), (\alpha_1, \dots, \alpha_{\binom k 2}), r) \mapsto I', r \]
+and the hardcore bit $b(I, (a_1, \dots, a_{\binom k 2}), (\alpha_1, \dots, \alpha_{\binom k 2}), r) = \angle{(a_1, \dots, a_{\binom k 2}), r}$. Because we are dealing with a log instead of the entire length of the input, there is hope that this could actually be hardcore. However, we still need to prove that it doesn't take too long to figure out some $a_i$ (and then the other $a_j$'s would follow because we have reduced the complexity of the problem).

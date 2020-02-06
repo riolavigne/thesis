@@ -1,0 +1,112 @@
+\section{Preliminaries: Model of Computation and Definitions}
+
+The running times of all algorithms are analyzed in the RAM model of computation, where simple operations such as $+, -, \cdot, \,$ bit-shifting, and memory access all require a single time-step.
+
+Just as in normal exponential-gap cryptography we have a notion of probabilistic polynomial-time (PPT) adversaries, we can similarly define an adversary that runs in time less than expected for our fine-grained polynomial-time solvable problems. This notion is something we call probabilistic fine-grained time (or $\PFT{}$). Using this notion makes it easier to define things like OWFs and doesn't require carrying around time parameters through every reduction.
+
+\begin{definition}
+	An algorithm $\cA$ is an $T(n)$ probabilistic fine-grained time, $\PFT{T(n)}$, algorithm if there exists a constant $\delta > 0$ such that $\cA$ runs in time $O(T(n)^{1-\delta})$.
+\end{definition}
+Note that in this definition, assuming $T(n) \ge n$, any sub-polynomial factors can be absorbed into $\delta$.
+
+Additionally, we will want a notion of 'negligibility' that cryptography has. Recall that a function $\negl(n)$ is negligible if for all polynomials $Q(n)$ and sufficiently large $n$, $\negl(n) < 1/Q(n)$. We will have a similar notion here, but we will use the words 'significant' and 'insignificant' corresponding to non-negligible and negligible respectively.
+
+
+\begin{definition}
+	A function $\sig(n)$ is \emph{significant} if 
+	\[\sig(n) \ge \frac{1}{n^{o(1)}}.\]
+	A function $\insig(n)$ is \emph{insignificant} if for all significant functions $\sig(n)$ and sufficiently large $n$,
+	\[\insig(n) < \sig(n).\]
+\end{definition}
+
+Note that for every polynomial $f$, $1/f(n)$ is insignificant. Also notice that if a probability is significant for an event to occur after some process, then we only need to run that process a sub-polynomial number of times before the event will happen almost certainly. So, if we're calling a function that succeeds with a significant probability to get that event, we only need to call it a sub-polynomial number of times before getting a result, meaning our run-time doesn't increase even in a fine-grained sense; i.e. we can boost the probability of success of a randomized algoirthm from $1/\log(n)$ to $O(1)$ just by repeating it $O(\log(n))$ times.
+
+\subsection{Fine-Grained Symmetric Crypto Primitives}
+
+Ball et all defined fine-grained one-way functions (OWFs) in their work from 2017 \cite{avgCaseFineGrained}. They parameterize their OWFs with two functions: an inversion-time function $\alpha$ (how long it takes to \emph{invert} the function on $n$ bits), and an probability-of-inversion function $\epsilon$; given $T(n)^{1-\delta'}$ time, the probability any adversary can invert is $\epsilon(T(n)^{1-\delta'})$. The computation time is implicitly defined to be anything noticeably less than the time to invert: there exists a $\delta > 0$ and algorithm running in time $T(n)^{1-\delta}$ such that the algorithm can evaluate $f$.
+
+\begin{definition}[$(\alpha, \epsilon)$-one-way functions]
+	A function $f:\{0,1\}^* \to \{0,1\}^*$ is \emph{$(t, \epsilon)$-one-way} if, for some $\delta > 0$, it can be evaluated on $n$ bits in $O(T(n))$ time, but for any $\delta' > 0$ and any adversary $\cA$ running in $O(T(n)^{1 - \delta'})$ time and all sufficiently large $n$,
+	\[\Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \epsilon(n, \delta').\]
+\end{definition}
+
+Using our notation of $\PFT{T(n)}$, we will similarly define OWFs, but with one fewer parameter. We will only be caring about $T(n)$, the time to invert, and assume that the probability an adversary running in time less than $T(n)$ inverts with less time is insignificant. We will show later, in section \ref{sec:fg-owfs}, that we can compile fine-grained one-way functions with probability of inversion $\epsilon \le 1-\frac{1}{n^{o(1)}}$ into ones with insignificant probability of inversion. So, it makes sense to drop this parameter in most cases.
+
+\begin{definition}\label{def:fg-owf}
+	A function $f:\{0,1\}^* \to \{0,1\}^*$ is $T(n)$ fine-grained one-way (is an $T(n)$-FGOWF) if there exists a constant $\delta > 0$ such that it takes time $T(n)^{1-\delta}$ to evaluate $f$ on any input, and for all $\PFT{T(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \insig(n). \]
+\end{definition}
+
+With traditional notions of cryptography there was always an exponential or at least super-polynomial gap between the amount of time required to evaluate and invert one-way functions. In the fine-grained setting we have a polynomial \emph{gap} to consider.
+\begin{definition}\label{def:gap}
+	The (relative) \emph{gap} of an $T(n)$ fine-grained one-way function $f$ is the constant $\delta > 0$ such that it takes $T(n)^{1-\delta}$ to compute $f$ but for all $\PFT{T(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \frac{1}{n^{\Omega(1)}}. \]
+\end{definition}
+
+\subsection{Fine-Grained Asymmetric Crypto Primitives}
+In this paper, we will propose a fine-grained non-interactive key exchange. Because it is non-interactive, it implies some fine-grained public key cryptography! Here we will define both of these notions: a fine-grained non-interactive key exchange, and a fine-grained, CPA-secure public-key cryptosystem.
+
+First, our definition of non-interactive key exchange was adapted from a work by Freire, Hofheinz, Kiltz, and Paterson to be fine-grained \cite{NIKE'13}. The main change will be to bound the adversary's runtime by the time it takes to run the key-exchange.
+
+\begin{definition}
+	A non-interactive $\fgkeyxc{T(n)}{\epsilon}{\gamma}$ consists of the following algorithms:
+	\begin{description}
+		\item [$\setup(1^n)$] Outputs a set of public parameters $\mpk$.
+		\item [$\keygen(ID, \mpk)$] Outputs a public-secret key pair $(pk, sk)$.
+		\item [$\sharedKey(ID_1, pk_1, ID_2, sk_2)$] Outputs the shared key $k$.
+	\end{description}
+	It must have the following correctness, efficiency, and security properties:
+	\begin{itemize}
+		\item It must be correct. So,
+		\[ \Pr_{\keygen, \sharedKey}[\sharedKey(ID_1, pk_1, ID_2, sk_2) = \sharedKey(ID_2, pk_2, ID_1, sk_1)] \ge 1 - \gamma \]
+		
+		\item The protocol is efficient. There exists a constant $\delta > 0$ such that all algorithms, $\setup$, $\keygen$ and $\sharedKey$ take time at most $T(n)^{1 - \delta}$.
+		
+		\item The protocol is secure. Over the randomness of $\keygen$, we have that for all $\PFT{T(n)}$ eavesdroppers $E$,
+		\begin{align*}
+		\Pr[E(\keygen(ID_1, \mpk), \keygen(ID_2, \mpk), \mpk) = \sharedKey(ID_1, pk_2, ID_2, sk_2)\\
+		\ \ \mid \sharedKey(ID_1, pk_1, ID_2, sk_2) = \sharedKey(ID_2, pk_2, ID_1, sk_1)] \le \epsilon
+		\end{align*}
+	\end{itemize}
+\end{definition}
+
+\xxx{Rio: I need to understand how boosting works so I can make these parameters work out.}
+
+Note that non-interactive key exchange implies public key cryptography! This particular security guarantee protects against chosen plaintext attacks. But first, we need to define what we mean by a fine-grained public key cryptosystem.
+
+\begin{definition}\label{def:fg-pkc}
+	An \emph{$T(n)$-fine-grained public-key cryptosystem} has the following three algorithms.
+	\begin{description}
+		\item[$\keygen(1^\secp)$] Outputs a public-secret key pair $(pk,sk)$.
+		\item[$\enc(pk, m)$] Outputs an encryption of $m$, $c$.
+		\item[$\dec(sk, c)$] Outputs a decryption of $c$, $m$.
+	\end{description}
+	These algorithms must have the following properties:
+	\begin{itemize}
+		\item They are efficient. There exists a constant $\delta > 0$ such that all three algorithms run in time less than $T(n)^{1-\delta}$.
+		\item They are correct. For all $(pk, sk)$ pairs produced by $\keygen$ and messages $m$,
+		\[ \Pr_{\enc,\dec}[\dec(sk, \enc(pk,m)) = m] \ge 1 - \insig(n) \]
+	\end{itemize}
+
+	The cryptosystem is \emph{CPA-secure} if any $\PFT{T(n)}$ adversary $\cA$ has an insignificant advantage in winning the following game:
+	\begin{enumerate}
+		\item Setup. A challenger $\cC$ runs $\setup(1^n)$ to get a pair of keys, $(pk, sk)$, and sends $pk$ to $\cA$.
+		\item Challenge. $\cA$ gives two messages $m_0$ and $m_1$ to the challenger. The challenger chooses a random bit $b \getsr \{0,1\}$ and returns $c \gets \enc(pk, m_b)$ to $\cA$.
+		\item Guess. $\cA$ outputs a guess $b'$ and wins if $b' = b$.
+	\end{enumerate}
+\end{definition}
+
+Now here is a quick theorem about why our definition for a fine-grained key exchange implies fine-grained PKC.
+
+\begin{theorem}\label{thm:fgkeyx-fgpkc}
+	If there exists an $\fgkeyxc{T(n)}{\epsilon}{\gamma}$ where $\epsilon, \gamma = \insig(n)$ that has key-length $\kappa$, then there exists a CPA-secure $\fgpkc{T(n)}$ for messages of length $\kappa$.
+\end{theorem}
+\begin{proof}
+	Given a non-interactive $fgkeyxc{T(n)}$, consider the following transformation to a public-key cryptosystem.
+	\begin{description}
+		\item[$\keygen$]
+		\item[$\enc(pk, m)$]
+		\item[$\dec(sk, c)$]
+	\end{description}
+	%TODO: blargh
+\end{proof}

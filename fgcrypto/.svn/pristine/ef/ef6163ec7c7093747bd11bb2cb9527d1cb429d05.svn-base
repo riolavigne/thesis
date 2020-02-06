@@ -1,0 +1,44 @@
+\section{Fine-Grained Key Exchange}
+
+
+
+Now we will explain a construction for \emph{key exchange} using the average case zero k-clique conjecture. This construction produces a system that takes $n^{2k-2}$ time for Alice and Bob, but Eve must take $\tilde{\Omega}\left (n^{3k-4} \right ) $ given the zero k-clique conjecture. 
+
+This means that given only the zero triangle conjecture (the most plausible conjecture) we still get a fine-grained gap between the exchangers (Alice and Bob) and Eve. Specifically Alice and Bob will take $O(n^{4})$ time while Eve takes $\tilde{\Omega}(n^5)$ time. 
+
+
+We will describe the key exchange first and then prove that Eve must take  $\tilde{\Omega}\left (n^{3k-4} \right) $ time. 
+
+
+\subsection{Description of Key Exchange}
+
+The high level description of the key exchange is as follows. Alice and Bob each produce $n^{2k-4}$ instances of zero k-clique. In a randomly chosen $n^{k-2}$ of these instances they will plant a solution. Call the set of indices that Alice chooses to plant $S_A$ and the set Bob picks $S_B$. The likely size of $S_A \cap S_B$ is $1$. The index $S_A \cap S_B$ is the basis for the key. 
+
+Alice determines the index $S_A \cap S_B$ by brute forcing all problems at indicies $S_A$ that Bob published. This allows Alice to learn $S_A \cap S_B$. Bob can brute force all problems at indicies $S_B$ that Alice published and learn the set  $S_A \cap S_B$. 
+
+It takes $n^kn^{k-2}+n^2n^{2k-4} = n^{2k-2}$ time for Alice and Bob to write out all the instances and brute force a subset. 
+
+\subsection{Proof of Hardness}
+First we show that the list version of the problem is hard. That is, given a list of many zero k-clique instances finding the instance with a solution takes brute force time.  
+
+\begin{theorem}
+We are given $n^a-1$ ($a > 0$) independent instances on $n$ nodes with weights in range $[-R,R]$  of average case zero k-clique with no solution and one instance with a solution. Returning the index of the instance with a solution takes  $n^{a+1}$ time if the average case zero k-clique conjecture is true for edge weights uniformly chosen  from the range $[-R,R]$.
+\end{theorem}
+\begin{proof}
+\xxx{TODO}
+\end{proof}
+
+Next we show that the pair of solutions list version of this problem is hard. We do this by splitting each instance into its high and low order bits. 
+
+\begin{theorem}
+We are given $n^a-1$ ($a > 0$) $t$-tuples (constant integer $t\geq 1$) of independent instances of average case zero k-clique on $n$ one $t$-tuple with $t$ independent zero k-clique instances with solutions.
+Returning the index of the $t$-tuple of zero k-clique instances with solutions takes $n^{a+1}$ time if the average case zero k-clique conjecture is true for edge weights uniformly chosen  from the range $[-R,R]$.
+\end{theorem}
+\begin{proof}
+\xxx{TODO}
+\end{proof}
+
+Finally, we show that an adversary that takes $n^{3k-4-\epsilon}$ ($\epsilon>0$) time and finds the bit shared by Alice and Bob with probability $1+?$ would violate the zero k-clique conjecture. 
+
+\xxx{TODO: given the definition of the scheme we can say that Eve computing various things about the scheme in certain times and probabilities is hard. But, first we need to define the scheme.}
+

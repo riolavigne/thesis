@@ -1,0 +1,47 @@
+\section{Introduction}
+
+\xxx{Story: building on Merkle etc we build cryptography out of combinatorial assumptions. We get a fine-grained key exchange from fine-grained assumptions, instead of from assumptions of an exponential gap! We demonstrate other changes needed to get one way functions with desired properties. We give the general form of what is needed to build the desired objects. Our assumptions seem like "One way function" type assumptions and combinatorial ones, and yet we can build a key exchange. }
+
+
+
+
+\xxx{A paragraph about how previous people did stuff with random oracles and big gap OWFs.  That was pretty cool! We do something even more awesome! We build a key exchange from small gap OWFs!}
+
+
+
+In the 70s, Merkle proposed the first fine-grained key exchange in the form of Merkle Puzzles \cite{Merkle78}. Alice and Bob could do $O(n)$ work to exchange an index of size $\log(n)$, and if an eavesdropper Eve wanted to also learn the key, she would need to put in $O(n^2)$ work. The downside to this construction was that a random oracle was required to prove security. Later, a work by Biham, Goren, and Ishai showed that we could get this same quadratic gap in a similar construction, but this time only needed to assume a certain kind of exponentially strong one-way function \cite{BGI08}.
+
+\xxx{Rio: Please check that this paragraph is correct!}
+Our contribution to this line of work is the first fine-grained key exchange based on a fine-grained combinatorial assumption (see section \ref{sec:???} for details on the assumption). Instead of needing to assume that a problem is exponentially hard to solve (like inverting an exponentially strong one-way function), or assume that random oracles exist, we only need to assume a particular kind of problem takes $O(n)$ time to create and $O(n^d)$ to solve, as long as $d \ge 3/2$. So, by assuming a problem is hard in a fine-grained sense, we get a key exchange that takes $O(N)$ time for Alice and Bob to execute, and requires an eavesdropper Eve $O(N^{1.5})$ time to break.
+
+While this is a relatively small gap, even compared to previous work on this topic, the techniques required to prove security of this scheme are novel: we begin to explore average-case to average-case reductions between fine-grained problems. In particular, we start with \zkclique~ and are able to show a reduction from an average-case \zkclique~to breaking our key exchange. Interestingly, this reduction fails in the worst case! This motivates further research into getting better average-case reductions for fine-grained problems, and even worst-case to average-case reductions for these problems in general.
+
+\xxx{A paragraph about how Ball et al looked at fine grained cryptography, but couldn't build OWFs. We build OWFs!}
+
+\xxx{Rio: I'm working on this part of the intro... will finish this today}
+
+Last year, Ball et al blah blah blah
+
+Our other contribution is an important one in this direction: by assuming certain average-case fine-grained problems are hard we can get fine-grained one-way functions. In particular, for problems that require $O(n)$ time to create and $O(n^d)$ time to solve, we get fine-grained one-way functions that require $O(n)$ time to execute and $O(n^d)$ time to invert, exactly preserving the gap between how difficult it is to create a problem versus solving the problem! This is in contrast
+
+\xxx{Rio: Put in a paragraph about what our assumptions actually are and why they are reasonable}
+
+\subsection{Technical Overview}
+In this section, we will review what techniques we use to get our construction of a fine-grained key exchanges and constructions for fine-grained one-way functions.
+
+\subsubsection{Fine-Grained Key-Exchange}
+To describe how we get our key-exchange, it is first helpful to get some context with Merkle Puzzles.
+
+The idea was simple: given a random hash function $H$ and public range $[n^2]$, Alice and Bob could exchange a key by each computing $10n$ hashes of random elements in $[n^2]$ and sending those hashes to each other. With all but negligible probability, Alice and Bob would agree on at least one preimage --- the index of that preimage would be their key. It would take an eavesdropper Eve $O(n^2)$ queries before she would be able to find the indices Alice and Bob agreed on. So, while Alice and Bob had to put in $O(n)$ work, Eve had to use $O(n^2)$ to break it. While interesting, the proof of security relied on the fact that $H$ was a random oracle.
+
+Our construction will take on a similar form: Alice and Bob will send several problems to each other, and some of them will have planted solutions. By matching up where they both put solutions, they get a key exchange. First, let us describe what assumption we need to make
+\xxx{Rio: need to write an informal description of correct \zkclique~assumption}
+
+\xxx{Rio: need to finish this description with the correct parameters!}
+Alice and Bob will exchange $m$ instances of the \zkclique~problem and in $\sqrt{m}$ of them, plant solutions. The other $m - \sqrt{m}$ will not have solutions (except with some small probability). These $m$ problems will be indexed, and we expect Alice and Bob to have both planted a solution in one of these indices. Alice can check her $\sqrt{m}$ indices while Bob checks his, and by then end, with constant probability, they will agree on a single index as a key. In the end, Alice and Bob require $O(mn^2 + \sqrt{m}n^k)$ time to solve. This value is minimized when $m = $
+
+An eavesdropper
+
+\subsubsection{Fine-Grained One-Way Functions and Consequences}
+\xxx{Rio: I will write up this section.}
+

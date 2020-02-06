@@ -1,0 +1,111 @@
+\section{Fine-Grained Key Exchange}
+\label{sec:FineGrainedKeyExchange}
+
+Now we will explain a construction for \emph{key exchange} using the average case zero k-clique conjecture. This construction produces a system that takes $n^{2k-2}$ time for Alice and Bob, but Eve must take $\tilde{\Omega}\left (n^{3k-4} \right ) $ given the zero k-clique conjecture.
+
+\subsection{Description of Key Exchange}
+
+The high level description of the key exchange is as follows. Alice and Bob each produce $\ell(n)$ instances using $\Generate(n)$. In a randomly chosen $\sqrt{\ell(n)}$ of these instances they will plant a solution using $\Plant(I)$. Call the set of indices that Alice chooses to plant $S_A$ and the set Bob picks $S_B$. The likely size of $S_A \cap S_B$ is $1$. The index $S_A \cap S_B$ is the basis for the key. 
+
+Alice determines the index $S_A \cap S_B$ by brute forcing all problems at indicies $S_A$ that Bob published. This allows Alice to learn $S_A \cap S_B$. Bob can brute force all problems at indicies $S_B$ that Alice published and learn the set  $S_A \cap S_B$. 
+
+\subsection{Proof of Hardness}
+
+We show that the key-exchange results in gaps in running time and success probability between Alice and Bob and Eve. Then, we will show that this scheme can be boosted in a fine-grained system to get larger probability gaps while preserving the running time gaps. 
+
+\newcommand{\keyER}{KER}
+
+Before doing this, to simplify our statements we will define a class of problems as being Key Exchange Ready (KER).
+
+\begin{definition}[Key Exchange Ready (KER)]
+A problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ if
+	\begin{itemize}
+	\item has an algorithm which runs in $\tilde\Theta(S(n)))$ time that determines if an instance has a solution or not,
+	\item  is $T(n)$-\ACIH,
+	\item the problem is Average Case List-hard with list length $\ell(n)$,
+	\item is plantable in time $G(n)$ with error $\leq 1/(100 \ell(n))$ and, 
+	\item is Splittable with error $\leq 1/(100 \ell(n))$ .
+\end{itemize}
+\end{definition}
+
+Now we can discuss what 
+
+\begin{lemma}[Fine-grained key exchange]
+	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ 	
+	then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(\ell(n))$ bits in time $\tilde{O}(\sqrt{\ell(n)}S(n) + \ell(n)G(n))$ with probability $\geq 1-1/(100 \sqrt{\ell(n)})$. 
+	
+	Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)T(n)}$ algorithms $A$ 
+	$$Pr_{r}[A(I_T)=key]<4/5+2/\sqrt{\ell(n)}.$$	
+	\label{lem:keyexchangebasic}
+\end{lemma}
+\begin{proof}
+Let $\Plant(I)$ be the planting procedure. Let $\Split(I)$ be the splitting procedure. 	
+	
+We know that finding the index of the instance which has a solution out of a list of $O(\ell(n))$ instances with probability greater than $7/10$ takes time $\tilde{\Omega}(\ell(n) T(n))$. 
+
+Let $\mathbf I = I_1,I_2,\ldots,I_{\ell(n)}$, each of size $n$
+distributed as follows: $i \getsr [\ell(n)]$ and $I_i \sim D_1$ and for all $j \neq i$, $I_j \sim D_0$
+
+Apply the splittable procedure to every instance creating $\Split(I_i) = I^1_i,I^2_i$ for $i\in[1,s(n)]$, this introduces potential error $1/100$. Then, choose $2\sqrt{\ell(n)}-2$ unique indices put $\sqrt{\ell(n)}-1$ in $T_1$ and $\sqrt{\ell(N)}-1$ in $T_2$. Note $T_1 \cap T_2 = \emptyset$.  
+
+For all $i\in T_1$ replace $I_i^1$ with $P(I_i^1)$. For all $i\in T_2$ replace $I_i^2$ with $P(I_i^2)$. Let $j$ be the index where $I_j$ had a solution and now $I_j^1,I_j^2$ both have solutions (if we have not run into errors). Call this list of problems $\mathbb L$.  If $j \in T_1 \cup T_2$. This happens with probability $1/\sqrt{\ell(n)}$. Finally, we have the potential error from planting which introduces a term of $1/(100\sqrt{\ell(n)})$.
+
+So, first lets note the computational hardness of solving for $j$ given the input of $L$.
+Finding $j$ with probability greater than $7/10+1/100+2/\sqrt{\ell(n)}$ requires time $\tilde{\Omega}(T(N)\ell(n))$. 
+
+Next, we want to show that the distribution produced by splitting and planting has total variation distance $\delta_2+\sqrt{s(f(n))}\delta_3+1/\sqrt{s(f(n))}$ from Alice and Bob's distribution. Alice and Bob produce the instances using the generator $2\ell(n)$ times to generate the instances and then plant in $\sqrt{\ell(n)}$ locations each, call the produced lists $L_{AB}$. If these collide in more than $1$ location then Alice and Bob repeat. Using the generator Alice and Bob's initial unplanted instances have a total variation distance of  $\leq(n) 1/50$ from $D_{0}^{2\ell(n)}$. They plant instances using the same planter $P$ as we did above. With probability $1-1/\sqrt{\ell(n)}$ both $L$ and $L_{AB}$ have $\sqrt{\ell(n)}$ instances planted in each half of the list. Finally, the splitting procedure also introduces a chance of error, specifically $1/100$. Thus, the total variation distance is bounded by $3/100+2/\sqrt{\ell(n)}$ between $L$ and $L'$. Thus, if Eve has a very high chance of success ($\geq 4/5 +2/\sqrt{\ell(n)}$)of returning the $key$, we can use Eve's algorithm to find the value of $j$. This gives us a computational lower bound for Eve.  
+
+Using the procedure we described before for Alice and Bob they have to generate $\ell(n)$ instances and brute force $\sqrt(\ell(n))$ instances. This takes time $\tilde{O}(\sqrt{\ell(n)}T(n) + \ell(n)G(n))$. Alice and Bob get an error whenever their planted instance collides with an erroneously generated solution. This happens with probability $\leq 1/(100 \sqrt{\ell(n)})$ probability. 
+\end{proof}
+
+Now we will use repetition techniques and the xor lemma to boost the probability gaps between Alice and Bob and Eve. We also use hard core bit techniques to produce a key where every individual bit is hard to compute. 
+
+\begin{theorem}[Fine-grained boosted key exchange]
+	If a problem $P$ is $\ell(n)$-\keyER~ with plant time $G(n)$, solve time $S(n)$ and lower bound $T(n)$ and $\ell(n)>100\lg^3(n)$
+then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(\alpha(n))$ bits in time $\tilde{O}\left((\sqrt{\ell(n)}S(n) + \ell(n)G(n))\alpha(n)\right)$ with probability $\geq 1-1/(n)^{\lg(n)}$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)T(n)}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+\label{thm:keyExchange}
+\end{theorem}
+\begin{proof}	
+Using the procedure from Lemma \ref{lem:keyExchangeAllErrorsLow} we can communicate one bit between Alice and Bob. Simply repeat this procedure $\alpha(n)$ times. All the bits are independent so Eve's chance of discovering any one of them is still 
+$$Pr_{r}[A(I_T)=key]<1/2+1/f(n)$$
+for all functions $f(n)=\left(T(n)\ell(n)\right)^{o(1)}$. Further note that $T(n)= \Omega(n)$. So, the advantage that $A$ can have can not be \emph{any} insignificant function, thus it must be significant.
+\end{proof}
+
+We have a corollary for zero k clique specifically. 
+We specify that $R = 10 \binom{k}{2}2^{4\binom{k}{2}} n^{x} n^{2k}$, note that $R = O( n^{2x} n^{2k})$ the other terms are just constants. 
+
+
+\begin{corollary}
+Given the \strongzkc~ over range $R = \ell(n)^2 n^{2k}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)=\tilde{\Theta}(n^c)$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\ell(n)n^k}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+\label{cor:kcliqueKeyExchange}
+\end{corollary}
+\begin{proof}
+We will simply plug in the constants from our proofs Theorems \ref{thm:zkcPlantable}, \ref{thm:zkcSelfReduce} and, 
+\ref{thm:zkcsplittable} into Theorem \ref{thm:keyExchange}. 
+
+Let the number of instances in the list be $\ell(n)$ be a polynomial $n^c$. Our tightest constraint comes from splitting. It gives us  
+$\binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R} \leq 1/(\ell(n)100)$. Which implies 
+$R \geq \ell(n)^2 n^{2k}\binom{k}{2}^22^{4\binom{k}{2}}90000$. 
+
+Note that $\binom{k}{2}^22^{4\binom{k}{2}}90000$ is a constant. So, we can use the \strongzkc~ over the range $R = \ell(n)^2 n^{2k}$.
+\end{proof}
+
+The zero $3$-clique hypothesis (the zero triangle hypothesis) is generally better believed than the zero $k$-clique hypothesis for larger $k$. Here we show that even with the strong zero $3$-clique hypothesis we get a key exchange with a gap in the running times of Alice and Bob vs Eve. 
+
+\begin{corollary}
+	Given the strong zero $3$-clique hypothesis over range $R = n^{6+4c}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(n^{3+c} + n^{2+2c}\right)$ for any constant $c$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{n^{3+2c}}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+	\label{cor:3cliqueKeyExchange}
+\end{corollary}
+\begin{proof}
+	Simply plug in $k=3$ and $\ell(n)=n^{2c}$ into Corollary \ref{cor:kcliqueKeyExchange}.
+\end{proof}
+
+Finally we note that if the zero $3$-clique hypothesis over range $R = n^{6+c}$ is true for any constant $c>0$ then a key exchange exists. 
+
+\begin{corollary}
+	For any constant $c>0$ there exists a $\delta>0$ such that given the strong zero $3$-clique hypothesis over range $R = n^{6+c}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(\alpha(n)\right)$. Let $I_T$ be the full transcript that Alice and Bob write and $r$ all the random bits used to generate it. For all $\PFT{\alpha(n)^{1+\delta}}$ algorithms $A$, $A(I_T)$ has an insignificant advantage to guess the $i^{th}$ bit of the key for all $i$.	
+	\label{cor:3cliqueKeyExchangeSmallGap}
+\end{corollary}
+\begin{proof}
+	In Corollary \ref{cor:3cliqueKeyExchange} if we choose range $R=n^{6+4c'}$, then set $\alpha(n)= n^{3+c'} + n^{2+2c'}$ note that $n^{3+2c'}= \alpha(n)^{1+\min(c'/(3+c'), 1/(2+2c'))}$. If $c>0$ then $c'>0$. If $c'>0$ then set $\delta = \min(c'/(3+c'), 1/(2+2c'))$ and we have the desired statement. 
+\end{proof}

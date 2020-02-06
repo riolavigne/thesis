@@ -1,0 +1,235 @@
+\section{Average Case Assumptions and their Justifications}
+
+We will describe our results in key exchanges and one way functions using generic properties needed for our constructions. However, for concreteness we will describe a few specific plausible average case conjectures that satisfy the needed properties. 
+
+These average case conjectures are based on popular worst case assumptions. 
+
+\subsection{Problem Description}
+We will consider the average case $k$-sum problem and the average case zero $k$-clique problems. 
+
+First we consider the $k$-sum problem and define an average case distribution for this problem. The worst case hypothesis of the polynomial time hardness of $3$-sum was introduced by Gajentaan and Overmars \cite{3sumIntroductionOrig,3sumIntroduction}. The first statement of a conjectured the average case hard $3$-sum distribution was by Seth Pettie \cite{avgCase3Sum}. We propose a different distribution. 
+\begin{definition}
+	An average case k-sum instance over range $R$ is an instance with $kn$ numbers in $k$ lists $L_1, \ldots, L_k$. These numbers are chosen uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a k-sum instance is a set of $k$ numbers $a_1 \in L_1$, \ldots, $a_k \in L_k$ such that the sum is zero mod $R$, $\sum_{i=1}^k a_i \equiv 0 \mod R$. 
+\end{definition}
+
+We will also define the uniform distributions over $k$-sum instances that have a certain number of solutions. 
+\begin{definition}
+	The distribution $D_{sum}[R,i,k]$ is the uniform distribution over $k$-sum instances where there are exactly $i$ distinct solutions. 
+\end{definition}
+
+
+We also consider the zero k-clique problem and define the average case assumption for the $k$-clique problem. The first statement of the worst case hardness for zero 3-clique (zero triangle) was by Vassilevska Williams and Williams \cite{3cliqueIntro}. The zero k-clique assumption has been used in many papers \cite{BackursT16, abboud2014consequences, sparseGraphsLVWW, treeEditDistance}
+
+\begin{definition}
+	An average case zero k-clique instance over range $R$ is an instance with $kn$ nodes in a $k$-partite graph with partitions $P_1, \ldots, P_k$. There are edges between a node  $v\in P_i$ and a node $u \in P_j$ if and only if $i \ne j$. Thus, every instance has $kn^2$ edges. Weights are assigned to each of these edges uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a zero k-clique instance is a set of $k$ nodes $v_1 \in V_1$, \ldots, $v_k \in V_k$ such that the sum of all the weights on the $\binom{k}{2}$ edges in the $k$ clique formed by $v_1,\ldots,v_k$ is congruent to zero mod $R$, $\sum_{i \in [1,k]}\sum_{j \in [1,k] \text{ and } j\ne i} weight(v_i,v_j) \equiv 0 \mod R$. A solution is also called a zero weighted $k$-clique, or a zero $k$-clique. 
+\end{definition}
+
+We will additionally define the distributions of these instances in which a certain number of solutions appear. 
+\begin{definition}
+The distribution $D_{zkc}[R,i,k]$ is the uniform distribution over zero k-clique instances where there are exactly $i$ distinct zero k-cliques in the graph. 
+\end{definition}
+
+
+\subsection{Hypotheses} 
+We build a variety of cryptographic primitives from hypotheses. We define classes of hypotheses under which our constructions hold and also define specific believable hypotheses that meet these conditions. We begin by defining the general classes, then we define the concrete hypotheses, finally we prove that the concrete hypotheses meet the conditions needed. 
+
+\paragraph{General Classes of Hypotheses}
+We will define general properties needed in a hypothesis for it to be usable for our fine-grained one way functions and our fine-grained key exchange. These classes will be \plantable and \selfReducable.
+
+
+%\begin{definition}[\Plantable]
+%A hypothesis is a \plantable with error $\delta$ and inversion probability $\epsilon$ if the hypotheses is about a problem $P$ where:
+%\begin{itemize}
+%	\item There exists a distribution $D_L$ which is computable in time $\tilde{O}(n^t)$ from which one can draw locations $L$. 
+%	\item There is an algorithm $B(r)$ that takes in random bits $r$ and runs in time $\tilde{O}(n^t)$, which samples $L$ from  $D_L$ and
+%	\item an algorithm $A(L,r)$ which takes in a location $L$ and random bits $r$ and generates a random instance $I$ of the problem $P$ over some distribution $D_I$ where a solution exists in a location $L$ with probability $1-\delta$.
+%	\item The hypothesis implies that returning $L=B(r)$ given the instance $I = A(L=B(r),r')$ takes time $n^{t(1+\gamma)-o(1)}$ for some constant $\gamma>0$.
+%\end{itemize}
+%\end{definition}
+%Note that $A$ must take at least the size of instance to run. So $t$ can not be $0$. Intuitively, this definition is just conveying that there is both a hard distribution on which to find solutions and that
+\xxx{Rio: Changed definitions of problems to incorporate Virginia's feedback.}
+
+
+\xxx{Andrea: for the plantable one, I don't understand why it was changed. This seems less concrete than the last one and getting at exactly the same point? Also, if you want to use this for your one way function proofs, you need that you know where it was planted.}
+
+
+\begin{definition}[Plantable]
+	A problem is plantable if there exists an \emph{efficient} randomized algorithm $P$ such that when given an instance $I$ drawn uniformly from instances of problems without solutions, $P(I)$ has one solution and $\{ P(I)\} \approx_c D_{no-solns}$.
+\end{definition}
+
+% We are using the solution searching version. So, when there are no solutions you can spit out garbage. We only care about the instance that has the solution 
+%
+\begin{definition}[Average Case Self-reducible]
+	A problem with input size $n$ is average case self-reducible with error $\gamma$ at time $\tilde{O}(n^t)$ if there exists an efficient randomized algorithm $A$ such that:
+	\begin{itemize}
+		\item When given an instance of a problem $I$ drawn uniformly at random from instances without solutions, $A(I) = S_1, \dots, S_\ell$ where $S_i= I_1, \ldots, I_{x}$ is a set of $x$ instances of size $f(n)$. 
+		
+	 	Furthermore, $f(n)^t\ell x = \tilde{O}(n^t)$ (this is an efficient self reduction), $x = \tilde{\Omega}(n^{\delta})$ for some constant $\delta>0$ ($x$ is polynomial in $n$), and $\forall i\in[1,\ell]$ and every $I_j$  in every $S_i$ has no solutions (all generated instances have no solutions). 
+	 
+		%\[\{S_i \in A(I)\}_{I \gets D_{no-sols}} \approx_c \{I_1, \dots, I_x\}_{D_{no-sols}^{x}};\]
+		
+     	\item When given an instance of a problem $I$ drawn uniformly at random from instances without solutions, $A(I) = S_1, \dots, S_\ell$ where $S_i= I_1, \ldots, I_{x}$ is a set of $x$ instances of size $f(n)$. 
+		
+		Furthermore, $f(n)^t\ell x = \tilde{O}(n^t)$ (this is an efficient self reduction), $x = \tilde{\Omega}(n^{\delta})$ for some constant $\delta>0$ ($x$ is polynomial in $n$), and for exactly one $S_i$,		
+		
+		\[\{S_i \in A(I)\}_{I \gets D_{no-sols}} \approx_c \{I_1, \dots, I_x\}_{I_i \sim D_{1-sol}, \land \forall j \neq i, I_j \sim D_{no-sols}}\]
+		
+		Lastly, every $I_j$  in every $S_k$ where $k\ne i$ has no solutions (only $S_i$ has an instance with a solution, all other generated instances have no solution). 
+	\end{itemize}
+\end{definition}
+
+
+
+
+Intuitively a splittable problem has a process in the average case to go from one instance $I$ into a pair of average looking problems with the same number of solutions. We use this property in the proof that our crypto system is hard. We can be more general than this, allowing the generation of many pairs some of which may be wrong. 
+
+\begin{definition}[Splitable]
+	A problem is splitable in time $t(n)$ with error $\delta$ if there exists an efficient randomized algorithm $T$ such that
+	\begin{itemize}
+		\item when given an instance of a problem $I$ drawn uniformly at random from instances without solutions, $T(I) = (I_1^1, I_2^1),(I_1^2, I_2^2), \ldots, (I_1^x, I_2^x)$ such that \emph{for all} $i\in[1,x]$ $I_1^i$ and $I_2^i$ are drawn from a distribution with total variation distance $\delta/x$ from $D_{no-sols}^{2}$. Note that $(I_1^i, I_2^i)$ and $(I_1^j, I_2^j)$ can be correlated. 
+		\item when given an instance of a problem $I$ drawn uniformly at random from instances with one solution, $T(I) = (I_1^1, I_2^1),(I_1^2, I_2^2), \ldots, (I_1^x, I_2^x)$ such that \emph{there exists} an $i\in[1,x]$ such that both $I_1^i$ and $I_2^i$ are drawn from a distribution with total variation distance $\delta$ from ${D_{1-sol}^{2}}$. Note that $(I_1^i, I_2^i)$ and $(I_1^j, I_2^j)$ can be correlated. 
+	\end{itemize}
+\end{definition}
+
+\paragraph{Concrete Assumptions}
+We have weak and strong variants of the hypotheses. We can make the strong assumption these average case problems take as long as their worst case variants are hypothesized to take. Or, we can make the significantly weaker assumption that these average case problems take super-linear time over their input size. 
+
+
+\begin{definition}[\Weakksum]
+	There exists some constant $c>2$ such that returning the solution (returning the $k$ indicies of the numbers that sum to zero) from an instance drawn from $D_{zkc}[cn^k,1,k]$ with probability greater than $1/3$ takes $n^{1+\delta-o(1)}$ time for some $\delta>0$. 
+\end{definition}
+
+
+\begin{definition}[\Strongksum]
+	There exists some large enough $c$ such that for all $c'>c$ returning the solution  (returning the $k$ indicies of the numbers that sum to zero) the instance drawn from $D_{sum}[n^{c'},1,k]$ with probability greater than $1/3$ takes $n^{\lceil k/2 \rceil-o(1)}$ time. 
+\end{definition}
+
+\begin{definition}[\Weakzkc]
+	There exists some large enough $c$ such that for all $c'>c$ returning a zero $k$-clique (returning the $k$ nodes involved in the clique) from an instance drawn from $D_{zkc}[cn^k,1,k]$ with probability greater than $1/3$ takes $n^{2+\delta-o(1)}$ time for some $\delta>0$. 
+\end{definition}
+
+
+\begin{definition}[\Strongzkc]
+	There exists some large enough $c$ such that for all $c'>c$ returning a zero $k$-clique (returning the $k$ nodes involved in the clique) from an instance drawn from $D_{zkc}[n^{c'},1,k]$ with probability greater than $1/3$ takes $n^{k-o(1)}$ time. 
+\end{definition}
+
+%\subsection{\Weakzkc and \weakksum are \plantable}
+
+%Our assumptions make reference to the uniform distribution of zero $k$-clique instances and $k$-sum instances in which there are one solution. The distributions $D_{zkc}[R,1,k]$ and $D_{sum}[R,1,k]$ respectively. We will demonstrate an efficiently sampleable distribution 
+%\xxx{TODO: fill in this section}
+
+\subsection{\Strongzkc is a \selfReducable}
+
+\begin{lemma}
+The distribution $D_{zkc}[R,0,k]$ has total variation distance $\leq n^k/R$ from the distribution of instances where every edge weight is chosen uniformly at random from $[0,R-1]$.
+\label{lem:TVDnosol}
+\end{lemma}
+\begin{proof}
+	\xxx{TODO}
+\end{proof}
+
+\begin{lemma}
+	The distribution $D_{zkc}[R,1,k]$ has total variation distance $\leq n^k/R+n^{k-1}/R$ from the distribution of instances where every edge weight is chosen uniformly at random from $[0,R-1]$ and then a clique is planted. 
+	The planting procedure is: choose $k$ nodes, $a_1,\ldots, a_k$, uniformly at random from each partition with one node from each partition, choose a uniformly random choice of pair $a_i,a_j$ $i\ne j$, set the weight of the edge $(a_i,a_j)$ to the weight such that $a_1,\ldots, a_k$ is a zero-k-clique. 
+	\label{lem:TVDonesol}
+\end{lemma}
+\begin{proof}
+	\xxx{TODO}
+\end{proof}
+
+\begin{theorem}
+Zero k-clique is average case self reducible with error $\leq 2n^k/R$ at $\tilde{\Theta}(n^k)$ time. 
+\end{theorem}
+\begin{proof}
+We are given one instance $I$ of zero-k-clique with $k$ partitions, $P_1, \ldots, P_k$ of $n$ nodes and with edge weights generated uniformly at random from the range $[0,R-1]$.
+
+Randomly partition each partition, $P_i$, into $g$ sets $P_i^1, \ldots, P_i^g$ where each set contains $n/g$ nodes. 
+
+Now, note that if we solve all $g^k$ instances formed by taking every possible choice of $P_1^{i_1}, P_2^{i_2},\ldots, P_k^{i_k}$, this takes time $O(n^k)$, which is how long the original size $n$ problem takes to solve. 
+
+Sadly, not all $g^k$ instances are independent. So, we want to generate sets of independent instances. Note that if we choose $g$ of these sub-problems such that the nodes don't overlap then the edges were chosen independently between each instance! Specifically consider all vectors of the form $\vec{x} = <x_2, \ldots, x_k> \in \mathbb{Z}_g^{k-1}$. Then let 
+$$S_{\vec{x}}= \{P_1^i \cup P_2^{i+x_2} \cup \ldots \cup P_k^{i+x_k}|\forall i\in [0,g]\}.$$
+Now, note that $\cup_{\vec{x} \in \mathbb{Z}_g^{k-1}} S_{\vec{x}}$ is the full set of all possible $g^k$ subproblems, and the total number of problems in all $S_{\vec{x}}$ is $g^k$, so once again brute forcing each $S_{\vec{x}}$ solves takes time $n^k$. 
+
+Note that producing these instances is efficient, it takes time $O(n^2)$, the input size. So, this is an efficient reduction. 
+
+Next, we will show that the correct number of solutions are generated. 
+If $I$ has no solutions then none of the subproblems in any $S_{\vec{x}}$ have solutions (they are subsets of edges and nodes, this can not introduce new zero $k$ cliques). If $I$ has only one solution then exactly one $I_j$ in exactly one $S_{\vec{x}}$ has a solution. Note that any zero k-clique in $I$ must involve exactly one node from each partition $P_i$. So, if there is one zero $k$ clique it will only appear in subproblems where the node from partition $P_i$ is in  $P_i^j$ and $P^j_i$ appears in that subproblem. There is exactly one sub-problem generated with  a specific choice of $k$ sub-partitions. So, exactly one $I_j$ in exactly one $S_{\vec{x}}$ has a solution.
+
+We want to show that the $S_{\vec{x}}$ which contains an instance with a solution has total variation distance  $\leq 2n^k/R$ from 
+		\[ \{I_1, \dots, I_x\}_{I_i \sim D_{1-sol}, \land \forall j \neq i, I_j \sim D_{no-sols}}.\]
+
+By Lemma \ref{lem:TVDonesol} the original instance the distribution is within total variation distance of $n^k/R + n^{k-1}/R$ from planting a clique after uniformly at random picking the weight for each edge. 
+
+In the planted distribution the instances in $S_{\vec{x}}$ which do not contain the planted clique have had their edges chosen uniformly at random. Thus, by Lemma \ref{lem:TVDnosol} they each have total variation distance $(n/g)^k/R$ from the distribution $D_{no-solution}=D[R,0,k]$. 
+
+The instance which contains the planted solution itself had all edges chosen uniformly at random except for the planted clique edge. Thus, by Lemma \ref{lem:TVDonesol} it has total variation distance $(n/g)^k/R + (n/g)^{k-1}/R$ from $D_{one-sol}= D[R,1,k]$. Which index within $S_{\vec{x}}$ this clique lands uniform over all the $g$ indices, because the clique nodes were picked uniformly at random. 
+
+The total error introduced by this process is $\leq g(n/g)^k/R+ (n/g)^{k-1}/R+n^k/R + n^{k-1}/R \leq 2n^k/R$ for $g>2$ and sufficiently large $n$. 
+\end{proof}
+
+Next we show that zero-k-clique is splittable. 
+
+Intuitively we are taking the first half of the bits of each edge and making an instance from that. Then we are taking the second half of the bits of each edge to make another instance. If the $\binom{k}{2}$ weights on a $k$ clique sum to zero then the first half of all the weights sum to zero up to carries, and the second half of all the weights sum to zero up to carries. We simply guess the carries. We start by proving this for a convenient range and then show we can use a reduction to get more arbitrary ranges. 
+
+\begin{lemma}
+Zero-k-clique is splittable with error $\leq 3\binom{k}{2} n^k/\sqrt{R}$ when $R=2^{2x}$ for some integer $x$. 
+\label{lem:zkcSplitConvenientRange}
+\end{lemma}
+\begin{proof}
+Given an instance $I$ with $k$ partitions, $P_1, \ldots, P_k$ of $n$ nodes and with edge weights generated uniformly at random from the range $[0,R-1]$.
+
+First we will define some helpful notation to describe our procedure. 
+Let $weight(P_i[a],P_j[b])$ be the weight of the edge in instance $I$ between the $a^{th}$ node in  $P_i$ and the $b^{th}$ node in $P_j$. \\
+Let $u$ be some number in the range $[0,R-1]$. Let $\uparrow u$ be the high order $\lg(R)/2$ bits of the number $u$ (this will be an integer because $R = 2^x$ for some integer $x$). Let $\downarrow u$ be the low order $\lg(R)/2$ bits of the number $u$.\\
+Let $w\uparrow(P_i[a],P_j[b])= \uparrow weight(P_i[a],P_j[b])$.\\
+Let $w\downarrow(P_i[a],P_j[b])= \downarrow weight(P_i[a],P_j[b])$.
+
+We will create $\binom{k}{2}$ pairs of instances. We will create an instance for each possible value of $c \in [0, \binom{k}{2}]$. These will represent guesses of carries. \\
+Let $I_1^{c'}$ and $I_2^{c'}$ be an intermediary pair of instances generated for $c_1$ and $c_2$.\\
+Let $weight_{m}^{c}(P_i[a],P_j[b])$ be the weight of the edge in instance $I_{m}^{c'}$ between the $a^{th}$ node in  $P_i$ and the $b^{th}$ node in $P_j$.
+
+We set $weight_{1}^{c}(P_i[a],P_j[b]) = w\uparrow(P_i[a],P_j[b])-c$ when either $i= 1$ and $j= 2$.\\
+We set $weight_{1}^{c}(P_i[a],P_j[b]) = w\uparrow(P_i[a],P_j[b])$ when either $i\ne 1$ or $j\ne 2$.
+
+We set $weight_{2}^{c}(P_i[a],P_j[b]) = w\downarrow(P_i[a],P_j[b])$ when either $i\ne 1$ or $j\ne 2$.
+
+These instances are over range $\sqrt{R} = 2^{\lg(R)/2}$.
+
+Finally, generate $I_1^{c}$ and $I_2^{c}$ by randomly permuting the nodes within each partition of $I_1^{c'}$ and $I_2^{c'}$ respectively. This destroys the correlation between the locations of planted cliques in the two instances. 
+
+Now we need to show that each pair of instances are drawn from distributions with small total variation distance from either $D_{no-sols}^{2}$ or $D_{1-sol}^{2}$. Note that this does \emph{not} require that $I_1^{c_1}, I_2^{c_1}, I_1^{c_2}, I_2^{c_2}$ are a small distance from $D_{no-sols}^{4}$ or $D_{1-sol}^{4}$. Indeed they won't be! Each pair is correlated very heavily with every other pair. But, within each pair they are close to $D_{no-sols}^{2}$ or $D_{1-sol}^{2}$. 
+
+If $I$ has no solutions then by Lemma \ref{lem:TVDnosol} the distribution of the original instance is within total variation distance of $\leq n^k/R$ from planting a clique after uniformly at random picking the weight for each edge. Then, each bit has been chosen uniformly at random, thus the weights of the new instance are chosen uniformly at random from $[0,\sqrt{R}]$. We add $c\in [0,\binom{k}{2}-1]$ to some edges but because we mod by $\sqrt{R}$ these values are also uniform over $[0,\sqrt{R}]$. Finally, applying Lemma \ref{lem:TVDnosol} again we get that we have that each instance has total variation distance $\leq 2n^k/\sqrt{R}$ from $D_{no-sols}^2$. 
+
+ Next, note that if $\sum x_i \equiv 0 \mod R$ then 
+ $$\sum_{i=0}^{\binom{k}{2}-1} (\uparrow x_i)\sqrt{R} + \sum (\downarrow x_i) \equiv 0 \mod R$$
+ and there exists some $c$ 
+ $$\sum_{i=0}^{\binom{k}{2}-1} (\uparrow x_i)\sqrt{R}-c\sqrt{R}  \equiv 0 \mod R$$
+ $$\sum_{i=0}^{\binom{k}{2}-1} (\downarrow x_i) +c\sqrt{R} \equiv 0 \mod R.$$
+ 
+ Thus, we get that if there is a zero k-clique there is some $k$ such that 
+  $$\sum_{i=0}^{\binom{k}{2}-1} (\uparrow x_i)-c  \equiv 0 \mod \sqrt{R}$$
+ $$\sum_{i=0}^{\binom{k}{2}-1} (\downarrow x_i) \equiv 0 \mod \sqrt{R}.$$
+
+If $I$ has one solution then by Lemma \ref{lem:TVDonesol} the distribution of the original instance is with total variation distance of $\leq n^k/R + n^{k-1}/R$ from planting a clique after uniformly at random picking the weight for each edge. We can then treat every number in our new instances as being generated uniformly at random, except for the edge that corresponds to the planted edge. For the correct guess of $c$ such that carry is correct, we are setting the same edge in each instance such that a clique has formed. Then, we randomize all the nodes, thus randomizing the clique placement. Mimicking the planting procedure. This output has $\leq 2( n^k/\sqrt{R} + n^{k-1}/\sqrt{R})$ from $D_{1-sol}^{2}$.
+
+We can bound the total variation distance of these generated instances then as 
+$\leq 3n^k/\sqrt{R}$. We make $\binom{k}{2}$ guesses, so our error is $\leq 3\binom{k}{2}n^k/\sqrt{R}$.
+\end{proof}
+
+Now we prove that ranges other than powers of $4$ work. 
+
+\begin{theorem}
+	Zero-k-clique is splittable with error $\leq \binom{k}{2}^2 n^k/\sqrt{R}$. 
+\end{theorem}
+\begin{proof}
+	\xxx{TODO: show range reduction}
+\end{proof}
+
+\subsection{Strong hypotheses imply weak hypotheses}
+\xxx{TODO: fill this in. This is lower priority for publication.}

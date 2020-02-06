@@ -1,0 +1,828 @@
+@inproceedings{Impagliazzo5worlds,
+	author    = {Russell Impagliazzo},
+	title     = {A Personal View of Average-Case Complexity},
+	booktitle = {Proceedings of the Tenth Annual Structure in Complexity Theory Conference,
+	Minneapolis, Minnesota, USA, June 19-22, 1995},
+	pages     = {134--147},
+	year      = {1995},
+	crossref  = {DBLP:conf/coco/1995},
+	url       = {https://doi.org/10.1109/SCT.1995.514853},
+	doi       = {10.1109/SCT.1995.514853},
+	timestamp = {Tue, 23 May 2017 01:06:05 +0200},
+	biburl    = {https://dblp.org/rec/bib/conf/coco/Impagliazzo95},
+	bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{averageAPSP,
+	author    = {Colin Cooper and
+	Alan M. Frieze and
+	Kurt Mehlhorn and
+	Volker Priebe},
+	title     = {Average-case complexity of shortest-paths problems in the vertex-potential
+	model},
+	journal   = {Random Struct. Algorithms},
+	volume    = {16},
+	number    = {1},
+	pages     = {33--46},
+	year      = {2000},
+	url       = {https://doi.org/10.1002/(SICI)1098-2418(200001)16:1<33::AID-RSA3>3.0.CO;2-0},
+	doi       = {10.1002/(SICI)1098-2418(200001)16:1<33::AID-RSA3>3.0.CO;2-0},
+	timestamp = {Mon, 06 Nov 2017 12:13:08 +0100},
+	biburl    = {http://dblp.org/rec/bib/journals/rsa/CooperFMP00},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+
+@inproceedings{CarmosinoGIMPS16,
+  author    = {Marco L. Carmosino and
+               Jiawei Gao and
+               Russell Impagliazzo and
+               Ivan Mihajlin and
+               Ramamohan Paturi and
+               Stefan Schneider},
+  title     = {Nondeterministic Extensions of the Strong Exponential Time Hypothesis
+               and Consequences for Non-reducibility},
+  booktitle = {Proceedings of the 2016 {ACM} Conference on Innovations in Theoretical
+               Computer Science, Cambridge, MA, USA, January 14-16, 2016},
+  pages     = {261--270},
+  year      = {2016}}
+
+@article{Valiant15,
+  author    = {Gregory Valiant},
+  title     = {Finding Correlations in Subquadratic Time, with Applications to Learning
+               Parities and the Closest Pair Problem},
+  journal   = {J. {ACM}},
+  volume    = {62},
+  number    = {2},
+  pages     = {13:1--13:45},
+  year      = {2015}}
+
+@article{HazanK11,
+  author    = {Elad Hazan and
+               Robert Krauthgamer},
+  title     = {How Hard Is It to Approximate the Best Nash Equilibrium?},
+  journal   = {{SIAM} J. Comput.},
+  volume    = {40},
+  number    = {1},
+  pages     = {79--91},
+  year      = {2011}}
+	
+	@article{Jerrum92,
+  author    = {Mark Jerrum},
+  title     = {Large Cliques Elude the Metropolis Process},
+  journal   = {Random Struct. Algorithms},
+  volume    = {3},
+  number    = {4},
+  pages     = {347--360},
+  year      = {1992}}
+	
+	@article{Kucera95,
+  author    = {Ludek Kucera},
+  title     = {Expected Complexity of Graph Partitioning Problems},
+  journal   = {Discrete Applied Mathematics},
+  volume    = {57},
+  number    = {2-3},
+  pages     = {193--212},
+  year      = {1995}}
+
+@article{WilliamsW13j,
+  author    = {Virginia Vassilevska Williams and
+               Ryan Williams},
+  title     = {Finding, Minimizing, and Counting Weighted Subgraphs},
+  journal   = {{SIAM} J. Comput.},
+  volume    = {42},
+  number    = {3},
+  pages     = {831--854},
+  year      = {2013}}
+
+@article{PeresSSZ13,
+  author    = {Yuval Peres and
+               Dmitry Sotnikov and
+               Benny Sudakov and
+               Uri Zwick},
+  title     = {All-pairs shortest paths in \emph{O}(\emph{n}\({}^{\mbox{2}}\)) time
+               with high probability},
+  journal   = {J. {ACM}},
+  volume    = {60},
+  number    = {4},
+  pages     = {26:1--26:25},
+  year      = {2013}}
+
+@inproceedings{icm-survey,
+author={Virginia {Vassilevska Williams}},
+title={On some fine-grained questions in algorithms and complexity},
+year = 2018,
+booktitle = {Proceedings of the International Congress of Mathematicians},
+pages = {to appear}
+}
+
+@inproceedings{AbboudW14pop,
+  author    = {Amir Abboud and
+               Virginia Vassilevska Williams},
+  title     = {Popular Conjectures Imply Strong Lower Bounds for Dynamic Problems},
+  booktitle = {55th {IEEE} Annual Symposium on Foundations of Computer Science, {FOCS}
+               2014, Philadelphia, PA, USA, October 18-21, 2014},
+  pages     = {434--443},
+  year      = {2014}}
+
+
+@inproceedings{KopelowitzPP16,
+	author    = {Tsvi Kopelowitz and
+	Seth Pettie and
+	Ely Porat},
+	title     = {Higher Lower Bounds from the 3SUM Conjecture},
+	booktitle = {Proceedings of the Twenty-Seventh Annual {ACM-SIAM} Symposium on Discrete
+	Algorithms, {SODA} 2016, Arlington, VA, USA, January 10-12, 2016},
+	pages     = {1272--1287},
+	year      = {2016},
+	crossref  = {DBLP:conf/soda/2016},
+	url       = {https://doi.org/10.1137/1.9781611974331.ch89},
+	doi       = {10.1137/1.9781611974331.ch89},
+	timestamp = {Wed, 24 May 2017 08:31:21 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/soda/KopelowitzPP16},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{Patrascu10,
+	author    = {Mihai Patrascu},
+	title     = {Towards polynomial lower bounds for dynamic problems},
+	booktitle = {Proceedings of the 42nd {ACM} Symposium on Theory of Computing, {STOC}
+	2010, Cambridge, Massachusetts, USA, 5-8 June 2010},
+	pages     = {603--610},
+	year      = {2010},
+	crossref  = {DBLP:conf/stoc/2010},
+	url       = {http://doi.acm.org/10.1145/1806689.1806772},
+	doi       = {10.1145/1806689.1806772},
+	timestamp = {Fri, 12 Oct 2012 12:16:22 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/stoc/Patrascu10},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{Chan18,
+	author    = {Timothy M. Chan},
+	title     = {More Logarithmic-Factor Speedups for 3SUM, (median, +)-Convolution,
+	and Some Geometric 3SUM-Hard Problems},
+	booktitle = {Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium on Discrete
+	Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10, 2018},
+	pages     = {881--897},
+	year      = {2018},
+	crossref  = {DBLP:conf/soda/2018},
+	url       = {https://doi.org/10.1137/1.9781611975031.57},
+	doi       = {10.1137/1.9781611975031.57},
+	timestamp = {Thu, 04 Jan 2018 13:55:11 +0100},
+	biburl    = {http://dblp.org/rec/bib/conf/soda/Chan18},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{hardCoreBitsAndXorLemmaFromGL,
+	author = {Goldreich, O. and Levin, L. A.},
+	title = {A Hard-core Predicate for All One-way Functions},
+	booktitle = {Proceedings of the Twenty-first Annual ACM Symposium on Theory of Computing},
+	series = {STOC '89},
+	year = {1989},
+	isbn = {0-89791-307-8},
+	location = {Seattle, Washington, USA},
+	pages = {25--32},
+	numpages = {8},
+	url = {http://doi.acm.org/10.1145/73007.73010},
+	doi = {10.1145/73007.73010},
+	acmid = {73010},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+} 
+
+@inproceedings{xorLemmaVazirani,
+	author    = {Umesh V. Vazirani and
+	Vijay V. Vazirani},
+	title     = {Efficient and Secure Pseudo-Random Number Generation},
+	booktitle = {Advances in Cryptology, Proceedings of {CRYPTO} '84, Santa Barbara,
+	California, USA, August 19-22, 1984, Proceedings},
+	pages     = {193--202},
+	year      = {1984},
+	crossref  = {DBLP:conf/crypto/1984},
+	url       = {https://doi.org/10.1007/3-540-39568-7_17},
+	doi       = {10.1007/3-540-39568-7_17},
+	timestamp = {Fri, 19 May 2017 12:26:22 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/crypto/VaziraniV84},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+
+@unpublished{avgCase3Sum,
+	title= {Higher Lower Bounds from the 3SUM Conjecture},
+	author = {Seth Pettie},
+	year = {2015},
+	note= {Fine-Grained Complexity and Algorithm Design Workshop at the Simons Institute},
+	biburl= {https://simons.berkeley.edu/talks/seth-pettie-2015-11-30},
+	url= {https://www.youtube.com/watch?v=OkagNffn7KQ&feature=youtu.be&t=206}
+}
+
+@inproceedings{treeEditDistance,
+	author    = {Karl Bringmann and
+	Pawel Gawrychowski and
+	Shay Mozes and
+	Oren Weimann},
+	title     = {Tree Edit Distance Cannot be Computed in Strongly Subcubic Time (unless
+	{APSP} can)},
+	booktitle = {Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium on Discrete
+	Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10, 2018},
+	pages     = {1190--1206},
+	year      = {2018},
+	crossref  = {DBLP:conf/soda/2018},
+	url       = {https://doi.org/10.1137/1.9781611975031.77},
+	doi       = {10.1137/1.9781611975031.77},
+	timestamp = {Thu, 04 Jan 2018 13:55:11 +0100},
+	biburl    = {http://dblp.org/rec/bib/conf/soda/BringmannGMW18},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{sparseGraphsLVWW,
+	author    = {Andrea Lincoln and
+	Virginia Vassilevska Williams and
+	R. Ryan Williams},
+	title     = {Tight Hardness for Shortest Cycles and Paths in Sparse Graphs},
+	booktitle = {Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium on Discrete
+	Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10, 2018},
+	pages     = {1236--1252},
+	year      = {2018},
+	crossref  = {DBLP:conf/soda/2018},
+	url       = {https://doi.org/10.1137/1.9781611975031.80},
+	doi       = {10.1137/1.9781611975031.80},
+	timestamp = {Fri, 05 Jan 2018 06:47:54 +0100},
+	biburl    = {http://dblp.org/rec/bib/conf/soda/LincolnWW18},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{abboud2014consequences,
+	title={Consequences of faster alignment of sequences},
+	author={Abboud, Amir and {Vassilevska Williams}, Virginia and Weimann, Oren},
+	booktitle={International Colloquium on Automata, Languages, and Programming},
+	pages={39--51},
+	year={2014},
+	organization={Springer}
+}
+
+@incollection{colorcoding,
+  author    = {Noga Alon and
+               Raphael Yuster and
+               Uri Zwick},
+  title     = {Color Coding},
+  booktitle = {Encyclopedia of Algorithms},
+  pages     = {335--338},
+  year      = {2016}}
+
+@article{BackursT16,
+	author    = {Arturs Backurs and
+	Christos Tzamos},
+	title     = {Improving Viterbi is Hard: Better Runtimes Imply Faster Clique Algorithms},
+	journal   = {CoRR},
+	volume    = {abs/1607.04229},
+	year      = {2016}}
+
+@inproceedings{3cliqueIntro,
+	author    = {Virginia Vassilevska Williams and
+	Ryan Williams},
+	title     = {Subcubic Equivalences between Path, Matrix and Triangle Problems},
+	booktitle = {51th Annual {IEEE} Symposium on Foundations of Computer Science, {FOCS}
+	2010, October 23-26, 2010, Las Vegas, Nevada, {USA}},
+	pages     = {645--654},
+	year      = {2010},
+	crossref  = {DBLP:conf/focs/2010},
+	url       = {https://doi.org/10.1109/FOCS.2010.67},
+	doi       = {10.1109/FOCS.2010.67},
+	timestamp = {Fri, 19 May 2017 01:25:59 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/focs/WilliamsW10},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{BaranDP08,
+	author    = {Ilya Baran and
+	Erik D. Demaine and
+	Mihai Patrascu},
+	title     = {Subquadratic Algorithms for 3SUM},
+	journal   = {Algorithmica},
+	volume    = {50},
+	number    = {4},
+	pages     = {584--596},
+	year      = {2008},
+	url       = {https://doi.org/10.1007/s00453-007-9036-3},
+	doi       = {10.1007/s00453-007-9036-3},
+	timestamp = {Wed, 17 May 2017 14:25:13 +0200},
+	biburl    = {http://dblp.org/rec/bib/journals/algorithmica/BaranDP08},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{3sumIntroduction,
+	author    = {Anka Gajentaan and
+	Mark H. Overmars},
+	title     = {On a class of {O}(n\({}^{\mbox{2}}\)) problems in computational geometry},
+	journal   = {Comput. Geom.},
+	volume    = {45},
+	number    = {4},
+	pages     = {140--152},
+	year      = {2012},
+	url       = {https://doi.org/10.1016/j.comgeo.2011.11.006},
+	doi       = {10.1016/j.comgeo.2011.11.006},
+	timestamp = {Sat, 20 May 2017 00:25:27 +0200},
+	biburl    = {http://dblp.org/rec/bib/journals/comgeo/GajentaanO12},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{avgCaseFineGrained,
+  author    = {Marshall Ball and
+               Alon Rosen and
+               Manuel Sabin and
+               Prashant Nalini Vasudevan},
+  title     = {Average-case fine-grained hardness},
+  booktitle = {Proceedings of the 49th Annual {ACM} {SIGACT} Symposium on Theory
+               of Computing, {STOC} 2017, Montreal, QC, Canada, June 19-23, 2017},
+  pages     = {483--496},
+  year      = {2017},
+  url       = {http://doi.acm.org/10.1145/3055399.3055466},
+  doi       = {10.1145/3055399.3055466},
+  timestamp = {Sat, 17 Jun 2017 18:46:57 +0200},
+  biburl    = {http://dblp.org/rec/bib/conf/stoc/BallRSV17},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@INPROCEEDINGS{GT00,
+	author={R. Gennaro and L. Trevisan},
+	booktitle={Proceedings 41st Annual Symposium on Foundations of Computer Science},
+	title={Lower bounds on the efficiency of generic cryptographic constructions},
+	year={2000},
+	volume={},
+	number={},
+	pages={305-313},
+	keywords={cryptography;file organisation;random number generation;Impagliazzo-Rudich model;black-box access;generic cryptographic constructions;lower bounds;one-way permutations;pseudo-random generators;universal one-way hash functions;Circuits;Cryptography;Digital signatures;Polynomials;Security},
+	doi={10.1109/SFCS.2000.892119},
+	ISSN={0272-5428},
+	month={},}
+
+% Computational XOR Lemma
+@inproceedings{Vaz87,
+	author = {Vazirani, U.},
+	title = {Efficiency Considerations in Using Semi-random Sources},
+	booktitle = {Proceedings of the Nineteenth Annual ACM Symposium on Theory of Computing},
+	series = {STOC '87},
+	year = {1987},
+	isbn = {0-89791-221-7},
+	location = {New York, New York, USA},
+	pages = {160--168},
+	numpages = {9},
+	url = {http://doi.acm.org/10.1145/28395.28413},
+	doi = {10.1145/28395.28413},
+	acmid = {28413},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+} 
+
+
+%Merkle Puzzles
+@article{Merkle78,
+	author = {Merkle, Ralph C.},
+	title = {Secure Communications over Insecure Channels},
+	journal = {Commun. ACM},
+	issue_date = {April 1978},
+	volume = {21},
+	number = {4},
+	month = apr,
+	year = {1978},
+	issn = {0001-0782},
+	pages = {294--299},
+	numpages = {6},
+	url = {http://doi.acm.org/10.1145/359460.359473},
+	doi = {10.1145/359460.359473},
+	acmid = {359473},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {communications security, computer network security, cryptography, cryptology, key distribution, passive eavesdropping, public key cryptosystem, security, wiretap},
+} 
+
+% Non-interactive Key Exchange
+@inproceedings{NIKE'13,
+	author    = {Eduarda S. V. Freire and
+	Dennis Hofheinz and
+	Eike Kiltz and
+	Kenneth G. Paterson},
+	title     = {Non-Interactive Key Exchange},
+	booktitle = {Public-Key Cryptography - {PKC} 2013 - 16th International Conference
+	on Practice and Theory in Public-Key Cryptography, Nara, Japan, February
+	26 - March 1, 2013. Proceedings},
+	pages     = {254--271},
+	year      = {2013},
+	crossref  = {DBLP:conf/pkc/2013},
+	url       = {https://doi.org/10.1007/978-3-642-36362-7_17},
+	doi       = {10.1007/978-3-642-36362-7_17},
+	timestamp = {Wed, 24 May 2017 08:27:51 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/pkc/FreireHKP13},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+% Stronge OWFs -> Key Exchange
+@inproceedings{BGI08,
+	author    = {Eli Biham and
+	Yaron J. Goren and
+	Yuval Ishai},
+	title     = {Basing Weak Public-Key Cryptography on Strong One-Way Functions},
+	booktitle = {Theory of Cryptography, Fifth Theory of Cryptography Conference, {TCC}
+	2008, New York, USA, March 19-21, 2008.},
+	pages     = {55--72},
+	year      = {2008},
+	crossref  = {DBLP:conf/tcc/2008},
+	url       = {https://doi.org/10.1007/978-3-540-78524-8_4},
+	doi       = {10.1007/978-3-540-78524-8_4},
+	timestamp = {Fri, 02 Jun 2017 13:01:06 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/tcc/BihamGI08},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+% Vinod's FG Crypto Paper?!
+@inproceedings{DVV16,
+	author    = {Akshay Degwekar and
+	Vinod Vaikuntanathan and
+	Prashant Nalini Vasudevan},
+	title     = {Fine-Grained Cryptography},
+	booktitle = {Advances in Cryptology - {CRYPTO} 2016 - 36th Annual International
+	Cryptology Conference, Santa Barbara, CA, USA, August 14-18, 2016,
+	Proceedings, Part {III}},
+	pages     = {533--562},
+	year      = {2016},
+	crossref  = {DBLP:conf/crypto/2016-3},
+	url       = {https://doi.org/10.1007/978-3-662-53015-3_19},
+	doi       = {10.1007/978-3-662-53015-3_19},
+	timestamp = {Fri, 26 May 2017 00:50:21 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/crypto/DegwekarVV16},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+% Crypto Ball et al
+@inproceedings{eprintAvgCaseFG,
+	author    = {Marshall Ball and
+	Alon Rosen and
+	Manuel Sabin and
+	Prashant Nalini Vasudevan},
+	title     = {Proofs of Work From Worst-Case Assumptions},
+	booktitle = {Advances in Cryptology - {CRYPTO} 2018 - 38th Annual International
+	Cryptology Conference, Santa Barbara, CA, USA, August 19-23, 2018,
+	Proceedings, Part {I}},
+	pages     = {789--819},
+	year      = {2018},
+	crossref  = {DBLP:conf/crypto/2018-1},
+	url       = {https://doi.org/10.1007/978-3-319-96884-1\_26},
+	doi       = {10.1007/978-3-319-96884-1\_26},
+	timestamp = {Mon, 13 Aug 2018 13:58:01 +0200},
+	biburl    = {https://dblp.org/rec/bib/conf/crypto/BallRSV18},
+	bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+
+% Another reference for Merkle Puzzles in the RO model
+@inproceedings{optimalMerklePuzzles,
+	author    = {Boaz Barak and
+	Mohammad Mahmoody{-}Ghidary},
+	title     = {Merkle Puzzles Are Optimal - An \emph{O}(\emph{n}\({}^{\mbox{2}}\))-Query
+	Attack on Any Key Exchange from a Random Oracle},
+	booktitle = {Advances in Cryptology - {CRYPTO} 2009, 29th Annual International
+	Cryptology Conference, Santa Barbara, CA, USA, August 16-20, 2009.
+	Proceedings},
+	pages     = {374--390},
+	year      = {2009},
+	crossref  = {DBLP:conf/crypto/2009},
+	url       = {https://doi.org/10.1007/978-3-642-03356-8_22},
+	doi       = {10.1007/978-3-642-03356-8_22},
+	timestamp = {Fri, 26 May 2017 00:50:21 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/crypto/BarakM09},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+% Lindell's book -- this chapter was actually written by Boaz
+@Inbook{Lindell,
+	author="Barak, Boaz",
+	editor="Lindell, Yehuda",
+	title="The Complexity of Public-Key Cryptography",
+	bookTitle="Tutorials on the Foundations of Cryptography: Dedicated to Oded Goldreich",
+	year="2017",
+	publisher="Springer International Publishing",
+	address="Cham",
+	pages="45--77",
+	abstract="We survey the computational foundations for public-key cryptography. We discuss the computational assumptions that have been used as bases for publickey encryption schemes, and the types of evidence we have for the veracity of these assumptions.",
+	isbn="978-3-319-57048-8",
+	doi="10.1007/978-3-319-57048-8_2",
+	url="https://doi.org/10.1007/978-3-319-57048-8_2"
+}
+
+% Impagliazzo and Naor
+@article{IN02,
+	author = {Impagliazzo, Russell and Naor, Moni},
+	year = {2002},
+	month = {02},
+	pages = {},
+	title = {Efficient Cryptographic Schemes Provably as Secure as Subset Sum},
+	volume = {9},
+	booktitle = {Journal of Cryptology}
+}
+
+% LPS (subset sum to PKC)
+@inproceedings{LPS10,
+	author = {Lyubashevsky, Vadim and Palacio, Adriana and Segev, Gil},
+	title = {Public-key Cryptographic Primitives Provably As Secure As Subset Sum},
+	booktitle = {Proceedings of the 7th International Conference on Theory of Cryptography},
+	series = {TCC'10},
+	year = {2010},
+	isbn = {3-642-11798-8, 978-3-642-11798-5},
+	location = {Zurich, Switzerland},
+	pages = {382--400},
+	numpages = {19},
+	url = {http://dx.doi.org/10.1007/978-3-642-11799-2_23},
+	doi = {10.1007/978-3-642-11799-2_23},
+	acmid = {2128087},
+	publisher = {Springer-Verlag},
+	address = {Berlin, Heidelberg},
+} 
+
+% Regev's PKE
+@inproceedings{Regev05,
+	author = {Regev, Oded},
+	title = {On Lattices, Learning with Errors, Random Linear Codes, and Cryptography},
+	booktitle = {Proceedings of the Thirty-seventh Annual ACM Symposium on Theory of Computing},
+	series = {STOC '05},
+	year = {2005},
+	isbn = {1-58113-960-8},
+	location = {Baltimore, MD, USA},
+	pages = {84--93},
+	numpages = {10},
+	url = {http://doi.acm.org/10.1145/1060590.1060603},
+	doi = {10.1145/1060590.1060603},
+	acmid = {1060603},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {computational learning theory, cryptography, lattices, public key encryption, quantum computing, statistical queries},
+} 
+
+
+% JPS
+@Article{JP00,
+	author="Juels, Ari
+	and Peinado, Marcus",
+	title="Hiding Cliques for Cryptographic Security",
+	journal="Designs, Codes and Cryptography",
+	year="2000",
+	month="Jul",
+	day="01",
+	volume="20",
+	number="3",
+	pages="269--280",
+	issn="1573-7586",
+	doi="10.1023/A:1008374125234",
+	url="https://doi.org/10.1023/A:1008374125234"
+}
+
+% ABW
+@inproceedings{ABW10,
+	author = {Applebaum, Benny and Barak, Boaz and Wigderson, Avi},
+	title = {Public-key Cryptography from Different Assumptions},
+	booktitle = {Proceedings of the Forty-second ACM Symposium on Theory of Computing},
+	series = {STOC '10},
+	year = {2010},
+	isbn = {978-1-4503-0050-6},
+	location = {Cambridge, Massachusetts, USA},
+	pages = {171--180},
+	numpages = {10},
+	url = {http://doi.acm.org/10.1145/1806689.1806715},
+	doi = {10.1145/1806689.1806715},
+	acmid = {1806715},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {3lin, densest subgraph problem, expander graphs, learning juntas, learning parity with noise, nc0, public key cryptography},
+} 
+
+% CKS key xc definition
+@article{CKS09,
+	author = {Cash, David and Kiltz, Eike and Shoup, Victor},
+	title = {The Twin Diffie\&\#x2013;Hellman Problem and Applications},
+	journal = {J. Cryptol.},
+	issue_date = {July 2009},
+	volume = {22},
+	number = {4},
+	month = jul,
+	year = {2009},
+	issn = {0933-2790},
+	pages = {470--504},
+	numpages = {35},
+	url = {http://dx.doi.org/10.1007/s00145-009-9041-6},
+	doi = {10.1007/s00145-009-9041-6},
+	acmid = {1614445},
+	publisher = {Springer-Verlag New York, Inc.},
+	address = {Secaucus, NJ, USA},
+} 
+
+% Security Amplification
+@InProceedings{DNR04,
+	author="Dwork, Cynthia
+	and Naor, Moni
+	and Reingold, Omer",
+	editor="Cachin, Christian
+	and Camenisch, Jan L.",
+	title="Immunizing Encryption Schemes from Decryption Errors",
+	booktitle="Advances in Cryptology - EUROCRYPT 2004",
+	year="2004",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="342--360",
+	abstract="We provide methods for transforming an encryption scheme susceptible to decryption errors into one that is immune to these errors. Immunity to decryption errors is vital when constructing non-malleable and chosen ciphertext secure encryption schemes via current techniques; in addition, it may help defend against certain cryptanalytic techniques, such as the attack of Proos [33] on the NTRU scheme.",
+	isbn="978-3-540-24676-3"
+}
+
+% More sec amplification stuff
+@inproceedings{BIN97,
+	author = {Bellare, Mihir and Impagliazzo, Russell and Naor, Moni},
+	title = {Does Parallel Repetition Lower the Error in Computationally Sound Protocols?},
+	booktitle = {Proceedings of the 38th Annual Symposium on Foundations of Computer Science},
+	series = {FOCS '97},
+	year = {1997},
+	isbn = {0-8186-8197-7},
+	pages = {374--},
+	url = {http://dl.acm.org/citation.cfm?id=795663.796361},
+	acmid = {796361},
+	publisher = {IEEE Computer Society},
+	address = {Washington, DC, USA},
+} 
+
+%Raz-Rud OWF => P != NP
+@inproceedings{RR94,
+	author    = {Alexander A. Razborov and
+	Steven Rudich},
+	title     = {Natural proofs},
+	booktitle = {Proceedings of the Twenty-Sixth Annual {ACM} Symposium on Theory of
+	Computing, 23-25 May 1994, Montr{\'{e}}al, Qu{\'{e}}bec,
+	Canada},
+	pages     = {204--213},
+	year      = {1994},
+	crossref  = {DBLP:conf/stoc/STOC26},
+	url       = {http://doi.acm.org/10.1145/195058.195134},
+	doi       = {10.1145/195058.195134},
+	timestamp = {Thu, 16 Feb 2012 12:10:17 +0100},
+	biburl    = {https://dblp.org/rec/bib/conf/stoc/RazborovR94},
+	bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+% Info-theoretic stufff
+% Secret sharing
+@article{Shamir79,
+	author    = {Adi Shamir},
+	title     = {How to Share a Secret},
+	journal   = {Commun. {ACM}},
+	volume    = {22},
+	number    = {11},
+	pages     = {612--613},
+	year      = {1979},
+	url       = {http://doi.acm.org/10.1145/359168.359176},
+	doi       = {10.1145/359168.359176},
+	timestamp = {Tue, 07 Jun 2011 16:51:19 +0200},
+	biburl    = {https://dblp.org/rec/bib/journals/cacm/Shamir79},
+	bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+% PIR
+@article{CKGS98,
+	author    = {Benny Chor and
+	Eyal Kushilevitz and
+	Oded Goldreich and
+	Madhu Sudan},
+	title     = {Private Information Retrieval},
+	journal   = {J. {ACM}},
+	volume    = {45},
+	number    = {6},
+	pages     = {965--981},
+	year      = {1998},
+	url       = {http://doi.acm.org/10.1145/293347.293350},
+	doi       = {10.1145/293347.293350},
+	timestamp = {Wed, 15 Nov 2017 19:50:09 +0100},
+	biburl    = {https://dblp.org/rec/bib/journals/jacm/ChorKGS98},
+	bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+% Entropic Crypto
+@inproceedings{RW02,
+	author = {Russell, Alexander and Wang, Hong},
+	title = {How to Fool an Unbounded Adversary with a Short Key},
+	booktitle = {Proceedings of the International Conference on the Theory and Applications of Cryptographic Techniques: Advances in Cryptology},
+	series = {EUROCRYPT '02},
+	year = {2002},
+	isbn = {3-540-43553-0},
+	pages = {133--148},
+	numpages = {16},
+	url = {http://dl.acm.org/citation.cfm?id=647087.757013},
+	acmid = {757013},
+	publisher = {Springer-Verlag},
+	address = {London, UK, UK},
+} 
+
+% Worst-case poly-time heirarchy
+@article{HS65,
+	ISSN = {00029947},
+	URL = {http://www.jstor.org/stable/1994208},
+	author = {J. Hartmanis and R. E. Stearns},
+	journal = {Transactions of the American Mathematical Society},
+	pages = {285--306},
+	publisher = {American Mathematical Society},
+	title = {On the Computational Complexity of Algorithms},
+	volume = {117},
+	year = {1965}
+}
+
+@article{HS66,
+	author = {Hennie, F. C. and Stearns, R. E.},
+	title = {Two-Tape Simulation of Multitape Turing Machines},
+	journal = {J. ACM},
+	issue_date = {Oct. 1966},
+	volume = {13},
+	number = {4},
+	month = oct,
+	year = {1966},
+	issn = {0004-5411},
+	pages = {533--546},
+	numpages = {14},
+	url = {http://doi.acm.org/10.1145/321356.321362},
+	doi = {10.1145/321356.321362},
+	acmid = {321362},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+} 
+
+@unpublished{Tse56,
+	Author = {Tseitin, G. S.},
+	Institution = {Moscow University},
+	Howpublished = {Lecture},
+	Year = {1956},
+	Title = {Seminar on Math, Logic}
+}
+
+% Average-case poly-time heirarchy
+@article{Lev73,
+	author    = {Leonid A. Levin},
+	title     = {On Storage Capacity of Algorithms},
+	journal   = {Soviet Mathematics, Doklady},
+	volume    = {14(5)},
+	pages = {1464-1466},
+	year      = {1973},
+}
+
+% RSA paper
+@article{rsa,
+	author = {Rivest, R. L. and Shamir, A. and Adleman, L.},
+	title = {A Method for Obtaining Digital Signatures and Public-key Cryptosystems},
+	journal = {Commun. ACM},
+	issue_date = {Feb. 1978},
+	volume = {21},
+	number = {2},
+	month = feb,
+	year = {1978},
+	issn = {0001-0782},
+	pages = {120--126},
+	numpages = {7},
+	url = {http://doi.acm.org/10.1145/359340.359342},
+	doi = {10.1145/359340.359342},
+	acmid = {359342},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {authentication, cryptography, digital signatures, electronic funds transfer, electronic mail, factorization, message-passing, prime number, privacy, public-key cryptosystems, security},
+} 
+
+% Diffie-Hellman Key Exchange
+@article{DiffieHellman,
+	author = {Diffie, W. and Hellman, M.},
+	title = {New Directions in Cryptography},
+	journal = {IEEE Trans. Inf. Theor.},
+	issue_date = {November 1976},
+	volume = {22},
+	number = {6},
+	month = sep,
+	year = {2006},
+	issn = {0018-9448},
+	pages = {644--654},
+	numpages = {11},
+	url = {http://dx.doi.org/10.1109/TIT.1976.1055638},
+	doi = {10.1109/TIT.1976.1055638},
+	acmid = {2269104},
+	publisher = {IEEE Press},
+	address = {Piscataway, NJ, USA},
+} 
+
+% Shor's algorithm --- quantum stuff
+@inproceedings{Shor,
+	author = {Shor, P. W.},
+	title = {Algorithms for Quantum Computation: Discrete Logarithms and Factoring},
+	booktitle = {Proceedings of the 35th Annual Symposium on Foundations of Computer Science},
+	series = {SFCS '94},
+	year = {1994},
+	isbn = {0-8186-6580-7},
+	pages = {124--134},
+	numpages = {11},
+	url = {https://doi.org/10.1109/SFCS.1994.365700},
+	doi = {10.1109/SFCS.1994.365700},
+	acmid = {1399018},
+	publisher = {IEEE Computer Society},
+	address = {Washington, DC, USA},
+	keywords = {cryptosystems, quantum computation algorithms, discrete logarithms, factoring, physical computational device, polynomial factor, Las Vegas algorithms, quantum computer},
+} 

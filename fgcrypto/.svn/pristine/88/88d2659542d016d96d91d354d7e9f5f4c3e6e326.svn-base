@@ -1,0 +1,46 @@
+@inproceedings{avgCaseFineGrained,
+  author    = {Marshall Ball and
+               Alon Rosen and
+               Manuel Sabin and
+               Prashant Nalini Vasudevan},
+  title     = {Average-case fine-grained hardness},
+  booktitle = {Proceedings of the 49th Annual {ACM} {SIGACT} Symposium on Theory
+               of Computing, {STOC} 2017, Montreal, QC, Canada, June 19-23, 2017},
+  pages     = {483--496},
+  year      = {2017},
+  url       = {http://doi.acm.org/10.1145/3055399.3055466},
+  doi       = {10.1145/3055399.3055466},
+  timestamp = {Sat, 17 Jun 2017 18:46:57 +0200},
+  biburl    = {http://dblp.org/rec/bib/conf/stoc/BallRSV17},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{GL89,
+	author = {Goldreich, O. and Levin, L. A.},
+	title = {A Hard-core Predicate for All One-way Functions},
+	booktitle = {Proceedings of the Twenty-first Annual ACM Symposium on Theory of Computing},
+	series = {STOC '89},
+	year = {1989},
+	isbn = {0-89791-307-8},
+	location = {Seattle, Washington, USA},
+	pages = {25--32},
+	numpages = {8},
+	url = {http://doi.acm.org/10.1145/73007.73010},
+	doi = {10.1145/73007.73010},
+	acmid = {73010},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+}
+
+@INPROCEEDINGS{GT00,
+	author={R. Gennaro and L. Trevisan},
+	booktitle={Proceedings 41st Annual Symposium on Foundations of Computer Science},
+	title={Lower bounds on the efficiency of generic cryptographic constructions},
+	year={2000},
+	volume={},
+	number={},
+	pages={305-313},
+	keywords={cryptography;file organisation;random number generation;Impagliazzo-Rudich model;black-box access;generic cryptographic constructions;lower bounds;one-way permutations;pseudo-random generators;universal one-way hash functions;Circuits;Cryptography;Digital signatures;Polynomials;Security},
+	doi={10.1109/SFCS.2000.892119},
+	ISSN={0272-5428},
+	month={},}

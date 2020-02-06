@@ -1,0 +1,130 @@
+\section{Fine-Grained Key Exchange}
+\label{sec:FineGrainedKeyExchange}
+
+Now we will explain a construction for \emph{key exchange} using the average case zero k-clique conjecture. This construction produces a system that takes $n^{2k-2}$ time for Alice and Bob, but Eve must take $\tilde{\Omega}\left (n^{3k-4} \right ) $ given the zero k-clique conjecture. There will be a chance of communication failure between Bob and Alice. This chance of miss-communication will natively be $p<(n^3/R)^2$ where $R$ is the range selected by Alice and Bob. Alice and Bob can lower this probability to $p<(n^3/R)^{2 polylog(n)}$ via repetitions. 
+
+This means that given only the zero triangle conjecture (the most plausible conjecture) we still get a fine-grained gap between the exchangers (Alice and Bob) and Eve. Specifically Alice and Bob will take $O(n^{4})$ time while Eve takes $\tilde{\Omega}(n^5)$ time. 
+
+
+We will describe the key exchange first and then prove that Eve must take  $\tilde{\Omega}\left (n^{3k-4} \right) $ time. 
+
+
+\subsection{Description of Key Exchange}
+
+The high level description of the key exchange is as follows. Alice and Bob each produce $n^{2k-4}$ instances of zero k-clique. In a randomly chosen $n^{k-2}$ of these instances they will plant a solution. Call the set of indices that Alice chooses to plant $S_A$ and the set Bob picks $S_B$. The likely size of $S_A \cap S_B$ is $1$. The index $S_A \cap S_B$ is the basis for the key. 
+
+Alice determines the index $S_A \cap S_B$ by brute forcing all problems at indicies $S_A$ that Bob published. This allows Alice to learn $S_A \cap S_B$. Bob can brute force all problems at indicies $S_B$ that Alice published and learn the set  $S_A \cap S_B$. 
+
+It takes $n^kn^{k-2}+n^2n^{2k-4} = n^{2k-2}$ time for Alice and Bob to write out all the instances and brute force a subset. 
+
+\xxx{TODO: how should the algorithm be formated for crypto purposes}
+
+\subsection{Proof of Hardness}
+
+We show that the key-exchange results in gaps in running time and success probability between Alice and Bob and Eve. Then, we will show that this scheme can be boosted in a fine-grained system to get larger probability gaps while preserving the running time gaps. 
+
+We need a lemma first. 
+
+\begin{lemma}
+	If a problem $P$ 
+	\begin{itemize}
+		\item has an algorithm which runs in $\tilde\Theta(N^t)$ time that determines if an instance has a solution or not,
+		\item the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with $s(N)$ subproblems of size $f(n)$ with error $\delta_1$,
+		\item  where finding the one solution in an instance $I$ drawn from $D_{1-sol}$ is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution with probability higher than $1/3$ and,
+		\item $\exists \epsilon>0$ such that $f(s(n))= \Omega(n^\epsilon)$,
+	\end{itemize}
+	
+	then given $s(n)$ instances of size $n$ where $s(n)-1$ of them are drawn from $D_{no-sol}$ and one of the instances is drawn from $D_{1-sol}$ and the index of the instance with one solution is uniform over all indicies $[1,s(n)]$ determining which index the instance with a solution must take at least $\tilde{\Omega}(n^t s(n))$ time if it returns correctly with probability over $1/3+\delta_1$. 
+	
+	\label{lem:listVersion}
+\end{lemma}
+\begin{proof}
+Assume the contrary, an algorithm exists which runs in time $(n^t s(n))^{1-\epsilon'}$ for some $\epsilon''>0$ which solves the $s(n)$ listed instances version of the problem. 
+	
+Given an instance $I$ drawn uniformly at random from $D_{1-sol}$ we generate $\ell$ sets $S_1,\ldots, S_\ell$ of problems. Each $S_i$ contains $s(f(n))$ problems each of size $f(n)$. Use the list version of the problem on each $S_i$. Then, brute force each index returned by the algorithm. This brute force takes $\tilde{O}(\ell f(n)^t)$ time. If in any brute force you find the solution, then return the index from the original it is associated with. 
+
+First, we know that $\ell s(f(n)) f(n)^t = \tilde{O}(n^t)$, and we know $s(f(n))= \tilde{\Omega}( n^\epsilon)$ for some $\epsilon>0$, thus the algorithm runs in $\tilde{O}(n^{(1-\epsilon''')t})$ for some $\epsilon'''>0$. 
+
+Second, we only care about the algorithms behavior on the single $S_i$ which contains the instance with a solution. Because we brute force each returned index we get no false positive. Thus, we return the correct instance when the algorithm returns correctly, which happens $1/3+\delta_1 -\delta_1$ of the time. 
+\end{proof}
+
+\begin{lemma}
+	If a problem $P$ 
+	\begin{itemize}
+		\item has an algorithm which runs in $\tilde\Theta(N^t)$ time that determines if an instance has a solution or not,
+		\item  where finding the one solution in an instance $I$ drawn from $D_{1-sol}$ is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution higher than $1/3$,
+		\item random instances can be generated in time $\tilde{O}(N^g)$ and error $\delta_g$, 
+		\item the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with $s(N)$ subproblems and polynomial sized problem with error $\delta_1$,
+		\item is Splittable with error $\delta_2$ and list length $s(f(n))$ and,
+		\item Plantable with error $\delta_3$ in time $\tilde{O}(N^g)$ then
+	\end{itemize}
+	
+	then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(s(n))$ bits in time $\tilde{O}(\sqrt{s(N)}N^t + s(N)N^g)$ with probability $\geq 1-\delta_g \sqrt{s(n)}$ and Eve can't guess the key $key$ with probability better than $1/3+\delta_1+\delta_2+\sqrt{s(N)}\delta_3+1/\sqrt{s(N)}+ \delta_g 2s(N)$ in time $O((s(N) N^t)^{1-\epsilon})$ for any $\epsilon>0$. 
+	
+	\label{lem:keyexchangebasic}
+\end{lemma}
+\begin{proof}
+Let $P(I)$ be the planting procedure. Let $B(I)$ be the splitting procedure. 	
+	
+By Lemma \ref{lem:listVersion} we know that finding the index of the instance which has a solution out of a list of $O(s(n))$ instances with probability greater than $1/3+\delta_1$ takes time $\tilde{\Omega}(n^t s(n))$. 
+
+Let $S_i$ be drawn from 
+\[\{S_i \in A(I)\}_{I \gets D_{no-sols}} \approx_c \{I_1, \dots, I_{x(n)}\}_{I_i \sim D_{1-sol}, \land \forall j \neq i, I_j \sim D_{no-sols}}.\]
+
+Apply the splittable procedure to every instance creating $B(I_i) = I^1_i,I^2_i$ for $i\in[1,s(n)]$, this introduces potential error $\delta_2$. Then, choose $2\sqrt{s(n)}-2$ indicies put $\sqrt{s(n)}-1$ in $T_1$ and $\sqrt{s(n)}-1$ in $T_2$. Note $T_1 \cap T_2 = \emptyset$.  
+
+For all $i\in T_1$ replace $I_i^1$ with $P(I_i^1)$. For all $i\in T_2$ replace $I_i^2$ with $P(I_i^2)$. Let $j$ be the index where $I_j$ had a solution and now $I_j^1,I_j^2$ both have solutions (if we have not run into errors). Call this list of problems $L$. In addition the errors we accounted for previously $\delta_1$ and $\delta_2$  we have an additional source of error that will make this output not drawn from the same distribution as Alice Bob's output. If $j \in T_1 \cup T_2$. This happens with probability $1/\sqrt{s(n)}$. Finally, we have the potential error from planting which introduces a term of $\sqrt{s(f(n))}\delta_3$.
+
+So, first lets note the computational hardness of solving for $j$ given the input of $L$.
+Finding $j$ with probability greater than $1/3+\delta_1+\delta_2+\sqrt{s(f(n))}\delta_3+1/\sqrt{s(n)}$ requires time $\tilde{\Omega}(n^t s(n))$. 
+
+Next, we want to show that the distribution produced by splitting and planting has total variation distance $\delta_2+\sqrt{s(f(n))}\delta_3+1/\sqrt{s(f(n))}$ from Alice and Bob's distribution. Alice and Bob produce the instances using the generator $2s(n)$ times to generate the instances and then plant in $\sqrt{s(n)}$ locations each, call the produced lists $L_{AB}$. If these collide in more than $1$ location then Alice and Bob repeat. Using the generator Alice and Bob's initial unplanted instances have a total variation distance of  $\leq(n) \delta_g 2s(n)$ from $D_{no-sols}^{2s(n)}$. They plant instances using the same planter $P$ as we did above. With probability $1-1/\sqrt{s(n)}$ both $L$ and $L_{AB}$ have $\sqrt{s(n)}$ instances planted in each half of the list. Finally, the splitting procedure also introduces a chance of error, specifically $\delta_2$. Thus, the total variation distance is bounded by $\delta_2+\sqrt{s(f(n))}\delta_3+1/\sqrt{s(f(n))}$ between $L$ and $L'$. Thus, if Eve has a very high chance of success of returning the $key$, we can use Eve's algorithm to find the value of $j$. This gives us a computational lower bound for Eve.  
+
+Using the procedure we described before for Alice and Bob they have to generate $s(N)$ instances and brute force $\sqrt(s(N))$ instances. This takes time $\tilde{O}(\sqrt{s(N)}N^t + s(N)N^g)$. Alice and Bob get an error whenever their planted instance collides with an erroneously generated solution. This happens with probability $\leq \sqrt{s(N)}\delta_g$ probability. 
+\end{proof}
+
+Now we will use repetition techniques and the xor lemma to boost the probability gaps between Alice and Bob and Eve. We also use hard core bit techniques to produce a key where every individual bit is hard to compute. 
+
+\begin{theorem}
+	If a problem $P$ 
+	\begin{itemize}
+	\item has an algorithm which runs in $\tilde\Theta(N^t)$ time that determines if an instance has a solution or not,
+	\item  where finding the one solution in an instance $I$ drawn from $D_{1-sol}$ is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution higher than $1/3$,
+	\item random instances can be generated in time $\tilde{O}(N^g)$ and error $\delta_g$, 
+	\item the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with $s(N)$ subproblems and polynomial sized problem with error $\delta_1$,
+	\item is Splittable with error $\delta_2$ and list length $s(f(n))$,
+	\item Plantable with error $\delta_3$ in time $\tilde{O}(N^g)$,
+	\item if $1/3+\delta_1+\delta_2+\sqrt{s(N)}\delta_3+1/\sqrt{s(N)}+ \delta_g 2s(N) < 9/10$ and,
+	\item $1-\delta_g \sqrt{s(n)}\lg^3(n) \geq 5/6$ then,
+\end{itemize}
+
+then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\ell(N)$ bits in time $\tilde{O}\left(\sqrt{s(N)}N^t + s(N)N^g)\ell(n) \right)$ with probability $\geq 1-1/(N^{\lg(N)})$ and Eve can't guess any bit in the $key$ with probability better than $1/2 +  \epsilon(N)$  in time $O((s(N) N^t)^{1-\gamma}\epsilon(n))$ for any $\gamma>0$. 
+\label{thm:keyExchange}
+\end{theorem}
+\begin{proof}	
+Using the procedure from Lemma \ref{lem:keyExchangeAllErrorsLow} we can communicate one bit between Alice and Bob. Simply repeat this procedure $\ell(n)$ times. All the bits are independent so Eve's chance of discovering any one of them is still bounded by the same function. 
+\end{proof}
+
+We have a corollary for zero k clique specifically. 
+We specify that $R = 10 \binom{k}{2}2^{4\binom{k}{2}} n^{x} n^{2k}$, note that $R = O( n^{2x} n^{2k})$ the other terms are just constants. 
+
+\begin{corollary}
+Given the \strongzkc over range $R = 100 \binom{k}{2}^2 2^{4\binom{k}{2}} \lg^6(n) n^{4x} n^{2k}$ a key exchange exists where Alice and Bob successfully communicate a sub-polynomial number of bits with probability $1- 1/(n^{\lg(n)})$ in time $\tilde{O}\left(\left(n^{k+x} + n^{2x+2}\right)\ell(n) \right)$ and  Eve can not learn any of the bits with probability greater than $1/2 + \epsilon(n)$ for all functions $\epsilon(n)$ such that $1/\epsilon(n)$ is sub-polynomial in time $O((n^{2x+k})^{1-\gamma}\epsilon(n))$ for any $\gamma>0$.
+\end{corollary}
+\begin{proof}
+We will simply plug in the constants from our proofs Theorems \ref{thm:zkcPlantable}, \ref{thm:zkcSelfReduce} and, 
+\ref{thm:zkcsplittable} into Theorem \ref{thm:keyExchange}. 
+
+Let the number of instances in the list be $n^{2x}$. 
+
+We need to meet the following two conditions
+ $1/3+\delta_1+\delta_2+n^x\delta_3+1/n^x+ \delta_g 2n^{2x} < 9/10$ and, $1-\delta_g n^x\lg^3(n) \geq 5/6$.
+ 
+ For us $\delta_1 \leq 2n^k/R$, $\delta_3 \leq n^k/\sqrt{R}$, $\delta_g \leq n^k/\sqrt{R}$ and, $\delta_2 \leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R}$.
+
+So our conditions
+$$1-1/(10 n^x) \geq 5/6$$
+and 
+$$1/3+\delta_1+\delta_2+n^x\delta_3+1/n^x+ \delta_g 2n^{2x}\leq 1/3+1/(50 \binom{k}{2}^2 2^{4\binom{k}{2}} \lg^6(n) n^{4x} n^{k})+1/(3 n^x)+1/(10n^k)+1/n^x+ 1/5 < 9/10$$
+are both met as long as $n^x$ is a polynomial. 
+\end{proof}

@@ -1,0 +1,250 @@
+@unpublished{avgCase3Sum,
+	title= {Higher Lower Bounds from the 3SUM Conjecture},
+	author = {Seth Pettie},
+	year = {2015},
+	note= {Fine-Grained Complexity and Algorithm Design Workshop at the Simons Institute},
+	biburl= {https://simons.berkeley.edu/talks/seth-pettie-2015-11-30},
+	url= {https://www.youtube.com/watch?v=OkagNffn7KQ&feature=youtu.be&t=206}
+}
+
+@inproceedings{treeEditDistance,
+	author    = {Karl Bringmann and
+	Pawel Gawrychowski and
+	Shay Mozes and
+	Oren Weimann},
+	title     = {Tree Edit Distance Cannot be Computed in Strongly Subcubic Time (unless
+	{APSP} can)},
+	booktitle = {Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium on Discrete
+	Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10, 2018},
+	pages     = {1190--1206},
+	year      = {2018},
+	crossref  = {DBLP:conf/soda/2018},
+	url       = {https://doi.org/10.1137/1.9781611975031.77},
+	doi       = {10.1137/1.9781611975031.77},
+	timestamp = {Thu, 04 Jan 2018 13:55:11 +0100},
+	biburl    = {http://dblp.org/rec/bib/conf/soda/BringmannGMW18},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{sparseGraphsLVWW,
+	author    = {Andrea Lincoln and
+	Virginia Vassilevska Williams and
+	R. Ryan Williams},
+	title     = {Tight Hardness for Shortest Cycles and Paths in Sparse Graphs},
+	booktitle = {Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium on Discrete
+	Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10, 2018},
+	pages     = {1236--1252},
+	year      = {2018},
+	crossref  = {DBLP:conf/soda/2018},
+	url       = {https://doi.org/10.1137/1.9781611975031.80},
+	doi       = {10.1137/1.9781611975031.80},
+	timestamp = {Fri, 05 Jan 2018 06:47:54 +0100},
+	biburl    = {http://dblp.org/rec/bib/conf/soda/LincolnWW18},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{abboud2014consequences,
+	title={Consequences of faster alignment of sequences},
+	author={Abboud, Amir and {Vassilevska Williams}, Virginia and Weimann, Oren},
+	booktitle={International Colloquium on Automata, Languages, and Programming},
+	pages={39--51},
+	year={2014},
+	organization={Springer}
+}
+@article{BackursT16,
+	author    = {Arturs Backurs and
+	Christos Tzamos},
+	title     = {Improving Viterbi is Hard: Better Runtimes Imply Faster Clique Algorithms},
+	journal   = {CoRR},
+	volume    = {abs/1607.04229},
+	year      = {2016}}
+
+@inproceedings{3cliqueIntro,
+	author    = {Virginia Vassilevska Williams and
+	Ryan Williams},
+	title     = {Subcubic Equivalences between Path, Matrix and Triangle Problems},
+	booktitle = {51th Annual {IEEE} Symposium on Foundations of Computer Science, {FOCS}
+	2010, October 23-26, 2010, Las Vegas, Nevada, {USA}},
+	pages     = {645--654},
+	year      = {2010},
+	crossref  = {DBLP:conf/focs/2010},
+	url       = {https://doi.org/10.1109/FOCS.2010.67},
+	doi       = {10.1109/FOCS.2010.67},
+	timestamp = {Fri, 19 May 2017 01:25:59 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/focs/WilliamsW10},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{3sumIntroductionOrig,
+	author    = {Anka Gajentaan and
+	Mark H. Overmars},
+	title     = {On a Class of O(n2) Problems in Computational Geometry},
+	journal   = {Comput. Geom.},
+	volume    = {5},
+	pages     = {165--185},
+	year      = {1995},
+	url       = {https://doi.org/10.1016/0925-7721(95)00022-2},
+	doi       = {10.1016/0925-7721(95)00022-2},
+	timestamp = {Sat, 20 May 2017 00:25:27 +0200},
+	biburl    = {http://dblp.org/rec/bib/journals/comgeo/GajentaanO95},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+@article{3sumIntroduction,
+	author    = {Anka Gajentaan and
+	Mark H. Overmars},
+	title     = {On a class of O(n\({}^{\mbox{2}}\)) problems in computational geometry},
+	journal   = {Comput. Geom.},
+	volume    = {45},
+	number    = {4},
+	pages     = {140--152},
+	year      = {2012},
+	url       = {https://doi.org/10.1016/j.comgeo.2011.11.006},
+	doi       = {10.1016/j.comgeo.2011.11.006},
+	timestamp = {Sat, 20 May 2017 00:25:27 +0200},
+	biburl    = {http://dblp.org/rec/bib/journals/comgeo/GajentaanO12},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{avgCaseFineGrained,
+  author    = {Marshall Ball and
+               Alon Rosen and
+               Manuel Sabin and
+               Prashant Nalini Vasudevan},
+  title     = {Average-case fine-grained hardness},
+  booktitle = {Proceedings of the 49th Annual {ACM} {SIGACT} Symposium on Theory
+               of Computing, {STOC} 2017, Montreal, QC, Canada, June 19-23, 2017},
+  pages     = {483--496},
+  year      = {2017},
+  url       = {http://doi.acm.org/10.1145/3055399.3055466},
+  doi       = {10.1145/3055399.3055466},
+  timestamp = {Sat, 17 Jun 2017 18:46:57 +0200},
+  biburl    = {http://dblp.org/rec/bib/conf/stoc/BallRSV17},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{GL89,
+	author = {Goldreich, O. and Levin, L. A.},
+	title = {A Hard-core Predicate for All One-way Functions},
+	booktitle = {Proceedings of the Twenty-first Annual ACM Symposium on Theory of Computing},
+	series = {STOC '89},
+	year = {1989},
+	isbn = {0-89791-307-8},
+	location = {Seattle, Washington, USA},
+	pages = {25--32},
+	numpages = {8},
+	url = {http://doi.acm.org/10.1145/73007.73010},
+	doi = {10.1145/73007.73010},
+	acmid = {73010},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+}
+
+@INPROCEEDINGS{GT00,
+	author={R. Gennaro and L. Trevisan},
+	booktitle={Proceedings 41st Annual Symposium on Foundations of Computer Science},
+	title={Lower bounds on the efficiency of generic cryptographic constructions},
+	year={2000},
+	volume={},
+	number={},
+	pages={305-313},
+	keywords={cryptography;file organisation;random number generation;Impagliazzo-Rudich model;black-box access;generic cryptographic constructions;lower bounds;one-way permutations;pseudo-random generators;universal one-way hash functions;Circuits;Cryptography;Digital signatures;Polynomials;Security},
+	doi={10.1109/SFCS.2000.892119},
+	ISSN={0272-5428},
+	month={},}
+
+% Computational XOR Lemma
+@inproceedings{Vaz87,
+	author = {Vazirani, U.},
+	title = {Efficiency Considerations in Using Semi-random Sources},
+	booktitle = {Proceedings of the Nineteenth Annual ACM Symposium on Theory of Computing},
+	series = {STOC '87},
+	year = {1987},
+	isbn = {0-89791-221-7},
+	location = {New York, New York, USA},
+	pages = {160--168},
+	numpages = {9},
+	url = {http://doi.acm.org/10.1145/28395.28413},
+	doi = {10.1145/28395.28413},
+	acmid = {28413},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+} 
+
+
+%Merkle Puzzles
+@article{Merkle78,
+	author = {Merkle, Ralph C.},
+	title = {Secure Communications over Insecure Channels},
+	journal = {Commun. ACM},
+	issue_date = {April 1978},
+	volume = {21},
+	number = {4},
+	month = apr,
+	year = {1978},
+	issn = {0001-0782},
+	pages = {294--299},
+	numpages = {6},
+	url = {http://doi.acm.org/10.1145/359460.359473},
+	doi = {10.1145/359460.359473},
+	acmid = {359473},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {communications security, computer network security, cryptography, cryptology, key distribution, passive eavesdropping, public key cryptosystem, security, wiretap},
+} 
+
+% Non-interactive Key Exchange
+@inproceedings{NIKE'13,
+	author    = {Eduarda S. V. Freire and
+	Dennis Hofheinz and
+	Eike Kiltz and
+	Kenneth G. Paterson},
+	title     = {Non-Interactive Key Exchange},
+	booktitle = {Public-Key Cryptography - {PKC} 2013 - 16th International Conference
+	on Practice and Theory in Public-Key Cryptography, Nara, Japan, February
+	26 - March 1, 2013. Proceedings},
+	pages     = {254--271},
+	year      = {2013},
+	crossref  = {DBLP:conf/pkc/2013},
+	url       = {https://doi.org/10.1007/978-3-642-36362-7_17},
+	doi       = {10.1007/978-3-642-36362-7_17},
+	timestamp = {Wed, 24 May 2017 08:27:51 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/pkc/FreireHKP13},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+% Stronge OWFs -> Key Exchange
+@inproceedings{BGI08,
+	author    = {Eli Biham and
+	Yaron J. Goren and
+	Yuval Ishai},
+	title     = {Basing Weak Public-Key Cryptography on Strong One-Way Functions},
+	booktitle = {Theory of Cryptography, Fifth Theory of Cryptography Conference, {TCC}
+	2008, New York, USA, March 19-21, 2008.},
+	pages     = {55--72},
+	year      = {2008},
+	crossref  = {DBLP:conf/tcc/2008},
+	url       = {https://doi.org/10.1007/978-3-540-78524-8_4},
+	doi       = {10.1007/978-3-540-78524-8_4},
+	timestamp = {Fri, 02 Jun 2017 13:01:06 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/tcc/BihamGI08},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+% Vinod's FG Crypto Paper?!
+@inproceedings{DVV16,
+	author    = {Akshay Degwekar and
+	Vinod Vaikuntanathan and
+	Prashant Nalini Vasudevan},
+	title     = {Fine-Grained Cryptography},
+	booktitle = {Advances in Cryptology - {CRYPTO} 2016 - 36th Annual International
+	Cryptology Conference, Santa Barbara, CA, USA, August 14-18, 2016,
+	Proceedings, Part {III}},
+	pages     = {533--562},
+	year      = {2016},
+	crossref  = {DBLP:conf/crypto/2016-3},
+	url       = {https://doi.org/10.1007/978-3-662-53015-3_19},
+	doi       = {10.1007/978-3-662-53015-3_19},
+	timestamp = {Fri, 26 May 2017 00:50:21 +0200},
+	biburl    = {http://dblp.org/rec/bib/conf/crypto/DegwekarVV16},
+	bibsource = {dblp computer science bibliography, http://dblp.org}
+}

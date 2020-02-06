@@ -1,0 +1,25 @@
+\section{Justifying Assumptions}
+\label{sec:justifyAssumptions}
+Among the most popular hypotheses in fine-grained complexity is the one concerning the 3-SUM problem defined as follows: given three lists $A,B$ and $C$ of $n$ numbers each from $\{-n^t,\ldots,n^t\}$ for large enough $t$, determine whether there are $a\in A, b\in B, c\in C$ with $a+b+c=0$. 
+
+The fastest $3$-SUM algorithms run in $n^2(\log\log n)^{O(1)}/\log^2 n)$ time (Baran, Demaine and Patrascu for integer inputs \cite{BaranDP08}, and more recently Chan'18 for real inputs \cite{Chan18}). Since the 1990s, $3$-SUM has been an important problem in computational geometry. Gajentaan and Overmars formulated the hypothesis that $3$-SUM requires quadratic time (nowadays this means
+$n^{2-o(1)}$ time on a word-RAM with $O(\log n)$ bit words), and showed via reductions that many geometry problems also require quadratic time under this hypothesis \cite{3sumIntroduction}. Their work spawned many more within geometry. In recent years, many more consequences of this hypothesis have been derived, for a variety of non-geometric problems, such as sequence local alignment \cite{abboud2014consequences}, triangle enumeration \cite{Patrascu10,KopelowitzPP16}, and others.
+
+As shown by Vassilevska Williams and Williams'2010, $3$-SUM can be reduced to a graph problem, 0-Weight Triangle, so that if $3$-SUM requires $n^{2-o(1)}$ time on inputs of size $n$, then 0-Weight Triangle requires $N^{3-o(1)}$ time in $N$-node graphs. In fact, $0$-Weight Triangle is potentially harder than $3$-SUM, as one can also reduce to it the All-Pairs Shortest Paths (APSP) problem, which is widely believed to require essentially cubic time in the number of vertices. There is no known relationship (via reductions) between APSP and $3$-SUM.
+
+The $0$-Weight Triangle problem is as follows: given an $n$-node graph with edge weights from $\{-n^c,\ldots,n^c\}$ for large enough $c$, are there three nodes $p,q,r$ so that $w(p,q)+w(q,r)+w(r,p)=0$?
+
+An equivalent formulation assumes that the input graph is tripartite and complete (between partitions).
+
+Both $3$-SUM and $0$-Weight Triangle have generalizations for $k\geq 3$: $k$-SUM and $0$-Weight $k$-Clique, defined in the natural way: (1) given $k$ lists of $n$ numbers each from $\{-n^{ck},\ldots,n^{ck}\}$ for large $c$, are there $k$ numbers, one from each list, summing to $0$? and (2) given a complete $k$-partite graph with edge weights from $\{-n^{kc},\ldots,n^{kc}\}$ for large $c$, is there a $k$-clique with total weight sum $0$?
+
+The $k$-SUM problem is conjectured to require $n^{\lceil k/2\rceil-o(1)}$ time (for large enough $c$), and the $0$-Weight $k$-Clique problem is conjectured to require $n^{k-o(1)}$ time (for large enough $c$), matching the best known algorithms for both problems. Both of these conjectures have been used in fine-grained complexity to derive conditional lower bounds for other problems (e.g.\cite{BackursT16,abboud2014consequences,sparseGraphsLVWW,treeEditDistance}.
+
+It is tempting to conjecture average case hardness for the key hard problems within fine-grained complexity: Orthogonal Vectors (OV), APSP, $3$-SUM. It is known that APSP is not hard on average, for many natural distributions (see e.g. \cite{averageAPSP}). OV is likely not hard (see e.g. \cite{???}).
+
+On the other hand, it is a folklore belief that $3$-SUM is actually hard on average.
+In particular, if one samples $n$ integers uniformly at random from $\{-cn^3,\ldots,cn^3\}$ for constant $c$, the expected number of $3$-SUMs in the instance is $\Theta(1)$, and there is no known truly subquadratic time algorithm that can solve $3$-SUM reliably on such instances. The conjecture that this is a hard distribution for $3$-SUM was formulated for instance by Pettie \cite{avgCase3Sum}.
+
+The same folklore belief extends to $k$-SUM. Here a hard distribution seems to be to generate $k$ lists uniformly from a large enough range $\{-cn^k,\ldots, cn^k\}$, so that the expected number of solutions is constant.
+
+Due to the tight relationship between $3$-SUM and $0$-Weight $k$-Clique, one might also conjecture that uniformly generated instances of the latter problem are hard to solve on average.

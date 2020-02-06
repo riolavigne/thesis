@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath,url}%ifplatform}
+\usepackage{amsthm}
+\usepackage[pdfstartview=FitH,colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{stmaryrd}
+\usepackage{MnSymbol}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{palatino}
+
+\usepackage{xcolor}
+
+\usepackage{macros}
+\usepackage{float}
+\floatstyle{boxed} \restylefloat{figure}
+
+\newtheorem{construction}[theorem]{Construction}
+
+% Complex \xxx for making notes of things to do.  Use \xxx{...} for general
+% notes, and \xxx[who]{...} if you want to blame someone in particular.
+% Puts text in brackets and in bold font, and normally adds a marginpar
+% with the text ``xxx'' so that it is easy to find.  On the other hand, if
+% the comment is in a minipage, figure, or caption, the xxx goes in the text,
+% because marginpars are not possible in these situations.
+{\makeatletter
+	\gdef\xxxmark{%
+		\expandafter\ifx\csname @mpargs\endcsname\relax % in minipage?
+		\expandafter\ifx\csname @captype\endcsname\relax % in figure/caption?
+		\marginpar{xxx}% not in a caption or minipage, can use marginpar
+		\else
+		xxx % notice trailing space
+		\fi
+		\else
+		xxx % notice trailing space
+		\fi}
+	\gdef\xxx{\@ifnextchar[\xxx@lab\xxx@nolab}
+	\long\gdef\xxx@lab[#1]#2{\textbf{[\xxxmark #2 ---{\sc #1}]}}
+	\long\gdef\xxx@nolab#1{\textbf{[\xxxmark #1]}}
+	% This turns them off:
+	% \long\gdef\xxx@lab[#1]#2{}\long\gdef\xxx@nolab#1{}%
+}
+
+
+
+\newcommand{\ttildeo}{\tilde{o}}
+\newcommand{\tO}{\tilde{O}}
+\newcommand{\tTheta}{\tilde{\Theta}}
+\newcommand{\tOmg}{\tilde{\Omega}}
+\newcommand{\strongzkc}{strong zero k-clique hypothesis}
+\newcommand{\Strongzkc}{strong zero k-clique hypothesis}
+
+\def\keygen{\mathsf{KeyGen}}
+\def\hash{\mathsf{Hash}}
+\def\compute{\mathsf{Eval}}
+
+\def\secp{\lambda}
+
+\def\vecx{\mathbf{x}}
+\def\vecy{\mathbf{y}}
+\def\matA{\mathbf{A}}
+\def\CLOSE{\emph{\textbf{CLOSE}}}
+\def\FAR{\emph{\textbf{FAR}}}
+
+\def\SETINT{\mathsf{L2}}
+
+%%%%%%%%%%%%  Defining theorem-like environments %%%%%%%%%%
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{claim}{Claim}
+%\newtheorem{conjecture}{Conjecture}
+
+%%%%%%%%%%%% macros
+\newcommand{\wmin}{w_{\mathrm{min}}}
+\newcommand{\wmax}{w_{\mathrm{max}}}
+\newcommand{\Ls}{\mathcal L}
+\title{Fine Grained Public Key Cryptography- At some point}
+\author{Rio LaVigne and Andrea Lincoln}
+
+\begin{document}
+\maketitle
+
+\input{introduction}
+
+
+% Decrease the space between bibliography items.
+\let\realbibitem=\bibitem
+\def\bibitem{\par \vspace{-1.2ex}\realbibitem}
+
+\bibliographystyle{alpha}
+\bibliography{mybib} 
+\end{document}

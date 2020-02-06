@@ -1,0 +1,372 @@
+\begin{thebibliography}{10}
+
+\bibitem{abboud2014consequences}
+A.~Abboud, V.~{Vassilevska Williams}, and O.~Weimann.
+\newblock Consequences of faster alignment of sequences.
+\newblock In {\em International Colloquium on Automata, Languages, and
+  Programming}, pages 39--51. Springer, 2014.
+
+\bibitem{AbboudW14pop}
+A.~Abboud and V.~V. Williams.
+\newblock Popular conjectures imply strong lower bounds for dynamic problems.
+\newblock In {\em 55th {IEEE} Annual Symposium on Foundations of Computer
+  Science, {FOCS} 2014, Philadelphia, PA, USA, October 18-21, 2014}, pages
+  434--443, 2014.
+
+\bibitem{colorcoding}
+N.~Alon, R.~Yuster, and U.~Zwick.
+\newblock Color coding.
+\newblock In {\em Encyclopedia of Algorithms}, pages 335--338. 2016.
+
+\bibitem{ABW10}
+B.~Applebaum, B.~Barak, and A.~Wigderson.
+\newblock Public-key cryptography from different assumptions.
+\newblock In {\em Proceedings of the Forty-second ACM Symposium on Theory of
+  Computing}, STOC '10, pages 171--180, New York, NY, USA, 2010. ACM.
+
+\bibitem{BackursT16}
+A.~Backurs and C.~Tzamos.
+\newblock Improving viterbi is hard: Better runtimes imply faster clique
+  algorithms.
+\newblock {\em CoRR}, abs/1607.04229, 2016.
+
+\bibitem{avgCaseFineGrained}
+M.~Ball, A.~Rosen, M.~Sabin, and P.~N. Vasudevan.
+\newblock Average-case fine-grained hardness.
+\newblock In {\em Proceedings of the 49th Annual {ACM} {SIGACT} Symposium on
+  Theory of Computing, {STOC} 2017, Montreal, QC, Canada, June 19-23, 2017},
+  pages 483--496, 2017.
+
+\bibitem{eprintAvgCaseFG}
+M.~Ball, A.~Rosen, M.~Sabin, and P.~N. Vasudevan.
+\newblock Proofs of work from worst-case assumptions.
+\newblock In {\em Advances in Cryptology - {CRYPTO} 2018 - 38th Annual
+  International Cryptology Conference, Santa Barbara, CA, USA, August 19-23,
+  2018, Proceedings, Part {I}}, pages 789--819, 2018.
+
+\bibitem{optimalMerklePuzzles}
+B.~Barak and M.~Mahmoody{-}Ghidary.
+\newblock Merkle puzzles are optimal - an
+  \emph{O}(\emph{n}\({}^{\mbox{2}}\))-query attack on any key exchange from a
+  random oracle.
+\newblock In {\em Advances in Cryptology - {CRYPTO} 2009, 29th Annual
+  International Cryptology Conference, Santa Barbara, CA, USA, August 16-20,
+  2009. Proceedings}, pages 374--390, 2009.
+
+\bibitem{BaranDP08}
+I.~Baran, E.~D. Demaine, and M.~Patrascu.
+\newblock Subquadratic algorithms for 3sum.
+\newblock {\em Algorithmica}, 50(4):584--596, 2008.
+
+\bibitem{BellareCK96}
+M.~Bellare, R.~Canetti, and H.~Krawczyk.
+\newblock Pseudorandom functions revisited: The cascade construction and its
+  concrete security.
+\newblock In {\em 37th Annual Symposium on Foundations of Computer Science,
+  {FOCS} '96, Burlington, Vermont, USA, 14-16 October, 1996}, pages 514--523,
+  1996.
+
+\bibitem{BellareDJR97}
+M.~Bellare, A.~Desai, E.~Jokipii, and P.~Rogaway.
+\newblock A concrete security treatment of symmetric encryption.
+\newblock In {\em 38th Annual Symposium on Foundations of Computer Science,
+  {FOCS} '97, Miami Beach, Florida, USA, October 19-22, 1997}, pages 394--403,
+  1997.
+
+\bibitem{BellareGR95}
+M.~Bellare, R.~Gu{\'{e}}rin, and P.~Rogaway.
+\newblock {XOR} macs: New methods for message authentication using finite
+  pseudorandom functions.
+\newblock In {\em Advances in Cryptology - {CRYPTO} '95, 15th Annual
+  International Cryptology Conference, Santa Barbara, California, USA, August
+  27-31, 1995, Proceedings}, pages 15--28, 1995.
+
+\bibitem{BIN97}
+M.~Bellare, R.~Impagliazzo, and M.~Naor.
+\newblock Does parallel repetition lower the error in computationally sound
+  protocols?
+\newblock In {\em Proceedings of the 38th Annual Symposium on Foundations of
+  Computer Science}, FOCS '97, pages 374--, Washington, DC, USA, 1997. IEEE
+  Computer Society.
+
+\bibitem{BellareKR94}
+M.~Bellare, J.~Kilian, and P.~Rogaway.
+\newblock The security of cipher block chaining.
+\newblock In {\em Advances in Cryptology - {CRYPTO} '94, 14th Annual
+  International Cryptology Conference, Santa Barbara, California, USA, August
+  21-25, 1994, Proceedings}, pages 341--358, 1994.
+
+\bibitem{BellareR09}
+M.~Bellare and T.~Ristenpart.
+\newblock Simulation without the artificial abort: Simplified proof and
+  improved concrete security for waters' {IBE} scheme.
+\newblock In {\em Advances in Cryptology - {EUROCRYPT} 2009, 28th Annual
+  International Conference on the Theory and Applications of Cryptographic
+  Techniques, Cologne, Germany, April 26-30, 2009. Proceedings}, pages
+  407--424, 2009.
+
+\bibitem{BGI08}
+E.~Biham, Y.~J. Goren, and Y.~Ishai.
+\newblock Basing weak public-key cryptography on strong one-way functions.
+\newblock In {\em Theory of Cryptography, Fifth Theory of Cryptography
+  Conference, {TCC} 2008, New York, USA, March 19-21, 2008.}, pages 55--72,
+  2008.
+
+\bibitem{treeEditDistance}
+K.~Bringmann, P.~Gawrychowski, S.~Mozes, and O.~Weimann.
+\newblock Tree edit distance cannot be computed in strongly subcubic time
+  (unless {APSP} can).
+\newblock In {\em Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium
+  on Discrete Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10,
+  2018}, pages 1190--1206, 2018.
+
+\bibitem{CarmosinoGIMPS16}
+M.~L. Carmosino, J.~Gao, R.~Impagliazzo, I.~Mihajlin, R.~Paturi, and
+  S.~Schneider.
+\newblock Nondeterministic extensions of the strong exponential time hypothesis
+  and consequences for non-reducibility.
+\newblock In {\em Proceedings of the 2016 {ACM} Conference on Innovations in
+  Theoretical Computer Science, Cambridge, MA, USA, January 14-16, 2016}, pages
+  261--270, 2016.
+
+\bibitem{Chan18}
+T.~M. Chan.
+\newblock More logarithmic-factor speedups for 3sum, (median, +)-convolution,
+  and some geometric 3sum-hard problems.
+\newblock In {\em Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium
+  on Discrete Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10,
+  2018}, pages 881--897, 2018.
+
+\bibitem{CKGS98}
+B.~Chor, E.~Kushilevitz, O.~Goldreich, and M.~Sudan.
+\newblock Private information retrieval.
+\newblock {\em J. {ACM}}, 45(6):965--981, 1998.
+
+\bibitem{averageAPSP}
+C.~Cooper, A.~M. Frieze, K.~Mehlhorn, and V.~Priebe.
+\newblock Average-case complexity of shortest-paths problems in the
+  vertex-potential model.
+\newblock {\em Random Struct. Algorithms}, 16(1):33--46, 2000.
+
+\bibitem{DVV16}
+A.~Degwekar, V.~Vaikuntanathan, and P.~N. Vasudevan.
+\newblock Fine-grained cryptography.
+\newblock In {\em Advances in Cryptology - {CRYPTO} 2016 - 36th Annual
+  International Cryptology Conference, Santa Barbara, CA, USA, August 14-18,
+  2016, Proceedings, Part {III}}, pages 533--562, 2016.
+
+\bibitem{DiffieHellman}
+W.~Diffie and M.~Hellman.
+\newblock New directions in cryptography.
+\newblock {\em IEEE Trans. Inf. Theor.}, 22(6):644--654, Sept. 2006.
+
+\bibitem{DNR04}
+C.~Dwork, M.~Naor, and O.~Reingold.
+\newblock Immunizing encryption schemes from decryption errors.
+\newblock In C.~Cachin and J.~L. Camenisch, editors, {\em Advances in
+  Cryptology - EUROCRYPT 2004}, pages 342--360, Berlin, Heidelberg, 2004.
+  Springer Berlin Heidelberg.
+
+\bibitem{3sumIntroduction}
+A.~Gajentaan and M.~H. Overmars.
+\newblock On a class of {O}(n\({}^{\mbox{2}}\)) problems in computational
+  geometry.
+\newblock {\em Comput. Geom.}, 45(4):140--152, 2012.
+
+\bibitem{legallMM}
+F.~L. Gall.
+\newblock Powers of tensors and fast matrix multiplication.
+\newblock In {\em International Symposium on Symbolic and Algebraic
+  Computation, {ISSAC} '14, Kobe, Japan, July 23-25, 2014}, pages 296--303,
+  2014.
+
+\bibitem{hardCoreBitsAndXorLemmaFromGL}
+O.~Goldreich and L.~A. Levin.
+\newblock A hard-core predicate for all one-way functions.
+\newblock In {\em Proceedings of the Twenty-first Annual ACM Symposium on
+  Theory of Computing}, STOC '89, pages 25--32, New York, NY, USA, 1989. ACM.
+
+\bibitem{HS65}
+J.~Hartmanis and R.~E. Stearns.
+\newblock On the computational complexity of algorithms.
+\newblock {\em Transactions of the American Mathematical Society},
+  117:285--306, 1965.
+
+\bibitem{HazanK11}
+E.~Hazan and R.~Krauthgamer.
+\newblock How hard is it to approximate the best nash equilibrium?
+\newblock {\em {SIAM} J. Comput.}, 40(1):79--91, 2011.
+
+\bibitem{HS66}
+F.~C. Hennie and R.~E. Stearns.
+\newblock Two-tape simulation of multitape turing machines.
+\newblock {\em J. ACM}, 13(4):533--546, Oct. 1966.
+
+\bibitem{Impagliazzo5worlds}
+R.~Impagliazzo.
+\newblock A personal view of average-case complexity.
+\newblock In {\em Proceedings of the Tenth Annual Structure in Complexity
+  Theory Conference, Minneapolis, Minnesota, USA, June 19-22, 1995}, pages
+  134--147, 1995.
+
+\bibitem{IN02}
+R.~Impagliazzo and M.~Naor.
+\newblock Efficient cryptographic schemes provably as secure as subset sum.
+\newblock 9, 02 2002.
+
+\bibitem{Jerrum92}
+M.~Jerrum.
+\newblock Large cliques elude the metropolis process.
+\newblock {\em Random Struct. Algorithms}, 3(4):347--360, 1992.
+
+\bibitem{JP00}
+A.~Juels and M.~Peinado.
+\newblock Hiding cliques for cryptographic security.
+\newblock {\em Designs, Codes and Cryptography}, 20(3):269--280, Jul 2000.
+
+\bibitem{KW17}
+D.~M. Kane and R.~R. Williams.
+\newblock The orthogonal vectors conjecture for branching programs and
+  formulas.
+\newblock {\em CoRR}, abs/1709.05294, 2017.
+
+\bibitem{KatzW03}
+J.~Katz and N.~Wang.
+\newblock Efficiency improvements for signature schemes with tight security
+  reductions.
+\newblock In {\em Proceedings of the 10th {ACM} Conference on Computer and
+  Communications Security, {CCS} 2003, Washington, DC, USA, October 27-30,
+  2003}, pages 155--164, 2003.
+
+\bibitem{KopelowitzPP16}
+T.~Kopelowitz, S.~Pettie, and E.~Porat.
+\newblock Higher lower bounds from the 3sum conjecture.
+\newblock In {\em Proceedings of the Twenty-Seventh Annual {ACM-SIAM} Symposium
+  on Discrete Algorithms, {SODA} 2016, Arlington, VA, USA, January 10-12,
+  2016}, pages 1272--1287, 2016.
+
+\bibitem{Kucera95}
+L.~Kucera.
+\newblock Expected complexity of graph partitioning problems.
+\newblock {\em Discrete Applied Mathematics}, 57(2-3):193--212, 1995.
+
+\bibitem{Lev73}
+L.~A. Levin.
+\newblock On storage capacity of algorithms.
+\newblock {\em Soviet Mathematics, Doklady}, 14(5):1464--1466, 1973.
+
+\bibitem{sparseGraphsLVWW}
+A.~Lincoln, V.~V. Williams, and R.~R. Williams.
+\newblock Tight hardness for shortest cycles and paths in sparse graphs.
+\newblock In {\em Proceedings of the Twenty-Ninth Annual {ACM-SIAM} Symposium
+  on Discrete Algorithms, {SODA} 2018, New Orleans, LA, USA, January 7-10,
+  2018}, pages 1236--1252, 2018.
+
+\bibitem{Lindell}
+Y.~Lindell.
+\newblock {\em Tutorials on the Foundations of Cryptography: Dedicated to Oded
+  Goldreich}.
+\newblock Springer Publishing Company, Incorporated, 1st edition, 2017.
+
+\bibitem{LPS10}
+V.~Lyubashevsky, A.~Palacio, and G.~Segev.
+\newblock Public-key cryptographic primitives provably as secure as subset sum.
+\newblock In {\em Proceedings of the 7th International Conference on Theory of
+  Cryptography}, TCC'10, pages 382--400, Berlin, Heidelberg, 2010.
+  Springer-Verlag.
+
+\bibitem{Merkle78}
+R.~C. Merkle.
+\newblock Secure communications over insecure channels.
+\newblock {\em Commun. ACM}, 21(4):294--299, Apr. 1978.
+
+\bibitem{Patrascu10}
+M.~Patrascu.
+\newblock Towards polynomial lower bounds for dynamic problems.
+\newblock In {\em Proceedings of the 42nd {ACM} Symposium on Theory of
+  Computing, {STOC} 2010, Cambridge, Massachusetts, USA, 5-8 June 2010}, pages
+  603--610, 2010.
+
+\bibitem{PeresSSZ13}
+Y.~Peres, D.~Sotnikov, B.~Sudakov, and U.~Zwick.
+\newblock All-pairs shortest paths in \emph{O}(\emph{n}\({}^{\mbox{2}}\)) time
+  with high probability.
+\newblock {\em J. {ACM}}, 60(4):26:1--26:25, 2013.
+
+\bibitem{avgCase3Sum}
+S.~Pettie.
+\newblock Higher lower bounds from the 3sum conjecture.
+\newblock Fine-Grained Complexity and Algorithm Design Workshop at the Simons
+  Institute, 2015.
+
+\bibitem{RR94}
+A.~A. Razborov and S.~Rudich.
+\newblock Natural proofs.
+\newblock In {\em Proceedings of the Twenty-Sixth Annual {ACM} Symposium on
+  Theory of Computing, 23-25 May 1994, Montr{\'{e}}al, Qu{\'{e}}bec, Canada},
+  pages 204--213, 1994.
+
+\bibitem{Regev05}
+O.~Regev.
+\newblock On lattices, learning with errors, random linear codes, and
+  cryptography.
+\newblock In {\em Proceedings of the Thirty-seventh Annual ACM Symposium on
+  Theory of Computing}, STOC '05, pages 84--93, New York, NY, USA, 2005. ACM.
+
+\bibitem{rsa}
+R.~L. Rivest, A.~Shamir, and L.~Adleman.
+\newblock A method for obtaining digital signatures and public-key
+  cryptosystems.
+\newblock {\em Commun. ACM}, 21(2):120--126, Feb. 1978.
+
+\bibitem{RW02}
+A.~Russell and H.~Wang.
+\newblock How to fool an unbounded adversary with a short key.
+\newblock In {\em Proceedings of the International Conference on the Theory and
+  Applications of Cryptographic Techniques: Advances in Cryptology}, EUROCRYPT
+  '02, pages 133--148, London, UK, UK, 2002. Springer-Verlag.
+
+\bibitem{Shamir79}
+A.~Shamir.
+\newblock How to share a secret.
+\newblock {\em Commun. {ACM}}, 22(11):612--613, 1979.
+
+\bibitem{Shor}
+P.~W. Shor.
+\newblock Algorithms for quantum computation: Discrete logarithms and
+  factoring.
+\newblock In {\em Proceedings of the 35th Annual Symposium on Foundations of
+  Computer Science}, SFCS '94, pages 124--134, Washington, DC, USA, 1994. IEEE
+  Computer Society.
+
+\bibitem{Tse56}
+G.~S. Tseitin.
+\newblock Seminar on math, logic.
+\newblock 1956.
+
+\bibitem{icm-survey}
+V.~{Vassilevska Williams}.
+\newblock On some fine-grained questions in algorithms and complexity.
+\newblock In {\em Proceedings of the International Congress of Mathematicians},
+  page to appear, 2018.
+
+\bibitem{VVWmmfaster}
+V.~V. Williams.
+\newblock Multiplying matrices faster than coppersmith-winograd.
+\newblock In {\em Proceedings of the 44th Symposium on Theory of Computing
+  Conference, {STOC} 2012, New York, NY, USA, May 19 - 22, 2012}, pages
+  887--898, 2012.
+
+\bibitem{virgi10}
+V.~V. Williams and R.~Williams.
+\newblock Subcubic equivalences between path, matrix and triangle problems.
+\newblock In {\em 51th Annual {IEEE} Symposium on Foundations of Computer
+  Science, {FOCS} 2010, October 23-26, 2010, Las Vegas, Nevada, {USA}}, pages
+  645--654, 2010.
+
+\bibitem{WilliamsW13j}
+V.~V. Williams and R.~Williams.
+\newblock Finding, minimizing, and counting weighted subgraphs.
+\newblock {\em {SIAM} J. Comput.}, 42(3):831--854, 2013.
+
+\end{thebibliography}

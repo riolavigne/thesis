@@ -1,0 +1,237 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\providecommand \oddpage@label [2]{}
+\@writefile{toc}{\contentsline {title}{Public-Key Cryptography\unskip \ \ignorespaces  in the Fine-Grained Setting}{1}{chapter.1}}
+\@writefile{toc}{\authcount {3}}
+\@writefile{toc}{\contentsline {author}{Rio LaVigne$^1$ \and Andrea Lincoln$^2$ \and Virginia Vassilevska Williams$^3$}{1}{chapter.1}}
+\citation{Shamir79}
+\citation{CKGS98}
+\citation{RW02}
+\citation{Impagliazzo5worlds}
+\citation{RR94}
+\citation{HS65}
+\citation{HS66}
+\citation{Tse56}
+\citation{Lev73}
+\citation{rsa}
+\citation{DiffieHellman}
+\citation{Shor}
+\citation{VVWmmfaster}
+\citation{legallMM}
+\citation{hardCoreBitsAndXorLemmaFromGL}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1.1}}
+\citation{avgCaseFineGrained}
+\citation{eprintAvgCaseFG}
+\citation{icm-survey}
+\citation{icm-survey}
+\citation{CarmosinoGIMPS16}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Our contributions}{4}{subsection.1.1.1}}
+\citation{icm-survey}
+\citation{WilliamsW13j}
+\citation{icm-survey}
+\citation{avgCaseFineGrained}
+\citation{eprintAvgCaseFG}
+\citation{CarmosinoGIMPS16}
+\citation{avgCaseFineGrained}
+\citation{Merkle78}
+\citation{BGI08}
+\citation{DVV16}
+\citation{DVV16}
+\citation{BellareKR94}
+\citation{BellareGR95}
+\citation{BellareCK96}
+\citation{BellareDJR97}
+\citation{KatzW03}
+\citation{BellareR09}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Previous Works}{6}{subsection.1.1.2}}
+\@writefile{toc}{\contentsline {subsubsection}{Fine-Grained Cryptography}{6}{section*.2}}
+\@writefile{toc}{\contentsline {paragraph}{Fine-Grained Key Exchanges.}{6}{section*.3}}
+\@writefile{toc}{\contentsline {paragraph}{Another notion of Fine-Grained Cryptography.}{6}{section*.4}}
+\@writefile{toc}{\contentsline {paragraph}{Tight Security Reductions and Fine-Grained Crypto.}{6}{section*.5}}
+\citation{Merkle78}
+\citation{BGI08}
+\citation{eprintAvgCaseFG}
+\citation{DVV16}
+\citation{BGI08}
+\citation{BGI08}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  A table of previous works' results in this area. There have been several results characterizing different aspects of fine-grained cryptography. *It was \cite  {BGI08} who showed that Merkle's construction could be realized with a random oracle. However, Merkle presented the construction. }}{7}{figure.1.1}}
+\newlabel{fig:comparison}{{1}{7}{Tight Security Reductions and Fine-Grained Crypto}{figure.1.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Similar Assumptions}{7}{section*.6}}
+\citation{IN02}
+\citation{Lindell}
+\citation{JP00}
+\citation{Lindell}
+\citation{ABW10}
+\citation{LPS10}
+\citation{Regev05}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Technical Overview}{8}{subsection.1.1.3}}
+\@writefile{toc}{\contentsline {paragraph}{Our Hardness Assumption}{8}{section*.7}}
+\citation{avgCase3Sum}
+\citation{Merkle78}
+\citation{BGI08}
+\citation{optimalMerklePuzzles}
+\@writefile{toc}{\contentsline {paragraph}{Public Key Exchange}{10}{section*.8}}
+\citation{avgCaseFineGrained}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces A depiction of our reduction showing hardness for our fine-grained key exchange.}}{11}{figure.1.2}}
+\newlabel{fig:wholeReductionBoxes}{{2}{11}{Public Key Exchange}{figure.1.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{One Way Functions}{11}{section*.9}}
+\citation{hardCoreBitsAndXorLemmaFromGL}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Organization of Paper}{12}{subsection.1.1.4}}
+\citation{avgCaseFineGrained}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Preliminaries: Model of Computation and Definitions}{13}{section.1.2}}
+\newlabel{sec:prelims}{{2}{13}{Preliminaries: Model of Computation and Definitions}{section.1.2}{}}
+\citation{BGI08}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Fine-Grained Symmetric Crypto Primitives}{14}{subsection.1.2.1}}
+\newlabel{def:fg-owf}{{4}{14}{Fine-Grained Symmetric Crypto Primitives}{section*.15}{}}
+\newlabel{def:gap}{{5}{14}{Fine-Grained Symmetric Crypto Primitives}{section*.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Fine-Grained Asymmetric Crypto Primitives}{14}{subsection.1.2.2}}
+\newlabel{def:fgkeyxc}{{6}{15}{Fine-Grained Asymmetric Crypto Primitives}{section*.17}{}}
+\newlabel{def:fg-pkc}{{7}{15}{Fine-Grained Asymmetric Crypto Primitives}{section*.18}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Average Case Assumptions}{16}{section.1.3}}
+\newlabel{sec:averageCaseAssumptions}{{3}{16}{Average Case Assumptions}{section.1.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}General Useful Properties}{16}{subsection.1.3.1}}
+\newlabel{def:acih}{{9}{16}{General Useful Properties}{section*.20}{}}
+\citation{Lindell}
+\citation{Lindell}
+\newlabel{def:acsh}{{10}{17}{General Useful Properties}{section*.21}{}}
+\newlabel{def:plantable}{{11}{17}{General Useful Properties}{section*.22}{}}
+\newlabel{def:aclh}{{12}{17}{General Useful Properties}{section*.23}{}}
+\citation{Patrascu10}
+\citation{AbboudW14pop}
+\citation{icm-survey}
+\citation{BackursT16}
+\citation{abboud2014consequences}
+\citation{sparseGraphsLVWW}
+\citation{treeEditDistance}
+\citation{virgi10}
+\citation{avgCase3Sum}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Concrete Hypothesis}{18}{subsection.1.3.2}}
+\@writefile{toc}{\contentsline {paragraph}{Problem Descriptions}{18}{section*.25}}
+\citation{colorcoding}
+\citation{sparseGraphsLVWW}
+\citation{colorcoding}
+\@writefile{toc}{\contentsline {paragraph}{Weak and Strong Hypotheses}{20}{section*.30}}
+\newlabel{def:weak-k-sum}{{18}{20}{Weak and Strong Hypotheses}{section*.31}{}}
+\newlabel{def:strongzkc}{{20}{20}{Weak and Strong Hypotheses}{section*.33}{}}
+\citation{3sumIntroduction}
+\citation{BaranDP08}
+\citation{Chan18}
+\citation{3sumIntroduction}
+\citation{abboud2014consequences}
+\citation{Patrascu10}
+\citation{KopelowitzPP16}
+\citation{virgi10}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Our assumptions - background and justification}{21}{section.1.4}}
+\newlabel{sec:justifyAssumptions}{{4}{21}{Our assumptions - background and justification}{section.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Background for Fine-Grained Problems}{21}{subsection.1.4.1}}
+\citation{icm-survey}
+\citation{BackursT16}
+\citation{abboud2014consequences}
+\citation{sparseGraphsLVWW}
+\citation{treeEditDistance}
+\citation{PeresSSZ13}
+\citation{averageAPSP}
+\citation{KW17}
+\citation{avgCase3Sum}
+\citation{Patrascu10}
+\citation{WilliamsW13j}
+\citation{WilliamsW13j}
+\citation{HazanK11}
+\citation{Jerrum92}
+\citation{Kucera95}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Justifying the Hardness of Some Average-Case Fine-Grained Problems}{22}{subsection.1.4.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Fine-Grained Key Exchange}{23}{section.1.5}}
+\newlabel{sec:FineGrainedKeyExchange}{{5}{23}{Fine-Grained Key Exchange}{section.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Description of a Weak Fine-Grained Interactive Key Exchange}{24}{subsection.1.5.1}}
+\newlabel{const:fg-interactive-keyxc}{{4}{24}{Weak Fine-Grained Interactive Key Exchange}{theorem.1.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Correctness and Soundness of the Key Exchange}{24}{subsection.1.5.2}}
+\newlabel{lem:keyxc-is-correct}{{1}{25}{Correctness and Soundness of the Key Exchange}{section*.37}{}}
+\@writefile{toc}{\contentsline {paragraph}{Time for Alice and Bob.}{25}{section*.39}}
+\newlabel{lem:alice-bob-time}{{2}{25}{Time for Alice and Bob}{section*.39}{}}
+\@writefile{toc}{\contentsline {paragraph}{Time for Eve.}{25}{section*.41}}
+\newlabel{lem:eve-time}{{3}{25}{Time for Eve}{section*.41}{}}
+\citation{DNR04}
+\citation{BIN97}
+\citation{BIN97}
+\citation{BIN97}
+\newlabel{thm:fg-pkc}{{5}{26}{Time for Eve}{section*.42}{}}
+\newlabel{thm:ATTimpPKE}{{5}{26}{Time for Eve}{section*.42}{}}
+\newlabel{thm:amplifyKeyXC}{{6}{26}{Time for Eve}{section*.43}{}}
+\newlabel{cor:strongFGKeyXc}{{1}{27}{Time for Eve}{section*.45}{}}
+\newlabel{lem:non-interactive-const}{{4}{28}{Time for Eve}{section*.46}{}}
+\bibstyle{abbrv}
+\bibdata{mybib}
+\bibcite{abboud2014consequences}{1}
+\newlabel{cor:kcliqueKeyExchange}{{2}{29}{Time for Eve}{section*.48}{}}
+\bibcite{AbboudW14pop}{2}
+\bibcite{colorcoding}{3}
+\bibcite{ABW10}{4}
+\bibcite{BackursT16}{5}
+\bibcite{avgCaseFineGrained}{6}
+\bibcite{eprintAvgCaseFG}{7}
+\bibcite{optimalMerklePuzzles}{8}
+\bibcite{BaranDP08}{9}
+\bibcite{BellareCK96}{10}
+\bibcite{BellareDJR97}{11}
+\bibcite{BellareGR95}{12}
+\bibcite{BIN97}{13}
+\bibcite{BellareKR94}{14}
+\bibcite{BellareR09}{15}
+\bibcite{BGI08}{16}
+\bibcite{treeEditDistance}{17}
+\bibcite{CarmosinoGIMPS16}{18}
+\bibcite{Chan18}{19}
+\bibcite{CKGS98}{20}
+\bibcite{averageAPSP}{21}
+\bibcite{DVV16}{22}
+\bibcite{DiffieHellman}{23}
+\bibcite{DNR04}{24}
+\bibcite{3sumIntroduction}{25}
+\bibcite{legallMM}{26}
+\bibcite{hardCoreBitsAndXorLemmaFromGL}{27}
+\bibcite{HS65}{28}
+\bibcite{HazanK11}{29}
+\bibcite{HS66}{30}
+\bibcite{Impagliazzo5worlds}{31}
+\bibcite{IN02}{32}
+\bibcite{Jerrum92}{33}
+\bibcite{JP00}{34}
+\bibcite{KW17}{35}
+\bibcite{KatzW03}{36}
+\bibcite{KopelowitzPP16}{37}
+\bibcite{Kucera95}{38}
+\bibcite{Lev73}{39}
+\bibcite{sparseGraphsLVWW}{40}
+\bibcite{Lindell}{41}
+\bibcite{LPS10}{42}
+\bibcite{Merkle78}{43}
+\bibcite{Patrascu10}{44}
+\bibcite{PeresSSZ13}{45}
+\bibcite{avgCase3Sum}{46}
+\bibcite{RR94}{47}
+\bibcite{Regev05}{48}
+\bibcite{rsa}{49}
+\bibcite{RW02}{50}
+\bibcite{Shamir79}{51}
+\bibcite{Shor}{52}
+\bibcite{Tse56}{53}
+\bibcite{icm-survey}{54}
+\bibcite{VVWmmfaster}{55}
+\bibcite{virgi10}{56}
+\bibcite{WilliamsW13j}{57}

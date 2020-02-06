@@ -77,10 +77,12 @@
 \newcommand{\NEowcc}[1]{R^{A \to B}_{\negl(\secp)}(#1)}
 \newcommand{\zeroNormAssumption}{SSV}
 \newcommand{\sparsify}{\textsf{Sparsify}}
+\newcommand{\eps}{\epsilon}
 
 %%%% Topology-Hiding Computation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\THC}{\textsf{THC}}
+\newcommand{\PKCR}{\textsf{PKCR}}
 %-------------------------------------------------------------------------------
 %  1-Bit Leakage Protocol
 %-------------------------------------------------------------------------------
@@ -89,10 +91,11 @@
 %%%% Property Preserving Hashes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\PPH}{\textsf{PPH}}
 \newcommand{\matA}{\mathbf A}
-
+\newcommand{\hash}{\mathsf{Hash}}
+\def\CLOSE{\emph{\textbf{CLOSE}}}
+\def\FAR{\emph{\textbf{FAR}}}
 
 \renewcommand{\subparagraph}[1]{\textbf{#1}}
-
 
 %%%% ORACLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\hashOracle}{\cO_h^{\mathsf{Hash}}}
@@ -111,6 +114,66 @@
 \newcommand{\gap}{\textsc{Gap}}
 \newcommand{\equality}{\textsc{Equality}}
 \newcommand{\exactHamming}{\textsc{ExactHamming}}
+
+
+
+
+%%%% Fine-Grained Crypto %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ttildeo}{\tilde{o}}
+\newcommand{\tO}{\tilde{O}}
+\newcommand{\tTheta}{\tilde{\Theta}}
+\newcommand{\tOmg}{\tilde{\Omega}}
+
+\newcommand{\zkclique}{Zero-$k$-Clique}
+\newcommand{\zThclique}{Zero-$3$-Clique}
+\newcommand{\kSum}{$k$-Sum}
+\newcommand{\ThSum}{$3$-Sum}
+
+\newcommand{\strongksum}{strong \kSum-$R$ Hypothesis }
+\newcommand{\Strongksum}{Strong \kSum-$R$ Hypothesis }
+\newcommand{\weakksum}{weak \kSum-$R$ Hypothesis }
+\newcommand{\Weakksum}{Weak \kSum-$R$ Hypothesis }
+
+\newcommand{\strongzkc}{strong \zkclique-$R$ Hypothesis }
+\newcommand{\Strongzkc}{Strong \zkclique-$R$ Hypothesis }
+\newcommand{\weakzkc}{weak \zkclique-$R$ Hypothesis }
+\newcommand{\Weakzkc}{Weak \zkclique-$R$ Hypothesis }
+
+\newcommand{\Plantable}{Plantable problem}
+\newcommand{\plantable}{plantable problem}
+\newcommand{\Splitable}{Splittable problem}
+
+\newcommand{\ACIH}{ACIH}
+\newcommand{\ACSH}{ACSH}
+\newcommand{\ACLH}{ACLH}
+
+\newcommand{\TVD}{\mathrm{TVD}}
+
+\newcommand{\wmin}{w_{\mathrm{min}}}
+\newcommand{\wmax}{w_{\mathrm{max}}}
+\newcommand{\Ls}{\mathcal L}
+
+\newcommand{\RandomZKC}{Random Edge Zero-$k$-Clique Hypothesis }
+%\newcommand{\Plant}{\mathsf{Plant}}
+
+\newcommand{\Split}{\mathsf{Split}}
+\newcommand{\Generate}{\mathsf{Generate}}
+\newcommand{\nin}{\not\in}
+
+\newcommand{\insig}{\mathsf{insig}}
+\newcommand{\sig}{\mathsf{sig}}
+
+\newcommand{\PFT}[1]{\mathsf{PFT}_{#1}}
+\newcommand{\fgowf}[1]{{#1}\textsf{-FG-OWF}}
+\newcommand{\fgowp}[1]{{#1}\textsf{-FG-OWP}}
+\newcommand{\fgkeyxc}[3]{(#1, #2, #3)\textsf{-FG-KeyExchange}}
+\newcommand{\strongfgkeyxc}[1]{\textsf{Strong } (#1)\textsf{-FG-KeyExchange}}
+\newcommand{\fgpkc}[1]{(#1)\textsf{-FG-PKC}}
+\newcommand{\transcript}{\textsf{Transcript}}
+\newcommand{\Time}{T}
+\newcommand{\sharedKey}{\mathsf{ShKey}}
+\newcommand{\mpk}{\textsc{mpk}}
+
 
 
 %%%% GENERAL COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,33 @@
+\section{$k$-Sum and Zero $k$-Clique Proofs}
+\label{sec:zkcAppendix}
+Proofs needed for Section \ref{sec:zkcIsAllTheThings} but are distracting or lengthy are here.
+
+%\subsection{Zero $k$-Clique is Plantable from the Weak Hypothesis}
+%TODO: note about decision version
+%\begin{theorem}
+%	Assuming the weak Zero $k$-Clique hypothesis over range $R$, Zero $k$-Clique is plantable with error $\leq 2n^k/R$ in $O(n^2)$ time.
+%\end{theorem}
+%\begin{proof}
+%	The proof of this will mirror the proof that $k$-SUM is plantable. Note that the input size for Zero $k$-Clique is $O(n^2)$ when there are $kn$ nodes, unlike the input size for $k$-SUM (which is $O(n)$). We define $\Generate$ as follows:
+%	\begin{itemize}
+%		\item $\Generate(n,0)$ outputs a complete $k$-partite graph with $n$ nodes in each partition, and edge weights drawn uniformly from $\Z_R$. This takes $O(n^2)$ time.
+%		\item $\Generate(n,1)$ starts with $\Generate(n,0)$, and then plants a clique by choosing a node from each partition, $v_1 \in P_1, \dots, v_k \in P_k$, choosing an $i \neq j \getsr [k]$, and setting the weight $w(v_i, v_j) = -\sum_{(i', j') \neq (i,j)} w(v_{i'}, v_{j'}) \mod R$. This also takes $O(n^2)$ time.
+%	\end{itemize}
+%	Showing $\Generate(n,0)$ has TVD at most $n^k/R$ from $D_0$ for the same reason as $k$-SUM: $\Generate(n,0)$ is uniform over the support of $D_0$ (just like $D_0)$, and so the distance is equal to the probability $\Generate(n,0)$ produces an instance with one or more zero $k$-cliques. There are $n^k$ different possible cliques and a union bound yields the probability that one of them has weight zero is simply $n^k/R$.
+%	
+%	Then showing $\Generate(n,1)$ has TVD at most $n^k / R + n^{k-2}/R$ from $D_1$ is just as before: $TVD(\Generate(n,1), D_1) \le TVD(\Generate(n,0) + \mbox{Plant}, D_0 + \mbox{Plant}) + TVD(D_0 + \mbox{Plant}, D_1)$. The first term is just $TVD(\Generate(n,0), D_0) \le n^k/R$. The second is just the probability that Plant introduces an unintended zero-clique. Since we are only changing one edge when we plant, the probability that this happens is at most $(n^{k-2} - 1)/R \le n^{k-2}/R$; that changed edge fixes two out of the $k$ edges we choose, and so there are $k-2$ partitions left to choose from.
+%	
+%	Therefore, in total, the error from $\Generate$ is at most $2n^k/R$.
+%\end{proof}
+
+\subsection{Zero $k$-clique is a Plantable Problem}
+
+
+\subsection{Zero $k$-clique is Average Case List-Hard}
+\label{sec:appendixListHard}
+
+
+
+
+
+

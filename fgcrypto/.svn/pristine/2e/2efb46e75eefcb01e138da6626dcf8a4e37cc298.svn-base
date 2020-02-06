@@ -1,0 +1,188 @@
+\section{Properties of $k$-sum and Zero $k$-clique Hypotheses}
+
+In this section, we will review the properties that $k$-sum and zero $k$-clique have that will make them useful in constructing fine-grained OWFs and our fine-grained key exchange.
+
+\subsection{$k$-sum is Plantable}
+Here we will show that by assuming the weak $k$-sum hypothesis (see definition \ref{def:weak-k-sum}), we get that $k$-sum is a plantable $n^{2+\delta}$-\ACIH.
+
+
+\begin{theorem}
+	$k$-SUM-$R$ is a plantable with error $n^k/R$ in $O(n)$ time.
+	%If the weak $k$-sum hypothesis holds over a range $R > 100 n^k$, then $k$-SUM-$R$ is $n^{2+\delta}$-\ACIH.
+\end{theorem}
+\begin{proof}
+	Let $\Generate(n)$ be the procedure of randomly choosing all $kn$ entries uniformly at random from $[0,R-1]$, taking time $O(n)$. There are $n^k$ possible sums, the expected number of solutions is $\leq n^k/R$. The total variation distance between $\Generate(n)$ and $D_0(k-SUM-R,n)$ is $\leq n^k/R$ because the distribution over $I \sim \Generate(n)$ where $I$ has no solutions is uniform over all instances $I$ with no solutions. 
+	
+	Let $\Plant(I)$ be the procedure of randomly picking $k$ numbers $v_1,\ldots,v_k$ from the instance $I$, each from one list and picking one of these numbers at random $v_i$, and finally setting $v_i= - \sum{j\in[1,k] \& j\ne i}$. 
+	
+	Let $D_{plant}$ be the distribution over $I'$ drawn from $Plant(I)=I'$ where $I \sim D_0(k-SUM-R,n)$. Now let us consider $Pr_{I' \sim D_{plant}}[I' = I]$ for some $I$ in the support of $D_1(k-SUM-R,n)$. We need to pick the correct $k$ values to plant the solution into, and then all $nk-1$ values, other than the planted one, must match the original. $Pr_{I' \sim D_{plant}}[I' = I] = 1/(n^k R^{kn-1})$. 
+	Note that this probability is uniform over all elements $I$ in $D_1(k-SUM-R,n)$. The probability that more than one clique was introduced is $\leq n^{k-1}/R$. The variation distance between $D_{plant}$ and $D_1(k-SUM-R,n)$ is $\leq n^{k-1}/R$. 
+\end{proof}
+
+Note that when $R> 6n^k$  $\Plant(\Generate(n))$ has total variation distance $< 1/3$ from $D_1(k-SUM-R,n)$.
+
+Unfortunately for general $k$-sum, the problem does not lend itself well to being average case list hard or splittable.
+
+\subsection{Zero k-Clique is Plantable, Average Case List Hard and, Splittable}
+\label{sec:zkcIsAllTheThings}
+
+Now we will prove that Zero $k$-Clique has the properties we need for our key exchange. 
+
+\subsubsection{Zero k-clique is a Plantable Problem}
+
+
+\begin{theorem}
+	Zero k-clique is plantable in time $O(n^2)$ with error $\leq n^{k}/R+n^k/R$.
+	\label{thm:zkcPlantable}
+\end{theorem}
+\begin{proof}
+	Let $\Generate(n)$ be the procedure of randomly picking all $\binom{k}{2}n^2$ edge weights from range $[0,R-1]$ takes time $O(n^2)$, by Lemma \ref{lem:TVDnosol} this has total variation distance $n^k/R$ from $D^{zkc}_{0}[R,n]$. 
+	
+	Let the $\Plant(I)$ be the procedure of picking $k$ random nodes, $v_1,\ldots,v_k$ and picking a random edge $(v_i,v_j)$ and setting the weight of the edge such that the clique has total weight $0$.  
+	
+	Given an instance, $I$ with all edge weights chosen uniformly at random, the total time to run $\Plant$ is $k = O(1)$. 
+	
+	Finally note that $\Plant(I)$ will always have at least one solution, the one planted. 
+\end{proof}
+
+%Our assumptions make reference to the uniform distribution of zero $k$-clique instances and $k$-sum instances in which there are one solution. The distributions $D_{zkc}[R,1,k]$ and $D_{sum}[R,1,k]$ respectively. We will demonstrate an efficiently sampleable distribution 
+%\xxx{TODO: fill in this section}
+
+\subsubsection{Zero $k$-clique is Average Case List Hard}
+
+%Also true for the decision version! If we want the decision version instead 
+% We can include the commented out points about D_0
+
+\begin{theorem}
+	Given the \strongzkc in range $n^k$
+	zero k-clique is $n^k$-\ACIH and Average Case List Hard with list length $\ell(n)$ for all polynomial functions $1<\ell(n)$.
+	\label{thm:zkcSelfReduce}
+\end{theorem}
+\begin{proof}
+	Let $R= 200n^k/3$, for simplicity of reading.
+	
+	We are given one instance $I$ of zero-k-clique with $k$ partitions, $P_1, \ldots, P_k$ of $n$ nodes and with edge weights generated uniformly at random from the range $[0,R-1]$.
+	
+	Randomly partition each partition, $P_i$, into $g$ sets $P_i^1, \ldots, P_i^g$ where each set contains $n/g$ nodes. 
+	
+	Now, note that if we solve all $g^k$ instances formed by taking every possible choice of $P_1^{i_1}, P_2^{i_2},\ldots, P_k^{i_k}$, this takes time $O(n^k)$, which is how long the original size $n$ problem takes to solve. 
+	
+	Sadly, not all $g^k$ instances are independent. So, we want to generate sets of independent instances. Note that if we choose $g$ of these sub-problems such that the nodes don't overlap then the edges were chosen independently between each instance! Specifically consider all vectors of the form $\vec{x} = <x_2, \ldots, x_k> \in \mathbb{Z}_{g}^{k-1}$. Then let 
+	$$S_{\vec{x}}= \{P_1^i \cup P_2^{i+x_2} \cup \ldots \cup P_k^{i+x_k}|\forall i\in [0,g]\}.$$
+	Now, note that $\cup_{\vec{x} \in \mathbb{Z}_g^{k-1}} S_{\vec{x}}$ is the full set of all possible $g^k$ subproblems, and the total number of problems in all $S_{\vec{x}}$ is $g^k$, so once again brute forcing each $S_{\vec{x}}$ solves takes time $n^k$. 
+	
+	Note that producing these instances is efficient, it takes time $O(n^2)$, the input size. So, this is an efficient reduction. 
+	
+	Next, we will show that the correct number of solutions are generated. 
+	%If $I$ has no solutions then none of the subproblems in any $S_{\vec{x}}$ have solutions (they are subsets of edges and nodes, this can not introduce new zero $k$ cliques). 
+	If $I$ has only one solution then exactly one $I_j$ in exactly one $S_{\vec{x}}$ has a solution. Note that any zero k-clique in $I$ must involve exactly one node from each partition $P_i$. So, if there is one zero $k$ clique it will only appear in subproblems where the node from partition $P_i$ is in  $P_i^j$ and $P^j_i$ appears in that subproblem. There is exactly one sub-problem generated with  a specific choice of $k$ sub-partitions. So, exactly one $I_j$ in exactly one $S_{\vec{x}}$ has a solution.
+	
+	We want to show that the $S_{\vec{x}}$ which contains an instance with a solution has total variation distance  $\leq 2n^k/R$ from 
+	\[ \{I_1, \dots, I_x\}_{I_i \sim D_{1}, \land \forall j \neq i, I_j \sim D_{0}}.\]
+	
+	By Lemma \ref{lem:TVDonesol} the original instance the distribution is within total variation distance of $n^k/R + n^{k-1}/R$ from planting a clique after uniformly at random picking the weight for each edge. 
+	
+	In the planted distribution the instances in $S_{\vec{x}}$ which do not contain the planted clique have had their edges chosen uniformly at random. Thus, by Lemma \ref{lem:TVDnosol} they each have total variation distance $(n/g)^k/R$ from the distribution $D_{0}=D^{zkc}_{0}[R,n/g]$. 
+	
+	The instance which contains the planted solution itself had all edges chosen uniformly at random except for the planted clique edge. Thus, by Lemma \ref{lem:TVDonesol} it has total variation distance $(n/g)^k/R + (n/g)^{k-1}/R$ from $D_{1}= D^{zkc}_{1}[R,n/g]$. Which index within $S_{\vec{x}}$ this clique lands uniform over all the $g$ indices, because the clique nodes were picked uniformly at random. 
+	
+	The total error introduced by this process is $\leq g(n/g)^k/R+ (n/g)^{k-1}/R+n^k/R + n^{k-1}/R \leq 2n^k/R$ for $g>2$ and sufficiently large $n$. 
+	
+	We make no constraints on $g$ other than that $1<g<n$
+	
+	
+	%OH GOD THIS IS SO LONG WHYYYYY
+	
+	Now we assume the contrary, an algorithm $\mathsf{Solve}(S_i)$ exists which runs in time $O\left(\left((n/g)^k g\right)^{1-\delta}\right)$ for some $\delta>0$ which solves the $g$ listed instances version of the problem with probability $\geq 7/10$. 
+	
+	Given an instance $I$ drawn uniformly at random from $D_{1}$ we generate $g^{k-1}$ sets $S_1,\ldots, S_{g^{k-1}}$ of problems. Each $S_i$ contains $g$ problems each of size $n/g$. Use the list version of the problem on each $S_i$. Running $\mathsf{Solve}$ on all $g^{k-1}$ $S_i$ instances takes time $O\left(n^kg^{(k-1)(\delta)}/n^{k\delta}\right)$ this is $\PFT{n^k}$. Then, brute force each index returned by the algorithm. This brute force takes $\tilde{O}(g^{k-1}(n/g)^k)$ time which is also $\PFT{n^k}$. If in any brute force you find the solution, then return the index from the original it is associated with.
+	
+	
+	
+	Note, we only care about the algorithms behavior on the single $S_i$ which contains the instance with a solution. Because we brute force each returned index we get no false positive. 
+	
+	%If the instance $I$ were drawn from $D_0$ then no index that was returned would have a solution. Whenever all the indices is wrong we guess $0$. When we find a solution we guess $1$.
+	
+	Thus, when $I \sim D_1$ we return the correct instance when the algorithm returns correctly, which happens $\geq 7/10-2n^k/R$ of the time.  %When $I \sim D_0$ we return correctly all the time as we never introduce solutions when there were none. So our probability of correctness is $1/2+ 1/2( 7/10-2n^k/R)$.
+	
+	Plug in $R= 200n^k/3$ and we get probability of distinguishing $\geq 1/3$. Violating the \strongzkc in range $200n^k/3$.
+	
+	
+	$200/3$ is a constant so our range up to constant factors is $n^k$.
+	
+	Finally, what are our constraints on $\ell(n)$ we need that $\ell(n/g)=g$  and $1<g<n$. Note that for any polynomial $n^c$ we can set $g$ such that $(n/g)^c=g$. We could even set $g= n/\lg(n)$ and get an exponential  function $\ell(n)$.  We will for simplicity just consider polynomial functions. 
+\end{proof}
+
+
+\subsubsection{Zero $k$-clique is Splittable}
+Next we show that zero-k-clique is splittable. 
+
+Intuitively we are taking the first half of the bits of each edge and making an instance from that. Then we are taking the second half of the bits of each edge to make another instance. If the $\binom{k}{2}$ weights on a $k$ clique sum to zero then the first half of all the weights sum to zero up to carries, and the second half of all the weights sum to zero up to carries. We simply guess the carries. We start by proving this for a convenient range and then show we can use a reduction to get more arbitrary ranges. 
+
+
+\newcommand{\GeneralSplit}{\mathsf{GeneralizedSplit}}
+
+For this we need to generalize the notion of splittable.
+\begin{definition}[Generalized Splittable]
+	A $T(n)$-\ACIH~problem is generalized splittable with error $\epsilon m$ to the problem $P'$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ such that
+	\begin{itemize}
+		\item when given an instance of a problem $I \sim D_{0}(P,n)$, $\GeneralSplit(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where  $\forall i\in [1,m]$ $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}(P',n)\times D_0(P',n)$.
+		\item when given an instance of a problem $I \sim D_{1}(P,n)$, $\GeneralSplit(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where $\exists i\in[1,m]$ such that $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{1}(P',n)\times D_1(P',n)$.
+	\end{itemize}
+\end{definition}
+
+\begin{lemma}
+	If a problem $P$ is splittable with error $\epsilon$ then $P$ is generalized splittable with error $\epsilon$.
+\end{lemma}
+\begin{definition}
+Use the splitting procedure to generate a list of length $m=1$. The outputs are drawn from the appropriate distributions. 
+\end{definition}
+
+Lemma \ref{lem:zkcSplitConvenientRange} is extended to all large enough ranges in Theorem \ref{thm:zkcsplittable}. However, the key insight for splitting is in Lemma \ref{lem:zkcSplitConvenientRange} and thus it is presented here.
+
+\begin{lemma}
+	Zero-k-clique is generalized splittable with error $\leq 3\binom{k}{2} n^k/\sqrt{R}$ when $R=2^{2x}$ for some integer $x$. 
+	\label{lem:zkcSplitConvenientRange}
+\end{lemma}
+\begin{proof}
+	Given an instance $I$ with $k$ partitions, $P_1, \ldots, P_k$ of $n$ nodes and with edge weights generated uniformly at random from the range $[0,R-1]$.
+	
+	First we will define some helpful notation to describe our procedure. 
+	Let $weight(P_i[a],P_j[b])$ be the weight of the edge in instance $I$ between the $a^{th}$ node in  $P_i$ and the $b^{th}$ node in $P_j$. \\
+	Let $u$ be some number in the range $[0,R-1]$. Let $\uparrow u$ be the high order $\lg(R)/2$ bits of the number $u$ (this will be an integer because $R = 2^x$ for some integer $x$). Let $\downarrow u$ be the low order $\lg(R)/2$ bits of the number $u$.\\
+	Let $w\uparrow(P_i[a],P_j[b])= \uparrow weight(P_i[a],P_j[b])$.\\
+	Let $w\downarrow(P_i[a],P_j[b])= \downarrow weight(P_i[a],P_j[b])$.
+	
+	We will create $\binom{k}{2}$ pairs of instances. We will create an instance for each possible value of $c \in [0, \binom{k}{2}]$. These will represent guesses of carries. \\
+	Let $I_1^{c'}$ and $I_2^{c'}$ be an intermediary pair of instances generated for $c_1$ and $c_2$.\\
+	Let $weight_{m}^{c}(P_i[a],P_j[b])$ be the weight of the edge in instance $I_{m}^{c'}$ between the $a^{th}$ node in  $P_i$ and the $b^{th}$ node in $P_j$.
+	
+	We set $weight_{1}^{c}(P_i[a],P_j[b]) = w\uparrow(P_i[a],P_j[b])-c$ when either $i= 1$ and $j= 2$.\\
+	We set $weight_{1}^{c}(P_i[a],P_j[b]) = w\uparrow(P_i[a],P_j[b])$ when either $i\ne 1$ or $j\ne 2$.
+	
+	We set $weight_{2}^{c}(P_i[a],P_j[b]) = w\downarrow(P_i[a],P_j[b])$ when either $i\ne 1$ or $j\ne 2$.
+	
+	These instances are over range $\sqrt{R} = 2^{\lg(R)/2}$.
+	
+	Finally, generate $I_1^{c}$ and $I_2^{c}$ by randomly permuting the nodes within each partition of $I_1^{c'}$ and $I_2^{c'}$ respectively. This destroys the correlation between the locations of planted cliques in the two instances. 
+	
+	Now we need to show that each pair of instances are drawn from distributions with small total variation distance from either $D^{zkc}_{0}[\sqrt{R},n]^2$ or $D^{zkc}_{1}[\sqrt{R},n]^2$. Note that this does \emph{not} require that $I_1^{c_1}, I_2^{c_1}, I_1^{c_2}, I_2^{c_2}$ are a small distance from $D^{zkc}_{0}[\sqrt{R},n]^4$ or $D^{zkc}_{1}[\sqrt{R},n]^4$. Indeed they won't be! Each pair is correlated very heavily with every other pair. But, within each pair they are close to $D^{zkc}_{0}[\sqrt{R},n]^2$ or $D^{zkc}_{1}[\sqrt{R},n]^2$. 
+	
+	If $I$ has no solutions then by Lemma \ref{lem:TVDnosol} the distribution of the original instance is within total variation distance of $\leq n^k/R$ from planting a clique after uniformly at random picking the weight for each edge. Then, each bit has been chosen uniformly at random, thus the weights of the new instance are chosen uniformly at random from $[0,\sqrt{R}]$. We add $c\in [0,\binom{k}{2}-1]$ to some edges but because we mod by $\sqrt{R}$ these values are also uniform over $[0,\sqrt{R}]$. Finally, applying Lemma \ref{lem:TVDnosol} again we get that we have that each instance has total variation distance $\leq 2n^k/\sqrt{R}$ from $D^{zkc}_{0}[R,n]^2$. 
+	
+	Next, note that if $\sum x_i \equiv 0 \mod R$ then 
+	$$\sum_{i=0}^{\binom{k}{2}-1} (\uparrow x_i)\sqrt{R} + \sum (\downarrow x_i) \equiv 0 \mod R$$
+	and there exists some $c$ 
+	$$\sum_{i=0}^{\binom{k}{2}-1} (\uparrow x_i)\sqrt{R}-c\sqrt{R}  \equiv 0 \mod R$$
+	$$\sum_{i=0}^{\binom{k}{2}-1} (\downarrow x_i) +c\sqrt{R} \equiv 0 \mod R.$$
+	
+	Thus, we get that if there is a zero k-clique there is some $k$ such that 
+	$$\sum_{i=0}^{\binom{k}{2}-1} (\uparrow x_i)-c  \equiv 0 \mod \sqrt{R}$$
+	$$\sum_{i=0}^{\binom{k}{2}-1} (\downarrow x_i) \equiv 0 \mod \sqrt{R}.$$
+	
+	If $I$ has one solution then by Lemma \ref{lem:TVDonesol} the distribution of the original instance is with total variation distance of $\leq n^k/R + n^{k-1}/R$ from planting a clique after uniformly at random picking the weight for each edge. We can then treat every number in our new instances as being generated uniformly at random, except for the edge that corresponds to the planted edge. For the correct guess of $c$ such that carry is correct, we are setting the same edge in each instance such that a clique has formed. Then, we randomize all the nodes, thus randomizing the clique placement. Mimicking the planting procedure. This output has $\leq 2( n^k/\sqrt{R} + n^{k-1}/\sqrt{R})$ from $D^{zkc}_{1}[\sqrt{R},n]^2$.
+	
+	We can bound the total variation distance of these generated instances then as 
+	$\leq 3n^k/\sqrt{R}$. We make $\binom{k}{2}$ guesses, so our error is $\leq 3\binom{k}{2}n^k/\sqrt{R}$.
+	
+\end{proof}

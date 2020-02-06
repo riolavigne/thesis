@@ -1,0 +1,23 @@
+\section{Open Problems}
+We have begun the process of porting ideas from fine-grained complexity into fine-grained cryptography. We do this via building these constructions, improving definitions, and coming up with plausible assumptions. 
+
+There are two primary avenues of open problems from here. Strengthening assumptions and building more crypto primatives. 
+
+\paragraph{Strengthing Assumptions} 
+Previous work of Ball et. al. shows worst case to average case reductions, however, not for problems that are \Plantable \cite{avgCaseFineGrained}. Showing a worst case to average case reduction for a problem that is \Plantable would give fine-grained one way functions. 
+
+\xxx{TODO citations notably anyone who says average case exp time is hard}
+
+Showing a reduction from an Average Case Exponential Time Hypothesis to a \Plantable problem would generate a fine-grained one way function from an assumption of the hardness of SAT. Showing that average case hardness for a problem that is \Plantable, Average Case Self-Reducible and Splittable would imply a fine-grained key exchange exists. Note that this avoids previous barriers of building a key exchange from an NP-hard problem by only showing a polynomial gap in the key exchange. 
+
+
+\xxx{TODO citations, notably le gall}
+
+The problems of zero k-clique and k-sum for large enough do not yet have linear time quantum algorithms. In fact the best algorithms for zero k-clique take time $n^{k/2-o(1)}$ and the best algorithms for $k$-sum take time $n^{(\lceil k/2 \rceil /2) -o(1)}$ on quantum computers. Can faster algorithms be found? If not, can fine-grained quantum hardness be argued? 
+
+\paragraph{Building More Cryptographic Primitives} 
+Can a key-exchange be built from a problem that is only \Plantable and Average-Case Self-Reducible? Can a key-exchange be built using something that is only \Plantable and \Splittable? 
+
+Can a fine-grained key exchange be built from a fine-grained assumption that has a gap larger than $N$ vs $N^{1.5}$ between the running times of Alice and Bob vs Eve? 
+
+Can more advanced cryptographic objects like homomorphic encryption be built more simply, or more efficiently to run in exchange for only offering polynomial security?

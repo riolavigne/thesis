@@ -1,0 +1,144 @@
+\section{Average Case Assumptions}
+
+We will describe our results in key exchanges and one way functions using generic properties needed for our constructions. However, for concreteness we will describe a few specific plausible average case conjectures that satisfy the needed properties. 
+
+These average case conjectures are based on popular worst case assumptions. 
+
+We build a variety of cryptographic primitives from hypotheses. We define classes of hypotheses under which our constructions hold and also define specific believable hypotheses that meet these conditions. We begin by defining the general classes, then we define the concrete hypotheses, finally we prove that the concrete hypotheses meet the conditions needed. 
+
+Below we define distributions over decision problems. These problems can potentially have more than one solution/witness. We will limit our consideration to the distributions over instances with no solutions and instances with a unique solution/witness.
+
+\begin{definition}[General Distributions] 
+	For a given decision problem we let $D_0$ denote the uniform distribution over all instances that have no solutions/witnesses.
+	
+	For a given decision problem, we let $D_1$ denote the uniform distribution over all instances that have one unique solution/witness.
+\end{definition}
+
+%\begin{definition}[General Distributions]
+%We are considering problems that are search problems. These problems can potentially have more than one solution/witness. We will limit our consideration to the distributions over instances with no solutions and instances with a unique solution/witness. 
+%
+%For a given search problem, $P$, we will consider the uniform distribution over all instances that have no solutions/witnesses, we will call this distribution $D_{0}$.
+%
+%For a give search problem, $P$, we will consider the uniform distribution over all instances that have one unique solution/witness, we will call this distribution $D_{1}$.
+%\end{definition}
+
+\subsection{General Classes of Hypotheses}
+We will define general properties needed in a problem and hypothesis for it to be usable for our fine-grained one way functions and our fine-grained key exchange. These classes will be \plantable, average case self reducible and splittable.
+
+To be maximally general we present definitions often with more than one parameter. Plantable is capturing the property of it being efficient to create an instance with a solution from an instance with no solutions. Average case self reducible is capturing the property that a problem can be made into many smaller instances such that solving them solves the original efficiently. Finally, Splittable is capturing the property that one can generate from one average case instance two average case instances which have the same number of solutions as the original.
+
+These are natural properties for problems and hypotheses to have. We will demonstrate in Section \ref{sec:zkcIsAllTheThings} that zero $k$-clique has all of these properties.
+
+\newcommand{\ACIH}{ACIH}
+\begin{definition}[Average Case Indistinguishably Hard]
+For a decision problem $P$, let $D$ be the distribution drawing with probability $1/2$ from $D_{0}$ and $1/2$ from $D_{1}$.
+
+Let $val(I)=0$ if $I$ is from the support of $D_{0}$ and let  $val(I)=1$ if $I$ is from the support of $D_{1}$.
+
+$P$ is Average Case Indistinguishably Hard in time $T(n)$ ($T(n)$-\ACIH) if 
+for any  $\PFT{T(n)}$ algorithm $A$
+\[ \Pr_{I \sim D}[A(I) = val(I)] \le 2/3 \]
+and $T(n)=\Omega(n)$.
+\end{definition}
+
+\newcommand{\Plant}{\mathsf{Plant}}
+
+\newcommand{\Generate}{\mathsf{Generate}}
+
+\begin{definition}[Plantable]
+	\label{def:plantable}
+	A $T(n)$-\ACIH~problem $P$ is \emph{plantable} in time $G(n)$ with error $\epsilon$ if there exists a randomized algorithms $\Plant$ and $\Generate$ that runs in time $G(n)$ such that:
+	\begin{itemize}
+		\item on input $n$, $\Generate(n)$ produces instances of $P$ of size $n$ drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}$.
+		\item when given any instance $I$ of $P$, $\Plant(I)$ returns an instance of $P$ with \emph{at least} one solution,
+		\item and if $I \sim D_{0}$, then the distribution induced by $\Plant(I)$ has total variation distance at most $\epsilon$ from $D_{1}$.
+	\end{itemize}  
+\end{definition}
+
+% We are using the solution searching version. So, when there are no solutions you can spit out garbage. We only care about the instance that has the solution 
+%
+We now introduce the list-hard property. Intuitively, this property states that when given a list of length $\ell(n)$ of instances of $P$, it is almost as hard to determine if there exists one instance with a solution as it is to solve an instance of size $\ell(n) \cdot n$.
+
+A problem being Average Case List Hard intuitively says that an efficient and average case self-reduction exists. We demonstrate this for zero k-clique. 
+
+
+\begin{definition}[Average Case List-hard]
+A $T(n)$-\ACIH~problem $P$ is Average Case List Hard if, for any $\PFT{T(n)}$ algorithm $A$ given a list of $\ell(n)$ instances, $\mathbf I = I_1,I_2,\ldots,I_{\ell(n)}$, each of size $n$
+distributed as follows: $i \getsr [\ell(n)]$ and $I_i \sim D_1$ and for all $j \neq i$, $I_j \sim D_0$;
+\[ \Pr_{\mathbf I}[A(\mathbf I) = i] \le 7/10. \]
+\end{definition}
+
+We now introduce the splittable property. Intuitively a splittable problem has a process in the average case to go from one instance $I$ into a pair of average looking problems with the same number of solutions. We use this property in the proof that our crypto system is hard. We can be more general than this, allowing the generation of many pairs some of which may be wrong. 
+
+\newcommand{\Split}{\mathsf{Split}}
+
+\begin{definition}[Splittable]
+	A $T(n)$-\ACIH problem is splittable with error $\epsilon$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ such that
+	\begin{itemize}
+		\item when given an instance of a problem $I \sim D_{0}$, $\Split(I)$ produces two instances $I_1,I_2$ from a distribution with total variation distance $\epsilon$ from $D_{0}\times D_0$.
+		\item when given an instance of a problem $I \sim D_{1}$, $\Split(I)$ produces two instances $I_1,I_2$ from a distribution with total variation distance $\epsilon$ from $D_{1}\times D_1$.
+	\end{itemize}
+\end{definition}
+
+
+
+\subsection {Concrete Hypothesis}
+
+\paragraph{Problem Descriptions}
+We will consider the average case $k$-sum problem and the average case zero $k$-clique problems. 
+
+A folklore conjecture states that when the 3-sum instance is formed by drawing $n$ integers from $\{-n^3, \dots, n^3\}$ no $\PFT{(n^2)}$ algorithm can solve 3-sum on a constant fraction of the instances. A related conjecture was formulated by Pettie \cite{avgCase3Sum}. We propose a new hypothesis capturing the folklore intuition. We work modulo a number for convenience; this problem is at least as hard to solve as $k$-sum over the integers because we can reduce it to the modulus version where the modulus is only $k$ (a constant) times as large as the original range. We will discuss this hypothesis later on in section \ref{sec:justifyAssumptions}.
+
+\begin{definition}
+	An average case k-sum instance over range $R$ is an instance with $kn$ numbers in $k$ lists $L_1, \ldots, L_k$. These numbers are chosen uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a k-sum instance is a set of $k$ numbers $a_1 \in L_1$, \ldots, $a_k \in L_k$ such that the sum is zero mod $R$, $\sum_{i=1}^k a_i \equiv 0 \mod R$. 
+\end{definition}
+
+We will also define the uniform distributions over $k$-sum instances that have a certain number of solutions. 
+\begin{definition}
+	The distribution $D_{ksum}[R,i,n]$ is the uniform distribution over $k$-sum instances with $n$ values chosen modulo $R$ and where there are exactly $i$ distinct solutions. 
+	
+	Let $D^{ksum}_{0}[R,n] = D_{ksum}[R, 0, n]$, and $D^{ksum}_{1}[R,n] = D_{ksum}[R, 1, n]$.
+\end{definition}
+
+
+We consider the zero k-clique problem and define the average case assumption for the $k$-clique problem. In the worst case, the zero $k$-clique problem is, given any complete weighted $k$-partite graph on $kn$ nodes, determine if there exists a zero-weighted $k$-clique; the average case has the weights chosen uniformly over some range. The first statement of the worst case hardness for zero 3-clique (zero triangle) was by Vassilevska Williams and Williams \cite{3cliqueIntro}. The zero k-clique assumption has been used in many papers \cite{BackursT16,abboud2014consequences,sparseGraphsLVWW,treeEditDistance}.
+
+\begin{definition}
+	An average case zero k-clique instance over range $R$ is an instance with $kn$ nodes in a $k$-partite graph with partitions $P_1, \ldots, P_k$. There is an edge between a node  $v\in P_i$ and a node $u \in P_j$ if and only if $i \ne j$. Thus, every instance has $kn^2$ edges. Weights are assigned to each of these edges uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a zero k-clique instance is a set of $k$ nodes $v_1 \in P_1$, \ldots, $v_k \in P_k$ such that the sum of all the weights on the $\binom{k}{2}$ edges in the $k$-clique formed by $v_1,\ldots,v_k$ is congruent to zero mod $R$: $\sum_{i \in [1,k]}\sum_{j \in [1,k] \text{ and } j\ne i} weight(v_i,v_j) \equiv 0 \mod R$. A solution is also called a zero weighted $k$-clique, or a zero $k$-clique. 
+\end{definition}
+
+We will additionally define the distributions of these instances in which a certain number of solutions appear. 
+\begin{definition}
+	The distribution is $D_{zkc}[R,i,n]$ the uniform distribution over zero k-clique instances on $kn$ nodes with weights chosen modulo $R$ and where there are exactly $i$ distinct zero k-cliques in the graph.
+	
+	Let $D^{zkc}_{0}[R,n] = D_{zkc}[R,0,k]$  and $D^{zkc}_{1}[R,n] = D_{zkc}[R,1,k]$.
+\end{definition}
+
+\paragraph{Weak and Strong Hypotheses}
+
+We have weak and strong variants of the hypotheses. We can make the strong assumption these average case problems take as long as their worst case variants are hypothesized to take. Or, we can make the significantly weaker assumption that these average case problems take super-linear time over their input size. 
+
+We state the weak versions in terms of decision problems and the strong version in terms of a search problem. This is for convenience of presenting results. Our fine grained one way functions and fine grained key exchanges can both be built using the search variants. We make these choices for clarity of presentation later on. 
+
+\begin{definition}[\Weakksum]
+	There exists some large enough constant $c$ such that for all constants $c'>c$ such that distinguishing $D^{sum}_{0}[c'R(n),n]$ and $D^{sum}_{1}[c'R(n),n]$ is
+$n^{2+\delta}$-\ACIH~ for some $\delta>0$.
+\end{definition}
+
+\begin{definition}[\Weakzkc]
+	There exists some large enough constant $c$ such that for all constants $c'>c$ such that distinguishing $D^{zkc}_{0}[c'R(n),n]$ and $D^{zkc}_{1}[c'R(n),n]$ is
+	$n^{2+\delta}$-\ACIH~ for some $\delta>0$.
+\end{definition}
+
+
+We now make a stronger statement, in that we allow larger ranges to be conjectured over. However, we instead state the problem as a search problem. Making the statement more plausible. Specifically, if a search algorithm existed then a distinguisher would exist. (Consider running the search algorithm, we can check if the returned clique is a valid zero k-clique in $O(1)$ time.)
+
+\begin{definition}[\Strongzkc  in range $R(n)$]
+	There exists some large enough constant $c$ such that for all constants $c'>c$ such that given an instance $I$ drawn from the distribution $D^{zkc}_{1}[c'R(n),n]$ where the clique is formed by nodes $\{v_1,\ldots,v_k\}$
+	for all $\PFT{n^k}$ algorithms $A$ 
+	$$Pr_{I \sim D^{zkc}_{1}[c'R(n),n]}[A(I)=\{v_1,\ldots,v_k\}]<2/3.$$
+\end{definition}

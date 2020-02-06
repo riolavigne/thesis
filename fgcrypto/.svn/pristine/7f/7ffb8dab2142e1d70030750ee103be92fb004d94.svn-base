@@ -1,0 +1,172 @@
+\section{$k$-Sum and Zero $k$-Clique Proofs}
+\label{sec:zkcAppendix}
+Proofs needed for Section \ref{sec:zkcIsAllTheThings} but are distracting or lengthy are here.
+
+\subsection{Zero $k$-Clique is Plantable from the Weak Hypothesis}
+%TODO: note about decision version
+\begin{theorem}
+	Assuming the weak Zero $k$-Clique hypothesis over range $R$, Zero $k$-Clique is plantable with error $\leq 2n^k/R$ in $O(n^2)$ time.
+\end{theorem}
+\begin{proof}
+	The proof of this will mirror the proof that $k$-SUM is plantable. Note that the input size for Zero $k$-Clique is $O(n^2)$ when there are $kn$ nodes, unlike the input size for $k$-SUM (which is $O(n)$). We define $\Generate$ as follows:
+	\begin{itemize}
+		\item $\Generate(n,0)$ outputs a complete $k$-partite graph with $n$ nodes in each partition, and edge weights drawn uniformly from $\Z_R$. This takes $O(n^2)$ time.
+		\item $\Generate(n,1)$ starts with $\Generate(n,0)$, and then plants a clique by choosing a node from each partition, $v_1 \in P_1, \dots, v_k \in P_k$, choosing an $i \neq j \getsr [k]$, and setting the weight $w(v_i, v_j) = -\sum_{(i', j') \neq (i,j)} w(v_{i'}, v_{j'}) \mod R$. This also takes $O(n^2)$ time.
+	\end{itemize}
+	Showing $\Generate(n,0)$ has TVD at most $n^k/R$ from $D_0$ for the same reason as $k$-SUM: $\Generate(n,0)$ is uniform over the support of $D_0$ (just like $D_0)$, and so the distance is equal to the probability $\Generate(n,0)$ produces an instance with one or more zero $k$-cliques. There are $n^k$ different possible cliques and a union bound yields the probability that one of them has weight zero is simply $n^k/R$.
+	
+	Then showing $\Generate(n,1)$ has TVD at most $n^k / R + n^{k-2}/R$ from $D_1$ is just as before: $TVD(\Generate(n,1), D_1) \le TVD(\Generate(n,0) + \mbox{Plant}, D_0 + \mbox{Plant}) + TVD(D_0 + \mbox{Plant}, D_1)$. The first term is just $TVD(\Generate(n,0), D_0) \le n^k/R$. The second is just the probability that Plant introduces an unintended zero-clique. Since we are only changing one edge when we plant, the probability that this happens is at most $(n^{k-2} - 1)/R \le n^{k-2}/R$; that changed edge fixes two out of the $k$ edges we choose, and so there are $k-2$ partitions left to choose from.
+	
+	Therefore, in total, the error from $\Generate$ is at most $2n^k/R$.
+\end{proof}
+
+\subsection{Zero $k$-clique is a Plantable Problem}
+Before proving the theorem, we need a couple of helper lemmas to characterize the total variation distance, etc.
+%TODO: you left off here
+
+\begin{lemma}
+	The distribution $D^{zkc}_{0}[R,n]$ has total variation distance $\leq n^k/R$ from the distribution of instances where every edge weight is chosen uniformly at random from $[0,R-1]$, $D_{uniform}[R,k,n]$.
+	\label{lem:TVDnosol}
+\end{lemma}
+\begin{proof}
+	$D^{zkc}_{0}[R,n]$ is uniform over all instances of size $n$ where there are no solutions. $D_{uniform}[R,k,n]$ is uniform over all instances of size $n$. 
+	
+	Let $D$ be the distribution of instances in $D_{uniform}[R,k,n]$ which are in the support of $D^{zkc}_{0}[R,n]$. Because both $D_{uniform}[R,k,n]$ and $D^{zkc}_{0}[R,n]$ are uniform over the support of $D^{zkc}_{0}[R,n]$, $D = D^{zkc}_{0}[R,n]$.
+	
+	So the total variation distance between $D^{zkc}_{0}[R,n]$ and $D_{uniform}[R,k,n]$ is just 
+	$$Pr_{I \approx D_{uniform}[R,k,n]}[x \nin \text{ the support of } D^{zkc}_{0}[R,n]].$$
+	
+	The expected number of zero $k$-cliques is $n^k/R$, every set of $k$ nodes has a chance of $1/R$ of being a zero $k$-clique. Thus, the probability that an instance has a non-zero number of solutions is $\leq n^k/R$. So, the total variation distance is $\leq n^k/R$.
+\end{proof}
+
+\begin{lemma}
+	The distribution $D^{zkc}_{1}[R,n]$ has total variation distance $\leq n^k/R+n^{k-2}/R$ from the distribution of instances where every edge weight is chosen uniformly at random from $[0,R-1]$ and then a clique is planted. 
+	The planting procedure is: choose $k$ nodes, $a_1,\ldots, a_k$, uniformly at random from each partition with one node from each partition, choose a uniformly random choice of pair $a_i,a_j$ $i\ne j$, set the weight of the edge $(a_i,a_j)$ to the weight such that $a_1,\ldots, a_k$ is a zero-k-clique. Call this planted distribution $D_{plant}$.
+	\label{lem:TVDonesol}
+\end{lemma}
+\begin{proof}
+	We want to first show that $D_{plant}$ is uniform over the support of $D^{zkc}_{1}[R,n]$. Consider an instance $I$ in the support of $D^{zkc}_{0}[R,n]$. Let $S(I) = a_1, \ldots , a_k$ be the set of $k$ nodes  in which there is a zero $k$-clique. $Pr_{I' \approx D_{plant}}[I' = I]$ is given by the chance that
+	\begin{itemize}
+		\item the nodes chosen in $I'$ ($a_1',\ldots, a_k'$) to plant a clique are the same as those in $S(I)$,
+		\item the edges in the clique have the same weights in $I'$ and $I$ and,
+		\item all edges outside the clique have the same weight in $I'$ and $I$. 
+	\end{itemize}
+	$$Pr_{I' \approx D_{plant}}[I' = I] = \left(n^{-k} \right)  \left(R^{-\binom{k}{2}-1} \right)  \left(R^{-\binom{k}{2}(n^2-1)} \right) .$$
+	
+	This is the same probability for all instances $I$ in the support of $D^{zkc}_{1}[R,n]$. 
+	
+	So, we need only bound the probability 
+	$$Pr_{I \approx D_{plant}}[x \nin \text{ the support of } D^{zkc}_{1}[R,n]].$$
+	
+	By Lemma \ref{lem:TVDnosol} the initial process of choosing edges the probability of producing a clique is $\leq n^k/R$. We then change one edge's weight, this intrudces a clique. It introduces an expected number of additional cliques $\leq n^{k-2}/R$ (this is the number of cliques it participates in). Thus, we can bound the probability of more than one clique by $\leq n^k/R+n^{k-2}/R$.
+\end{proof}
+
+Now we can show that Zero $k$-Clique is plantable.
+\begin{theorem}
+	Zero $k$-Clique is plantable in time $O(n^2)$ with error $\leq n^{k+2}/R+n^k/R$.
+\end{theorem}
+\begin{proof}
+	Let $\Generate(n)$ be the procedure of randomly picking all $\binom{k}{2}n^2$ edge weights from range $[0,R-1]$ taking time $O(n^2)$, by Lemma \ref{lem:TVDnosol} this has total variation distance $n^k/R$ from $D^{zkc}_{0}[R,n]$. 
+	
+	Let the $\Plant(I)$ be the procedure of picking $k$ random nodes, $v_1,\ldots,v_k$ and picking a random edge $(v_i,v_j)$ and setting the weight of the edge such that the clique has total weight $0$.  
+	
+	Given an instance, $I$ with all edge weights chosen uniformly at random, the total time to run $\Plant$ is $k = O(1)$. 
+	
+	Finally note that $\Plant(I)$ will always have at least one solution, the one planted. 
+\end{proof}
+
+\subsection{Zero $k$-clique is Average Case List-Hard}
+\label{sec:appendixListHard}
+
+\begin{theorem}
+	Given the \strongzkc, Zero $k$-Clique is Average Case List-Hard with list length $\ell(n)$ for any $\ell(n) = n^{\Omega(1)}$.
+	\label{thm:zkcSelfReduce}
+\end{theorem}
+\begin{proof}
+	Let $\ell = \ell(n)$ for the sake of notation. $I \sim D_1(\mbox{Zero $k$-Clique}, \ell n)$ with $k$ partitions, $P_1, \ldots, P_k$ of $\ell \cdot n$ nodes each and with edge weights generated uniformly at random from $\Z_R$.
+	
+	Randomly partition each $P_i$ into $\ell$ sets $P_i^1, \ldots, P_i^\ell$ where each set contains $n$ nodes.
+	
+	Now, note that if look for a solution in all $\ell^k$ instances formed by taking every possible choice of $P_1^{i_1}, P_2^{i_2},\ldots, P_k^{i_k}$, this takes time $O((\ell n)^k)$, which is how long the original size $\ell n$ problem takes to solve. 
+	
+	Sadly, not all $\ell^k$ instances are independent. So, we want to generate sets of independent instances. Note that if we choose $\ell$ of these sub-problems such that the nodes don't overlap, then the edges were chosen independently between each instance! Specifically consider all vectors of the form $\vec{x} = \langle x_2, \ldots, x_k\rangle \in \mathbb{Z}_{\ell}^{k-1}$. Then let 
+	$$S_{\vec{x}}= \{P_1^i \cup P_2^{i+x_2} \cup \ldots \cup P_k^{i+x_k}|\forall i\in [0,\ell]\}$$
+	be the set of all independent partitions. Now, note that $\cup_{\vec{x} \in \mathbb{Z}_\ell^{k-1}} S_{\vec{x}}$ is the full set of all possible $\ell^k$ subproblems, and the total number of problems in all $S_{\vec{x}}$ is $\ell^k$, so once again brute-forcing each $S_{\vec{x}}$ takes time $O((\ell n)^k)$. We depict this splitting in Figure \ref{fig:listHardReduction}.
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{list-hard-fig.pdf}
+	\caption{A depiction of splitting the subproblems for a case where $\ell=2$ and $k=3$.}
+	\label{fig:listHardReduction}
+\end{figure}
+	
+	Note that producing these instances is efficient, it takes time $O(n^2)$, which is just the input size.
+	
+	Next, we will show that the correct number of solutions are generated. 
+	If $I$ has only one solution then exactly one $I_j$ in exactly one $S_{\vec{x}}$ has a solution. This is because any Zero $k$-Clique in $I$ must involve exactly one node from each partition $P_i$. So, if there is one Zero $k$ Clique it will only appear in subproblems where the node from partition $P_i$ is in  $P_i^j$ and $P^i_j$ appears in that subproblem. There is exactly one sub-problem generated with a specific choice of $k$ sub-partitions. So, exactly one $I_j$ in exactly one $S_{\vec{x}}$ has a solution.
+	
+	Let $S^*$ be the list $S_{\vec x}$ that contains a Zero $k$-Clique. We have that the $S_{\vec{x}}$ which actually contains an instance with a solution is drawn from
+	\[ \{I_1, \dots, I_x\}_{I_i \sim D_{1}, \land \forall j \neq i, I_j \sim D_{0}}.\]
+	This distribution is exactly what we require for a list-problem. All that is left to show is if we have $\PFT{n^k}$ adversary $\cA$ that can identify which index $i$ that there is a Zero $k$-Clique in $S^*$ (with probability at least 7/10), we can use $\cA$ to find the clique.
+	
+%	By Lemma \ref{lem:TVDonesol} the original instance the distribution is within total variation distance of $n^k/R + n^{k-1}/R$ from planting a clique after uniformly at random picking the weight for each edge. 
+	
+%	In the planted distribution, the instances in $S_{\vec{x}}$ which do not contain the planted clique have had their edges chosen uniformly at random. Thus, by Lemma \ref{lem:TVDnosol} they each have total variation distance $(n/g)^k/R$ from the distribution $D_{0}=D^{zkc}_{0}[R,n/g]$. 
+	
+%	The instance which contains the planted solution itself had all edges chosen uniformly at random except for the planted clique edge. Thus, by Lemma \ref{lem:TVDonesol} it has total variation distance $(n/g)^k/R + (n/g)^{k-1}/R$ from $D_{1}= D^{zkc}_{1}[R,n/g]$. Which index within $S_{\vec{x}}$ this clique lands uniform over all the $g$ indices, because the clique nodes were picked uniformly at random. 
+	
+%	The total error introduced by this process is $\leq g(n/g)^k/R+ (n/g)^{k-1}/R+n^k/R + n^{k-1}/R \leq 2n^k/R$ for $g>2$ and sufficiently large $n$. 
+%	
+%	We make no constraints on $g$ other than that $1<g<n$
+	
+	Now, recall that we are trying to solve a search problem: we need to be able to turn an index pointing to partitions into a witness for the original problem. According to the strong Zero $k$-Clique hypothesis, this search requires $O(n^k)$ time. However, as long as $\ell = n^{\Omega(1)}$, this is still faster in a fine-grained sense.
+	
+	On an input $I$ from $D_1$, algorithm $\cB$ uses $\cA$ as follows:
+	\begin{itemize}
+		\item Randomly partition each $P_i$ from $I$ into $\ell$ parts.
+		\item For every $\vec x \in \Z_{\ell}^{k-1}$:
+		\begin{itemize}
+			\item Generate the list $S_{\vec x}$.
+			\item Run $\cA(S_{\vec x})$ to get output $i$.
+			\item Brute force search the size-$n^2$ Zero $k$-Clique instance $S_{\vec x}[i] = (P_1^i, \ldots, P_k^{i + x_k})$ for a solution. If one exists, output it, otherwise, continue.
+		\end{itemize}
+	\end{itemize}
+
+	The first step only takes $O(\ell n)$ time since we are only divvying up $\ell n$ nodes. The second step requires a bit more analysis. The loop runs at most $\ell^{k-1}$ times. Each time the loop runs, $\cA$ takes $O((\ell \cdot n^{k})^{(1-\epsilon)})$ (since it is $\PFT{\ell n^k}$), and our brute force check takes $O(n^k)$ time. Putting this together, the algorithm takes a total time of 
+	\[O(\ell n + \ell^{k-1} ((\ell \cdot n^{k})^{(1-\epsilon)} + n^k) ) = O(\ell^{k-\epsilon}n^{k(1-\epsilon)} + \ell^{k-1}n^{k}).\]
+	Both terms in this sum are strictly less than the hypothesized $\ell^k n^k$ time, and so $\cB$ is $\PFT{(\ell n)^k}$, contradicting the strong Zero $k$-Clique hypothesis.
+	
+	The reason we require $\ell(n) = n^{\Omega(1)}$ is because if it were less than polynomial in $n$, we would not get noticeable improvement through this method of splitting up the problem into several sub-problems --- the brute foce step would take as long as solving the original problem via brute force.
+\end{proof}
+
+
+
+
+\subsection{Zero $k$-clique is Splittable Over Any Large Enough Range}\label{sec:zkcsplittable}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+	Zero-k-clique is generalized splittable over any range $R$, with error $\leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R}$. 
+%	\label{thm:zkcsplittable}
+\end{theorem}
+\begin{proof}
+	Given an instance $I$ with range $R$ we will produce $\leq \binom{k}{2}4^{\binom{k}{2}}$ instances, corresponding to guesses over what ranges the clique edge weights fall into. 
+	
+	Take the next smallest power $R' = \sup\{2^{2x}| 2^{2x}<R \text{ and } x\in \mathbb{Z} \} $. 
+	Now let $c = \lceil R/R' \rceil$. We will now create $c$ subsets of $R$ each of size $R'$.  $S_i = [R'i,R'(i+1)-1]$ for $i\in [0,c-2]$ and $S_{c-1} = [R-R' , R-1]$. Note that these subsets completely cover the range $[0, R-1]$ and are each of size $\le R'$. Let $\Delta_i = R'i$ for $i\in [0,c-2]$ and $\Delta_{c-1} = R-R'$. 
+	
+	Let the partitions of $I$ be $P_1, \ldots, P_k$. Let the set of edges between $P_i$ and $P_j$ be $E_{i,j}$. For all $i,j$ pairs $i\ne j$ we will choose a number between $[0,c-1]$. Call these numbers $g_{i,j}$ and the full list of them $\vec{g}$. For all possible choices of $\vec{g} \in \mathbb{Z}_{c}^{\binom{k}{2}}$ and $d \in [0, \binom{k}{2}-1]$ we will generate an instance $I_{\vec{g},d}$ over range $R'$ as follows: 
+	
+	For edge set $E_{i,j}$ that isn't $E_{1,2}$, for every edge in that edge set $e \in E_{i,j}$ if the weight of $e$, $w(e) \in S_{g_{i,j}}$ then set $w_{\vec{g},d}(e) = w(e) \mod R'$, if $w(e) \nin S_{g_{i,j}}$ then set $w_{\vec{g},d}$ to be a weight chosen uniformly at random from $[0, R'-1]$. Now note that these values are completely uniform over the range from $[0,R'-1]$. 
+	
+	For $E_{1,2}$ , for every edge in that edge set $e \in E_{1,2}$ if the weight of $e$, $w(e) \in S_{g_{1,2}}$ then set $w_{\vec{g},d}(e) = w(e) + dR \mod R'$, if $w(e) \nin S_{g_{1,2}}$ then set $w_{\vec{g}}$ to be a weight chosen uniformly at random from $[0, R'-1]$. Now note that these values are also completely uniform over the range from $[0,R'-1]$. 
+	
+	If no clique existed in the original instance then the chance that one is produced here is bounded by $n^k/R' \leq n^k4/R'$ by Lemma \ref{lem:TVDnosol}. Because we make so many queries this chance that any of them induce a clique is $\leq \binom{k}{2}4^{\binom{k}{2}}n^k4/R'$. 
+	
+	If the original instance was drawn from $D^{zkc}_{1}[R,n]$ then by Lemma \ref{lem:TVDonesol} this is only $\leq n^k/R + n^{k-2}/R$ total variation distance away from the instance generated by choosing each edge at random and then planting a clique. Then the procedure produces uniformly looking edges except for the planted edge. In the generated instance where the original zero clique edge weights are in $\vec{g}$ and the zero k-clique sums to $dR$ then the instance $I_{\vec{g},d}$ will have that planted edge set to the value such that zero k-clique from the original is a planted instance. So, that produced instance is drawn from a distribution with total variation distance $\leq n^k/R' + n^{k-2}/{R'}$ from $D^{zkc}_{1}[R',n]$. 
+	
+	Then we use the splitting procedure from Lemma \ref{lem:zkcSplitConvenientRange} to generate two instances from each of our generated instances. The probability of a no instance becoming a yes instance is $\leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R}$, if there is a yes instance then it will generate a yes instance and have total variation distance at most $\leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R}$ from $D^{zkc}_{1}[\sqrt{R'},n]^2$. \qed
+\end{proof}

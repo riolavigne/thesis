@@ -1,0 +1,26 @@
+\section{Merkle Puzzles as a Fine-Grained Key Exchange}
+
+\begin{definition}[BRSV]
+	A function $f:\{0,1\}^* \to \{0,1\}^*$ is \emph{$(t, \epsilon)$-one-way} if, for some $\delta > 0$, it can be computed in $O(t(n)^{1 - \delta}$ time, but for any $\delta' > 0$ and any adversary $\cA$ running in $O(t(n)^{1 - \delta'})$ time and all sufficiently large $n$,
+	\[\Pr_{x \gets \{0,1\}^n}\left[\cA(f(x)) \in f\inv(f(x))\right] \le \epsilon(n, \delta').\]
+\end{definition}
+
+Let $\delta$ be the \emph{gap} between how fast we can compute $f$ and how fast we can invert it. We will show that given a $(t,\epsilon)$-one-way function $f$ with gap $\delta$, we get a key exchange with gap $\delta/2$ -- that is, it takes $t(n)^{1 - \delta/2}$ time to run the key exchange, but at least $t(n)$ to invert.
+
+\begin{definition}
+	Average case 0 triangle instances over range $R$ are instances with $3n$ nodes in a tripartite graph with partitions $A$, $B$ and $C$. There are edges between all pairs of nodes $a\in A$ and $v \in B \cup C$ there are edges between all nodes $b\in B$ and $c\in C$. The weights on the $\Theta(n^2)$ edges are chosen uniformly at random from the range $[-R,R]$. 
+	
+	The distribution $D_i^R$ is the uniform distribution over 0 triangle instances where there are exactly $i$ $0$ triangles in the graph. 
+\end{definition}
+
+\begin{definition}[The average case 0 triangle conjecture]
+	 There exists some large enough $c$ such that for all $c'>c$ distinguishing between instances drawn from $D_0^{n^{c'}}$  and those drawn from $D_1^{n^{c'}}$ with probability greater than $2/3$ takes $n^{3-o(1)}$ time. 
+	 
+	 Let $S(x)$ be the number of solutions in an instance $x$. Let the distribution $D$ be drawn from $D_0^{n^{c'}}$ with $1/2$ probability and drawn from $D_1^{n^{c'}}$ with $1/2$ probability. If an algorithm $A$ takes $n^{3-\epsilon}$ time for some $\epsilon>0$ then
+	 $$P_{x\in D}[A(x) = S(x)] < 2/3$$
+\end{definition}
+
+\subsection{Key Exchange with Merkle Puzzles}
+Now we will explain a construction for \emph{key exchange} using the average case 0-triangle conjecture.
+
+\xxx{TODO: I don't think we actually have a construction with a security proof, yet}

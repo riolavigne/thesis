@@ -1,0 +1,16 @@
+@inproceedings{avgCaseFineGrained,
+  author    = {Marshall Ball and
+               Alon Rosen and
+               Manuel Sabin and
+               Prashant Nalini Vasudevan},
+  title     = {Average-case fine-grained hardness},
+  booktitle = {Proceedings of the 49th Annual {ACM} {SIGACT} Symposium on Theory
+               of Computing, {STOC} 2017, Montreal, QC, Canada, June 19-23, 2017},
+  pages     = {483--496},
+  year      = {2017},
+  url       = {http://doi.acm.org/10.1145/3055399.3055466},
+  doi       = {10.1145/3055399.3055466},
+  timestamp = {Sat, 17 Jun 2017 18:46:57 +0200},
+  biburl    = {http://dblp.org/rec/bib/conf/stoc/BallRSV17},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}

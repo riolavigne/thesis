@@ -1,0 +1,71 @@
+\section{Lemmas for the key exchange}
+
+
+\begin{lemma}
+	If a problem $P$ 
+	\begin{itemize}
+		\item has an algorithm which runs in $\tilde\Theta(N^t)$ time that determines if an instance has a solution or not,
+		\item  where finding the one solution in an instance $I$ drawn from $D_{1}$ is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution higher than $1/3$,
+		\item random instances can be generated in time $\tilde{O}(N^g)$ and error $\delta_g$, 
+		\item the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with $s(N)$ subproblems and polynomial sized problem with error $\delta_1$,
+		\item is Splittable with error $\delta_2$ and list length $s(f(n))$ and,
+		\item Plantable with error $\delta_3$ in time $\tilde{O}(N^g)$ and,
+		\item if $1/3+\delta_1+\delta_2+\sqrt{s(N)}\delta_3+1/\sqrt{s(N)}+ \delta_g 2s(N) < 9/10$ then,
+	\end{itemize}
+	
+	then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $\log(s(n))\log^3(n)$ bits in time $\tilde{O}(\sqrt{s(N)}N^t + s(N)N^g)$ with probability $\geq 1-\delta_g \sqrt{s(n)}\lg^3(n)$ and Eve can't guess the key $key$ with probability better than $\leq 1/n^{\lg(n)}$ in time $O((s(N) N^t)^{1-\gamma})$ for any $\gamma>0$. 
+	\label{lem:keyExchangeEveGuess}
+\end{lemma}
+\begin{proof}
+Using lemma \ref{lem:keyexchangebasic} we can send $\lg^3(n)$ keys, $key_1,\ldots, key_{\lg(n)^3}$ using that system each independently. These can all be concatenated into one long new key $key$. Getting all these independent values correct has probability $\geq 1- (9/10)^{\lg^3(n)}$.
+\end{proof}
+
+\begin{lemma}
+	If a problem $P$ 
+	\begin{itemize}
+		\item has an algorithm which runs in $\tilde\Theta(N^t)$ time that determines if an instance has a solution or not,
+		\item  where finding the one solution in an instance $I$ drawn from $D_{1}$ is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution higher than $1/3$,
+		\item random instances can be generated in time $\tilde{O}(N^g)$ and error $\delta_g$, 
+		\item the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with $s(N)$ subproblems and polynomial sized problem with error $\delta_1$,
+		\item is Splittable with error $\delta_2$ and list length $s(f(n))$ and,
+		\item Plantable with error $\delta_3$ in time $\tilde{O}(N^g)$ and,
+		\item if $1/3+\delta_1+\delta_2+\sqrt{s(N)}\delta_3+1/\sqrt{s(N)}+ \delta_g 2s(N) < 9/10$ then,
+	\end{itemize}
+	
+	then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $1$ bit in time $\tilde{O}(\sqrt{s(N)}N^t + s(N)N^g)$ with probability $\geq 1-\delta_g \sqrt{s(n)}\lg^3(n)$ and Eve can't guess the key $key$ with probability better than $\leq 1/2+1/\epsilon(n)$ where $\epsilon(n)$ can be any sub-polynomial function in time $O((s(N) N^t)^{1-\gamma}/\epsilon(n))$ for any $\gamma>0$. 
+	\label{lem:keyExchangeHCBit}
+\end{lemma}
+\begin{proof}
+We will use the same construction as Goldreich-Levin. After the protocol in Lemma \ref{lem:keyExchangeEveGuess} Alice and Bob agree on the key, $key$, Alice will announce $\vec{v}\in \{0,1\}^{\log(s(n))\lg^3(n)}$ uniformly random bits. Alice and Bob will use the bit $key \cdot \vec{v}$.
+
+Using the construction of Goldreich-Levin (from \cite{hardCoreBitsAndXorLemmaFromGL}) we can show that the probability of Eve guessing this bit must be $\leq 1-1/\epsilon(n)$ with overhead that is $\tilde{O}(\epsilon(n))$, this gives us a bound on Eve's time decreased by a factor of $\epsilon(n)$.
+\end{proof}
+
+
+\begin{lemma}
+	If a problem $P$ 
+	\begin{itemize}
+		\item has an algorithm which runs in $\tilde\Theta(N^t)$ time that determines if an instance has a solution or not,
+		\item  where finding the one solution in an instance $I$ drawn from $D_{1}$ is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution higher than $1/3$,
+		\item random instances can be generated in time $\tilde{O}(N^g)$ and error $\delta_g$, 
+		\item the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with $s(N)$ subproblems and polynomial sized problem with error $\delta_1$,
+		\item is Splittable with error $\delta_2$ and list length $s(f(n))$,
+		\item Plantable with error $\delta_3$ in time $\tilde{O}(N^g)$,
+		\item if $1/3+\delta_1+\delta_2+\sqrt{s(N)}\delta_3+1/\sqrt{s(N)}+ \delta_g 2s(N) < 9/10$ and,
+		\item $1-\delta_g \sqrt{s(n)}\lg^3(n) \geq 5/6$ then,
+	\end{itemize}
+	
+	then there is a key-exchange in which Alice and Bob successfully communicate a key, $key$, of length $1$ bit in time $\tilde{O}(\sqrt{s(N)}N^t + s(N)N^g)$ with probability $\geq 1-n^{\log(n)}$ and Eve can't guess the key $key$ with probability better than $\leq 1-\epsilon(n)$ where $\epsilon(n)$ can be any sub-polynomial function in time $O((s(N) N^t)^{1-\gamma}/\epsilon(n))$ for any $\gamma>0$. 
+	\label{lem:keyExchangeAllErrorsLow}
+\end{lemma}
+\begin{proof}
+We will use xor's to allow Alice and Bob to check that they actually agree. Our construction is related to the constructions from Vazirani Vazirani and Goldreich Levin \cite{xorLemmaVazirani, hardCoreBitsAndXorLemmaFromGL}. Specifically, using calls to the procedure from Lemma \ref{lem:keyExchangeHCBit}, call this procedure $P$. 
+
+So Alice and Bob can run the procedure $\alpha(n)$ times. Alice gets bits $b_{A,1}, b_{A,2} \ldots b_{A,\alpha(n)}$ and Bob gets $b_{B,1},b_{B,2}, \ldots, b_{B,\alpha(n)}$. Alice publishes $b_{A,1} \oplus b_{A,2}, \ldots, b_{A,1} \oplus b_{A,\alpha(n)}$ and Bob publishes $b_{B,1} \oplus b_{B,2}, \ldots, b_{B,1} \oplus b_{B,\alpha(n)}$. If they agree on over $1/2$ of the $\alpha(n)-1$ xors then they agree on $b_{A,1}$ and $b_{B,1}$. If $b_{A,1} \ne b_{B,1}$ the chance that over $1/2$ of the samples agree is $\leq \binom{\alpha(n)}{(\alpha(n)-1)/2}(1/6)^{(\alpha(n)-1)/2} \leq (2e/6)^{(\alpha(n)-1)/2}$. So if $\alpha(n) = \lg(n)^3$ we can bound their probability of disagreeing by $n^{\lg(n)}$.
+
+Alice and Bob's running time increases by a factor of $\lg^3(n)$, but this subpolynomial so their running time remains  $\tilde{O}(\sqrt{s(N)}N^t + s(N)N^g)$. 
+
+Eve can't get more than a small advantage out of this. Consider the last cryptosytem, if we run $P$ and Alice and Bob wrote to the public ledger $I$ and the associated bit they agreed to was $b_I$ then there exists no algorithm $A$ where $Pr[A(I,b_I)] -Pr[A(I,\overline{b_I})]< 1/2+ \epsilon(n)$ and run in time $O((s(N) N^t)^{1-\gamma}/\epsilon(n))$. 
+
+Now we note that an adversary can produce additional instances $I'_1,b_{I'_1}, \ldots, I'_{\alpha(n)-1},b_{I'_{\alpha(n)-1}}$. Then, we can guess $b_I$ and produce the $\alpha(n)-1$ xor values. If Eve could distinguish these from the same xors produced by $\overline{b_I}$, this would break the condition of  $Pr[A(I,b_I)] -Pr[A(I,\overline{b_I})]< 1/2+ \epsilon(n)$. Thus, Alice and Bob listing these xors does not leak information. 
+\end{proof}

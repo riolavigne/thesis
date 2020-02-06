@@ -1,0 +1,129 @@
+\section{Introduction}
+
+%\xxx{Story: building on Merkle etc we build cryptography out of combinatorial assumptions. We get a fine-grained key exchange from fine-grained assumptions, instead of from assumptions of an exponential gap! We demonstrate other changes needed to get one way functions with desired properties. We give the general form of what is needed to build the desired objects. Our assumptions seem like "One way function" type assumptions and combinatorial ones, and yet we can build a key exchange. }
+
+
+
+In the 70s, Merkle proposed the first fine-grained key exchange in the form of Merkle Puzzles \cite{Merkle78}. Alice and Bob could do $O(n)$ work to exchange an index of size $\log(n)$, and if an eavesdropper Eve wanted to also learn the key, she would need to put in $O(n^2)$ work. The downside to this construction was that a random oracle was required to prove security. Later, a work by Biham, Goren, and Ishai showed that we could get this same quadratic gap in a similar construction, but this time only needed to assume a certain kind of exponentially strong one-way function \cite{BGI08}.
+
+Our contribution to this line of work is the first fine-grained key exchange based on a fine-grained combinatorial assumption (see Section \ref{sec:averageCaseAssumptions} for details on the assumption). The key exchange will not require interaction, and so this implies chosen-plaintext-attack-secure \emph{fine-grained} public key cryptosystem (it's only secure in a fine-grained sense in general). Instead of needing to assume that a problem is exponentially hard to solve (like inverting an exponentially strong one-way function), or assume that random oracles exist, we only need to assume a particular kind of problem takes $O(n)$ time to create and $O(n^d)$ to solve, as long as $d \ge 3/2$. So, by assuming a problem is hard in a fine-grained sense, we get a key exchange that takes $O(N)$ time for Alice and Bob to execute, and requires an eavesdropper Eve $O(N^{1.5})$ time to break.
+
+While this is a relatively small gap, even compared to previous work on this topic, the techniques required to prove security of this scheme are novel. 
+
+We build a public-key cryptosystem out of assumptions that are both combinatorial and related to the assumptions used for one way functions, as opposed to those used for trap door functions.
+We also begin to explore average-case to average-case reductions between fine-grained problems. In particular, we are able to show a reduction from an instance of average-case \zkclique~to breaking our key exchange. Interestingly, this reduction fails in the worst case! This motivates further research into getting better average-case reductions for fine-grained problems, and even worst-case to average-case reductions for these problems in general.
+
+Along that line of reasoning, Ball, Rosen, Sabin, and Vasudevan published a work establishing the definition of fine-grained one-way functions, and importantly got the first worst-case to average-case reduction from one fine-grained problem to another \cite{avgCaseFineGrained}. However, while they were able to make progress in worst-case to average-case reduction, they were unable to construct one-way functions based off of these problems, and even presented barriers for why one would be difficult or impossible to construct.
+
+Our other contribution partially answers an open question from Ball et al. They ask if a fine-grained one-way function can be constructed from worst case assumptions. We generate new plausible average-case assumptions from fine-grained problems and construct fine-grained one-way functions from these new assumptions. In particular, for problems that require $O(n)$ time to create and $O(n^d)$ time to solve, we get fine-grained one-way functions that require $O(n)$ time to execute and $O(n^d)$ time to invert,  preserving the gap between how difficult it is to create a problem and to solve that problem.
+
+\xxx{Rio: Can Virginia clean up this paragraph to make it more convincing?}
+
+What are these plausible assumptions? We are making average-case assumptions about the zero $k$-clique problem and $k$-sum. 
+
+\begin{definition}
+	An instance of the $k$-SUM problem over range $R$, $k$-SUM-$R$, consists of $kn$ numbers in $k$ lists $L_1, \ldots, L_k$. These numbers are chosen from the range $[0,R-1]$. 
+	
+	A solution of a $k$-SUM-$R$ instance is a set of $k$ numbers $a_1 \in L_1$, \ldots, $a_k \in L_k$ such that their sum is zero mod $R$, $\sum_{i=1}^k a_i \equiv 0 \mod R$. 
+\end{definition}
+
+\begin{definition}
+	An instance of Zero-$k$-Clique-$R$ consists of a $k$-partite graph with $kn$ nodes with 
+	partitions $P_1, \ldots, P_k$. The $k$-partite graph is complete: there is an edge between a node  $v\in P_i$ and a node $u \in P_j$ if and only if $i \ne j$. Thus, every instance has $kn^2$ edges. The weights of the edges come from the range $[0,R-1]$.
+	
+	%Weights are assigned to each of these edges uniformly at random from the range $[0,R-1]$. 
+	
+	A solution in a Zero-$k$-Clique-$R$ instance is a set of $k$ nodes $v_1 \in P_1, \ldots, v_k \in P_k$ such that the sum of all the weights on the $\binom{k}{2}$ edges in the $k$-clique formed by $v_1,\ldots,v_k$ is congruent to zero mod $R$: $\sum_{i \in [1,k]}\sum_{j \in [1,k] \text{ and } j\ne i} weight(v_i,v_j) \equiv 0 \mod R$. A solution is also called a  zero $k$-clique. 
+\end{definition}
+
+Informally, we conjecture that determining if $k$-SUM-$R$ or Zero-$k$-Clique-$R$ has a solution will take super-linear time. From this weak assumption we can get one-way functions. We also make the stronger conjecture that returning the zero-clique in Zero-$k$-Clique-$R$ with probability greater than $2/3$ takes time $n^{k-o(1)}$. From this stronger assumption we get a key-exchange. 
+
+%We are using assumptions that in the worst case are known to be hard based off of various fine-grained complexity results. such as \zkclique~and $k$-sum. It has also been conjectured that for certain ranges of weights in the case of $k$-sum, these problems are average-case hard \cite{avgCase3Sum}. 
+
+\subsection{Technical Overview}
+In this section, we will review what techniques we use to get our construction of a fine-grained key exchanges and constructions for fine-grained one-way functions. For getting the key exchange to work, we need a problem that is \emph{plantable}, \emph{self-reducible}, and \emph{splittable}. Informally,
+\begin{itemize}
+	\item A problem is plantable if, when given a random instance without a solution, we can \emph{plant} one, and have that solution be difficult to find (or have it be difficult to distinguish from a no-solution instance);
+	\item A problem is list-hard if given a list of length $\ell(n)$ instances of the problem returning which one of the instances has a solution requires solving all instances;
+	\item A problem is splittable if when given an instance with a solution, we can split it into two slightly smaller instances that \emph{both} have solutions.
+\end{itemize}
+We need our problem to have all three of these qualities for the key exchange. For our one-way function constructions we only need the problem to be plantable.
+
+The strong version of our \zkclique~assumption satisfies all of three of these properties. For the remainder of this overview, we will be using the assumption that we can generate a planted \zkclique~instance in time $O(n^2)$ and it takes $O(n^k)$ for any randomized adversary to find the clique. In section \ref{sec:fg-owfs}, we show that we can relax this assumption for constructing both key exchanges and fine-grained OWFs.
+
+\subsubsection{Fine-Grained Key-Exchange}
+To describe how we get our key exchange, it is first helpful to consider Merkle Puzzles \cite{Merkle78}. The idea is simple: given a random hash function $H$ and public range $[n^2]$, Alice and Bob could exchange a key by each computing $10n$ hashes of random elements in $[n^2]$ and sending those hashes to each other. With all but negligible probability, Alice and Bob would agree on at least one pre-image --- the index of that pre-image would be their key. It would take an eavesdropper Eve $O(n^2)$ queries before she would be able to find the indices agreed upon by Alice and Bob. So, while Alice and Bob must take $O(n)$ time, Eve must take $O(n^2)$ time to break it. While interesting, the proof of security relied on the fact that $H$ was a random oracle.
+\xxx{TODO: Merkel did not use random oracle assumption}
+
+Our construction will take on a similar form: Alice and Bob will send several problems to each other, and some of them will have planted solutions. By matching up where they both put solutions, they get a key exchange.
+
+Alice and Bob will exchange $m$ instances of the \zkclique~problem and in $\sqrt{m}$ of them, plant solutions. The other $m - \sqrt{m}$ will not have solutions (except with some small probability). These $m$ problems will be indexed, and we expect Alice and Bob to have both planted a solution in one of these indices. Alice can check her $\sqrt{m}$ indices while Bob checks his, and by the end, with constant probability, they will agree on a single index as a key. In the end, Alice and Bob require $O(mn^2 + \sqrt{m}n^{k})$ time to exchange this index.  Eve must take time $\tilde{\Omega}(n^{k}m)$. When  $m = n^{2k-4}$, Alice and Bob take $O(n^{2k-2})$ time and Eve takes $\tilde{\Omega}(n^{3k-4})$. We therefore get some gap between the running time of Alice and Bob as compared to Eve for any value of $k\geq 3$. Furthermore, for all $\delta>0$ there exists some large enough $k$ such that the difference in running time is at least $O(T(n))$ time for Alice and Bob and $\tilde{\Omega}(T(n)^{1.5-\delta})$ time for Eve. 
+
+%We present a set of three general properties where if a problem has those properties then a fine-grained key exchange exists. These properties are that the problem must be \emph{plantable}, \emph{average }
+
+\subsubsection{Fine-Grained One-Way Functions and Consequences}%TODO
+\xxx{Rio: I should finish writing this}
+Ball et al \cite{avgCaseFineGrained} defined fine-grained OWFs, keeping track of time required to invert and probability of inversion in two separate parameters. We seek to streamline this definition, fixing the probability an adversary inverts in time less than we expect to be small (something we refer to as insignificant).
+
+Let $N$ be the size of the input to these problems. 
+
+\begin{theorem}[Fine-Grained OWFs (informal)]
+If for some constant $\delta>0$ either $k$-SUM-$R$ requires $\Omega(N^{1+\delta})$ time to solve with probability $>2/3$ or Zero-$k$-Clique-$R$ requires $\Omega(N^{(1+\delta)})$ time to solve with probability $>2/3$  then a fine-grained OWF exists.
+\end{theorem}
+Intuitively our construction of a fine-grained OWF runs a planting procedure on a random instance in time $O(N)$. By our assumptions finding this solution takes time , and thus inverting this OWF takes $\Omega(N^{1+\delta})$.
+
+We also get a notion of hardcore bits from this. Unlike in traditional crypto, we can't immediately use Goldreich-Levin's hardcore bit construction \cite{hardCoreBitsAndXorLemmaFromGL}. Given a function on $N$ bits, the construction requires at least $\Omega(N)$ calls to the adversary who claims to invert the hardcore bit. When one is seeking exponential gaps between computation and inversion of a function, factors of $N$ can be ignored. However, in the fine-grained setting, factors of $N$ can completely eliminate the gap between computation and inversion. 
+
+We show that there is a subset of the input of size $O(\lg(N))$ which itself requires $\Omega(N^{1+\delta})$ time to invert. From this subset of bits we can use Goldreich-Levin's hardcore bit construction, only loosing a factor of $N^{o(1)}$ which is acceptable in the fine grained setting.
+
+\xxx{TODO: not finished }
+\begin{theorem}[Hardcore Bits (informal)]
+	Write how to use $k$-sum to get HCB.
+\end{theorem}
+
+Hardcore bits are a building block in classical cryptography --- they are the start of PRGs and PRFs, which in turn are used to build symmetric key cryptography.
+
+\subsection{Related Work}
+\xxx{Rio: This subsection needs work}
+\begin{figure}
+	\begin{tabular}{| l | l | l | l | l |}
+		\hline
+		Paper & Assumptions & Crypto & Runtime & \begin{tabular}{l} Power of\\ Adversary
+			\end{tabular} \\\hline
+		\cite{Merkle78} & Random Oracles & Key Exchange & $O(n)$ & $O(n^2)$\\\hline
+		\cite{BGI08} & Exponentially-Strong OWFs & Key Exchange & $O(n)$ & $O(n^2)$ \\\hline
+		\cite{eprintAvgCaseFG} & WC 3-sum, OV, APSP, or SETH & Proof of Work & $O(n^2)$ & N/A \\\hline
+		[This work] & AC \zkclique~or $k$-sum & \begin{tabular}{l} OWFs,\\
+			Key Exchange and \\
+			PKE
+			\end{tabular} &\begin{tabular}{l}
+			$O(n)$\\
+			$O(N)$
+		\end{tabular} & \begin{tabular}{l}
+			$O(n^{1 + \delta})$\\
+			$O(N^{1.5})$
+		\end{tabular} \\\hline
+		\cite{DVV16} & $\mathsf{NC}1 \neq \xor L/\poly$ & \begin{tabular}{l}
+						OWFs, and PRGs\\
+			with sublinear \\
+			stretch, CRHFs, \\
+			and PKE\\ \\
+		\end{tabular} &$\mathsf{NC}1$ &$\mathsf{NC}1$\\
+			&$\mathsf{NC}1 \neq \xor L/\poly$ &\begin{tabular}{l} PKE and CRHFs\\ \\
+			\end{tabular}  & $\mathsf{AC}^0[2]$&$\mathsf{NC}1$ \\
+		& Unconditional &\begin{tabular}{l}
+			PRGs with poly\\
+			 stretch, Symmetric\\
+			 encryption,\\
+			and CRHFs\\
+		\end{tabular}  & $\mathsf{AC}^{0}$ & $\mathsf{AC}^0$\\\hline
+	\end{tabular}
+	\caption{\label{fig:comparison} A table of previous works' results in this area. There have been several results characterizing different aspects of fine-grained cryptography.	}
+\end{figure}	
+
+\paragraph{Fine-Grained Key Exchanges.}Fine-grained cryptography is a relatively unexplored area, even though it had its start in the 70's with Merkle's puzzle idea: the gap between honestly participating in the protocol versus breaking the security guarantee was only polynomial \cite{Merkle78}. 30 years later, Biham, Goren, and Ishai showed how to get the same result but making a plausible assumption \cite{BGI08}; that is, they assumed a certain kind of strong one-way function existed, rather than random oracles, which do not exist.
+
+\paragraph{Another notion of Fine-grained Cryptography.} In 2016, a work by Degwekar, Vaikuntanathan, and Vasudevan discussed fine-grained complexity with respect to time and/or space bounded adversaries, and showed constructions for some cryptographic primitives (including PKE) when restricting an adversary to a certain circuit class
+%TODO: write more here
+
+\paragraph{Fine-Grained OWFs.}

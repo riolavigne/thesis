@@ -1,0 +1,25 @@
+\section{Notation}
+
+Just as in normal exponential-gap cryptography we have a notion of probabilistic polynomial-time (PPT) adversaries, we can similarly define an adversary that runs in time less than expected for our fine-grained polynomial-time solvable problems. This notion is something we call probabilistic small-time (or PFT). Using this notion makes it easier to define things like OWFs and doesn't require carrying around annoying time parameters through every reduction.
+
+\begin{definition}
+	An $\alpha(n)$ probabilistic fine-grained time (PFT$_{\alpha(n)}$) adversary $\cA$ is an adversary running in time $\alpha(n)\cdot n^{-\delta}$ for some constant $\delta > 0$.
+\end{definition}
+
+Additionally, we will want a notion of 'negligibility' that cryptography has. Recall that a function $\negl(n)$ is negligible if for all polynomials $Q(n)$ and sufficiently large $n$, $\negl(n) < 1/Q(n)$. We will have a similar definition here, but we will use the words 'significant' and 'insignificant' corresponding to non-negligible and negligible respectively.
+
+But first we need to define a notion of a function being 'sub-polynomial.' That is, a function is sub-polynomial if it is eventually dominated by every polynomial in $n$, even $n^{.001}$.
+\begin{definition}
+	A function $f$ is \emph{sub-polynomial} (sub-poly) if for every constant $c>0$, there exist sufficiently large $N$ such that for all $n > N$, $f(n) < n^c$.
+\end{definition}
+
+
+\begin{definition}
+	A function $\insig(n)$ is \emph{insignificant} if for every sub-polynomial function $f$,
+	\[\insig(n) < \frac{1}{f(n)}.\]
+	A function $\sig(n)$ is \emph{significant} if there exists a sub-polynomial function $f$ such that for all sufficiently large $n$,
+	\[\sig(n) \ge \frac{1}{f(n)}.\]
+\end{definition}
+
+Note that for every polynomial $f$, $1/f(n)$ is insignificant. Also notice that if a probability is significant for an event to occur, then we only need that event to happen a sub-polynomial number of times. So, if we're calling a function that succeeds with a significant probability, we only need to call it a sub-polynomial number of times before getting a result, meaning our run-time doesn't increase even in a fine-grained sense; i.e. we can boost the probability of success of a randomized algoirthm from $1/\log(n)$ to $O(1)$ just by repeating it $O(\log(n))$ times.
+%TODO: I'm not sure about this sentence, but it kind of says what I want it to.

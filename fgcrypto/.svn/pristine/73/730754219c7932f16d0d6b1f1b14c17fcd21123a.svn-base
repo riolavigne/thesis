@@ -1,0 +1,62 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: paper.aux
+The style file: abbrv.bst
+Database file #1: mybib.bib
+A bad cross reference---entry "Impagliazzo5worlds"
+refers to entry "DBLP:conf/coco/1995", which doesn't exist
+A bad cross reference---entry "RR94"
+refers to entry "DBLP:conf/stoc/STOC26", which doesn't exist
+A bad cross reference---entry "legallMM"
+refers to entry "DBLP:conf/issac/2014", which doesn't exist
+A bad cross reference---entry "eprintAvgCaseFG"
+refers to entry "DBLP:conf/crypto/2018-1", which doesn't exist
+A bad cross reference---entry "BGI08"
+refers to entry "DBLP:conf/tcc/2008", which doesn't exist
+A bad cross reference---entry "DVV16"
+refers to entry "DBLP:conf/crypto/2016-3", which doesn't exist
+A bad cross reference---entry "BellareKR94"
+refers to entry "DBLP:conf/crypto/1994", which doesn't exist
+A bad cross reference---entry "BellareGR95"
+refers to entry "DBLP:conf/crypto/1995", which doesn't exist
+A bad cross reference---entry "BellareCK96"
+refers to entry "DBLP:conf/focs/1996", which doesn't exist
+A bad cross reference---entry "BellareDJR97"
+refers to entry "DBLP:conf/focs/1997", which doesn't exist
+A bad cross reference---entry "KatzW03"
+refers to entry "DBLP:conf/ccs/2003", which doesn't exist
+A bad cross reference---entry "BellareR09"
+refers to entry "DBLP:conf/eurocrypt/2009", which doesn't exist
+A bad cross reference---entry "optimalMerklePuzzles"
+refers to entry "DBLP:conf/crypto/2009", which doesn't exist
+A bad cross reference---entry "Patrascu10"
+refers to entry "DBLP:conf/stoc/2010", which doesn't exist
+A bad cross reference---entry "sparseGraphsLVWW"
+refers to entry "DBLP:conf/soda/2018", which doesn't exist
+A bad cross reference---entry "treeEditDistance"
+refers to entry "DBLP:conf/soda/2018", which doesn't exist
+A bad cross reference---entry "virgi10"
+refers to entry "DBLP:conf/focs/2010", which doesn't exist
+A bad cross reference---entry "Chan18"
+refers to entry "DBLP:conf/soda/2018", which doesn't exist
+A bad cross reference---entry "KopelowitzPP16"
+refers to entry "DBLP:conf/soda/2016", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/issac/2014"
+Warning--I didn't find a database entry for "DBLP:conf/coco/1995"
+Warning--I didn't find a database entry for "DBLP:conf/focs/2010"
+Warning--I didn't find a database entry for "DBLP:conf/soda/2016"
+Warning--I didn't find a database entry for "DBLP:conf/stoc/2010"
+Warning--I didn't find a database entry for "DBLP:conf/soda/2018"
+Warning--I didn't find a database entry for "DBLP:conf/tcc/2008"
+Warning--I didn't find a database entry for "DBLP:conf/crypto/2016-3"
+Warning--I didn't find a database entry for "DBLP:conf/crypto/2018-1"
+Warning--I didn't find a database entry for "DBLP:conf/crypto/2009"
+Warning--I didn't find a database entry for "DBLP:conf/stoc/STOC26"
+Warning--I didn't find a database entry for "DBLP:conf/focs/1997"
+Warning--I didn't find a database entry for "DBLP:conf/eurocrypt/2009"
+Warning--I didn't find a database entry for "DBLP:conf/focs/1996"
+Warning--I didn't find a database entry for "DBLP:conf/crypto/1994"
+Warning--I didn't find a database entry for "DBLP:conf/crypto/1995"
+Warning--I didn't find a database entry for "DBLP:conf/ccs/2003"
+Warning--empty publisher in colorcoding
+Warning--empty journal in IN02
+Warning--empty note in Tse56
+(There were 19 error messages)

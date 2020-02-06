@@ -1,0 +1,94 @@
+\section{Properties of $k$-SUM and Zero $k$-clique Hypotheses}
+
+In this section, we will prove the properties that $k$-SUM and Zero $k$-Clique have that will make them useful in constructing fine-grained OWFs and our fine-grained key exchange.
+
+\subsection{$k$-SUM is Plantable}
+Here we will show that by assuming the Weak $k$-SUM hypothesis (see definition \ref{def:weak-k-sum}), we get that $k$-SUM is plantable and $n^{2+\delta}$-\ACIH.
+
+
+\begin{theorem}
+	$k$-SUM-$R$ is plantable with error $\leq n^k/R$ in $O(n)$ time.
+	%If the weak $k$-sum hypothesis holds over a range $R > 100 n^k$, then $k$-SUM-$R$ is $n^{2+\delta}$-\ACIH.
+\end{theorem}
+\begin{proof}
+	Let $\Generate(n)$ be the procedure of randomly choosing all $kn$ entries uniformly at random from $[0,R-1]$, taking time $O(n)$. There are $n^k$ possible sums, and since for any choice of $n^{k-1}$ numbers, the inverse of their sum is expected to appear in the instance $n/R$ times, the expected number of solutions is $\leq n^k/R$. The total variation distance between $\Generate(n)$ and $D_0(k-$SUM$-R,n)$ is $\leq n^k/R$ because the distribution over $I \sim \Generate(n)$ where $I$ has no solutions is uniform over all instances $I$ with no solutions. 
+	
+	Let $\Plant(I)$ be the procedure of randomly picking $k$ numbers $v_1,\ldots,v_k$ from the instance $I$, each from one list and picking one of these numbers at random $v_i$, and finally setting $v_i= - \sum{j\in[1,k] \& j\ne i}$. 
+	
+	Let $D_{\textrm{plant}}$ be the distribution over $I'$ drawn from $\Plant(I)=I'$ where $I \sim D_0(k-$SUM$-R,n)$. Now let us consider $Pr_{I' \sim D_{\textrm{plant}}}[I' = I]$ for some $I$ in the support of $D_1(k-$SUM$-R,n)$. We need to pick the correct $k$ values to plant the solution into, and then all $nk-1$ values, other than the planted one, must match the original. $Pr_{I' \sim D_{\textrm{plant}}}[I' = I] = 1/(n^k R^{kn-1})$. 
+	Note that this probability is uniform over all elements $I$ in $D_1(k-$SUM$-R,n)$. The probability that more than one clique was introduced is $\leq n^{k-1}/R$. The variation distance between $D_{\textrm{plant}}$ and $D_1(k-SUM-R,n)$ is $\leq n^{k-1}/R$. 
+\end{proof}
+
+Note that when $R> 6n^k$  $\Plant(\Generate(n))$ has total variation distance $< 1/3$ from $D_1(k-$SUM$-R,n)$.
+
+Unfortunately for general $k$-SUM, the problem does not lend itself well to being average-case list-hard or splittable, as far as we can see.
+
+\subsection{Zero k-Clique is Plantable, Average Case List-Hard and, Splittable}
+\label{sec:zkcIsAllTheThings}
+
+Now we will prove that Zero $k$-Clique has the properties we need for our key exchange. 
+
+\subsubsection{Zero $k$-Clique is a Plantable Problem}
+
+
+\begin{theorem}
+	Zero $k$-Clique is plantable in time $O(n^2)$ with error $\leq n^{k+2}/R+n^k/R$.
+	\label{thm:zkcPlantable}
+\end{theorem}
+\begin{proof}
+	Let $\Generate(n)$ be the procedure of randomly picking all $\binom{k}{2}n^2$ edge weights from range $[0,R-1]$ taking time $O(n^2)$, by Lemma \ref{lem:TVDnosol} this has total variation distance $n^k/R$ from $D^{zkc}_{0}[R,n]$. 
+	
+	Let the $\Plant(I)$ be the procedure of picking $k$ random nodes, $v_1,\ldots,v_k$ and picking a random edge $(v_i,v_j)$ and setting the weight of the edge such that the clique has total weight $0$.  
+	
+	Given an instance, $I$ with all edge weights chosen uniformly at random, the total time to run $\Plant$ is $k = O(1)$. 
+	
+	Finally note that $\Plant(I)$ will always have at least one solution, the one planted. 
+\end{proof}
+
+%Our assumptions make reference to the uniform distribution of zero $k$-clique instances and $k$-sum instances in which there are one solution. The distributions $D_{zkc}[R,1,k]$ and $D_{sum}[R,1,k]$ respectively. We will demonstrate an efficiently sampleable distribution 
+%\xxx{TODO: fill in this section}
+
+\subsubsection{Zero $k$-clique is Average Case List-Hard}
+
+%Also true for the decision version! If we want the decision version instead 
+% We can include the commented out points about D_0
+We present the proof that zero $k$-clique is average case list-hard in Section \ref{sec:appendixListHard} in Theorem \ref{thm:zkcSelfReduce}.  We will state the the theorem here as well.
+
+\begin{theorem}
+	Given the \strongzkc~ in range $n^k$
+	Zero $k$-Clique is $n^k$-\ACIH and Average Case List-Hard with list length $\ell(n)$ for all polynomial functions $1<\ell(n)$.
+\end{theorem}
+
+The intuition of the proof is as follows. There is an efficient worst case self-reduction for the zero-k-clique problem. This self-reduction results in $ell'(n)^k$ subproblems of size $n/\ell'(n)$. One can choose $\ell'(n)$ of these instances such that they are generated from non-overlapping parts of the original instance. They will then look uniformly randomly generated. 
+
+Now we will have generated many, $\ell^{'k}(n)$ of these list versions of the $k$-clique problem, where only one of them has the unique solution. We show that the problem is Average Case List-Hard by demonstrating that we can make many independent calls to the algorithm despite correlations between the instances called. Specifically, we only care about the response on one of these instances, so as long as that instance is random then we can solve the original problem. 
+
+
+\subsubsection{Zero $k$-Clique is Splittable}
+Next we show that zero-k-clique is splittable. 
+
+Intuitively we will take the first half of the bits of each edge weight and make an instance from that. Then we take the second half of the bits of each edge weight to make another instance. If the $\binom{k}{2}$ weights on a $k$ clique sum to zero then the first half of all the weights sum to zero up to carries, and the second half of all the weights sum to zero up to carries. We simply guess the carries. We start by proving this for a convenient range and then show we can use a reduction to get more arbitrary ranges. 
+
+
+\newcommand{\GeneralSplit}{\mathsf{GeneralizedSplit}}
+
+For this we need to generalize the notion of splittable.
+\begin{definition}[Generalized Splittable]
+	A $T(n)$-\ACIH~problem is generalized splittable with error $\epsilon m$ to the problem $P'$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ such that
+	\begin{itemize}
+		\item when given an instance of a problem $I \sim D_{0}(P,n)$, $\GeneralSplit(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where  $\forall i\in [1,m]$ $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}(P',n)\times D_0(P',n)$.
+		\item when given an instance of a problem $I \sim D_{1}(P,n)$, $\GeneralSplit(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where $\exists i\in[1,m]$ such that $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{1}(P',n)\times D_1(P',n)$.
+	\end{itemize}
+\end{definition}
+
+\begin{lemma}
+	If a problem $P$ is splittable with error $\epsilon$ then $P$ is generalized splittable with error $\epsilon$.
+\end{lemma}
+\begin{definition}
+Use the splitting procedure to generate a list of length $m=1$. The outputs are drawn from the appropriate distributions. 
+\end{definition}
+
+Lemma \ref{lem:zkcSplitConvenientRange} shows zero-$k$ clique to be generalized splittable over a convenient range.
+Lemma \ref{lem:zkcSplitConvenientRange} is extended to all large enough ranges in Theorem \ref{thm:zkcsplittable}. 
+
+These proofs are presented in Section \ref{sec:zkcAppendix}. The intuition of this proof relies on the idea that if a small number of numbers sum to zero then the high order bits basically sum to zero and the low order bits basically sum to zero. One must guess the carry, which is why use the generalized splittable definition. 

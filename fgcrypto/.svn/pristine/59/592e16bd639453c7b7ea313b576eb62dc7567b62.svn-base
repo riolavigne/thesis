@@ -1,0 +1,10 @@
+\begin{thebibliography}{BRSV17}
+
+\bibitem[BRSV17]{avgCaseFineGrained}
+Marshall Ball, Alon Rosen, Manuel Sabin, and Prashant~Nalini Vasudevan.
+\newblock Average-case fine-grained hardness.
+\newblock In {\em Proceedings of the 49th Annual {ACM} {SIGACT} Symposium on
+  Theory of Computing, {STOC} 2017, Montreal, QC, Canada, June 19-23, 2017},
+  pages 483--496, 2017.
+
+\end{thebibliography}

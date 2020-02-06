@@ -1,0 +1,41 @@
+\subsection{Larger Ranges for \zkclique~are as Hard as Smaller Ranges.}
+We note that our constructions work for a large range: $R = \Omega(n^{6k})$. This theorem states that finding zero $k$-cliques over smaller ranges is as hard as finding them over larger ones.
+So, if you believe that \zkclique~is hard over a range where an uniformly sampled instance is expected to have one solution (e.g. a small range like $O(n^k)$), we can show that this implies larger ranges, which are used extensively in our constructions, are also hard.
+
+\begin{theorem}
+	\Strongzkc for range $R=n^{c k}$ is implied by the Random Edge \RandomZKC if $c>1$ is a constant.
+	\label{thm:rangeExtendThm}
+\end{theorem}
+\begin{proof}
+	Create $n^{(1-1/c)}$ random partitions of the nodes where each partition is of size $n^{1/c}$. Then generate $n^{(1-1/c)k}$ graphs by choosing every possible choice of $k$ partitions.
+	
+	This results in $n^{(1-1/c)k}$ problems of size  $n^{1/c}$ with range $n^k$. 
+	
+	If an algorithm $A$ violated \Strongzkc for range $n^{c k}$ then it must have some running time of the form $O(n^{k-\delta})$ for $\delta > 0$. We could run $A$ on all $n^{(1-1/c)k}$ problems, resulting in a running time of $n^{k/c-\delta/c}n^{(1-1/c)}k = O(n^{k-\delta/c})$ for the Random Edge problem. If we find a valid zero-$k$-clique then we return $1$. If we don't we return $0$ with probability $1/2$ and $1$ with probability $1/2$.
+	
+	Let $p_1$ be the probability that any one of the $n^{k/c}$ has exactly one zero clique, conditioned on $val(I)=1$ (that there is at least one solution). 
+	
+	If \Strongzkc is violated then we return the correct answer with the probability at least $p_1 \frac{1}{100} + (1-p_1/100)/2 = 1/2+p_1\frac{1}{200}$. So, we now want to lower bound the value of $p_1$. 
+	
+	%Let $p_0'$ ,$p_1'$ and $p_{\geq 2}'$ be the probabilities that a single instance of size $n^{k/c}$ has zero, one or at least two cliques respectively.
+	
+	The probability that there are more than $2$ cliques in a subproblem of size  $n^{1/c}$, conditioned on there being at least one clique is at most $n^{-k(1-1/c)}$. Because to generate the distribution of problems of size $n^{1/c}$ with at least one clique one can plant a clique (randomly choose $k$ nodes and randomly choose $\binom{k}{2}-1$ edge weights, then choose the final edge weight such that this is a zero $k$-clique). The expected number of cliques other than the planted clique is $\frac{n^{1/c}-1}{n^k}$ and the number of cliques other than the planted clique is a non-negative integer.
+	
+	So conditioned $val(I)=1$ we have that $p_1\geq 1-n^{-k(1-1/c)}$. So the probability of success, conditioned on $val(I)=1$  is at least $p_1/100 \geq 1/200$.
+	
+	%So 
+	%$$(p_1'+p_{\geq 2}')n^{-k(1-1/c)}\geq p_{\geq 2}'.$$ 
+	%Which means 
+	%$$2p_1' n^{-k(1-1/c)} \geq p_1' \frac{n^{-k(1-1/c)}}{1-n^{-k(1-1/c)}} \geq p_{\geq 2}'.$$
+	
+	%We finally 
+	
+	%We will now determine how often we are correct. Let $p_0$, $p_1$ and $p_{\geq 2}$ be the probability that the original instance has $0$, $1$ or at least $2$ zero-$k$-cliques respectively. 
+	
+	%The probability that there are more than $2$ cliques in a subproblem of size  $n^{1/c}$, conditioned on there being at least one clique is $\leq n^{-k(1-1/c)}$. To generate the distribution of problems of size $n^{1/c}$ with at least one clique one can plant a clique (randomly choose $k$ nodes and randomly choose $\binom{k}{2}-1$ edge weights, then choose the final edge weight such that this is a zero $k$-clique). The expected number of cliques other than the planted clique is $ n^{-k(1-1/c)}$ and the number of cliques other than the planted clique is a non-negative integer. 
+	
+	%We have that $p_0+p_1+p_{\geq 2}=1$ and $p_1\geq p_{\geq 2} n^{-k(1-1/c)}$. So $p_0+p_1\geq 1-n^{-k(1-1/c)}$.
+	
+	
+	%We add error $n^{-k(1-1/c)}$, however, this is $o(\frac{1}{\lg(n)})$.
+\end{proof}

@@ -1,0 +1,41 @@
+\section{Fine-Grained Key Exchange}
+\label{sec:FineGrainedKeyExchange}
+
+Now we will explain a construction for \emph{key exchange} using the \strongzkc. This construction produces a system that takes $n^{2k-2}$ time for Alice and Bob, but Eve must take $\tilde{\Omega}\left (n^{3k-4} \right ) $ given the zero k-clique conjecture. 
+
+
+This means that given only the zero triangle conjecture (the most plausible conjecture) we still get a fine-grained gap between the exchangers (Alice and Bob) and Eve. Specifically Alice and Bob will take $O(n^{4})$ time while Eve takes $\tilde{\Omega}(n^5)$ time. 
+
+
+We will describe the key exchange first and then prove that Eve must take  $\tilde{\Omega}\left (n^{3k-4} \right) $ time. 
+
+
+\subsection{Description of Key Exchange}
+
+The high level description of the key exchange is as follows. Alice and Bob each produce $n^{2k-4}$ instances of zero k-clique. In a randomly chosen $n^{k-2}$ of these instances they will plant a solution. Call the set of indices that Alice chooses to plant $S_A$ and the set Bob picks $S_B$. The likely size of $S_A \cap S_B$ is $1$. The index $S_A \cap S_B$ is the basis for the key. 
+
+Alice determines the index $S_A \cap S_B$ by brute forcing all problems at indicies $S_A$ that Bob published. This allows Alice to learn $S_A \cap S_B$. Bob can brute force all problems at indicies $S_B$ that Alice published and learn the set  $S_A \cap S_B$. 
+
+It takes $n^kn^{k-2}+n^2n^{2k-4} = n^{2k-2}$ time for Alice and Bob to write out all the instances and brute force a subset. 
+
+\xxx{TODO: how should the algorithm be formated for crypto purposes}
+
+\subsection{Proof of Hardness}
+
+First we show that the key-exchange results in gaps in running time and success probability between Alice and Bob and Eve. Then, we will show that this scheme can be boosted in a fine-grained system to get larger probability gaps while preserving the running time gaps. 
+
+\begin{lemma}
+	If a problem $P$ has a with high probability algorithm which runs in $\tilde\Theta(N^t)$ time, solving in the average case is assumed to take $\tilde\Theta(N^t)$ time to get a probability of finding a solution higher than $1/3$, random instances can be generated in time $\tilde{\Theta}(N^g)$, the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with error $\delta_1$, Splittable with error $\delta_2$, and Plantable with error $\delta_3$ then, there is a key-exchange in which Alice and Bob successfully communicate a bit in time $\tilde{O}( N^2t/N^g)$ with probability $\geq 1-\delta_1-\delta_2-\delta_3$ and Eve can't guess the bit with probability better than $1/3+\delta_1+\delta_2+\delta_3$ in time $(N^{3t}/N^{2g})^{1-\epsilon}$ for any $\epsilon>0$. 
+\end{lemma}
+\begin{proof}
+	\xxx{TODO: proof}
+\end{proof}
+
+Now we will use repetition techniques and the xor lemma to boost the probability gaps between Alice and Bob and Eve. 
+
+\begin{theorem}
+If a problem $P$ is assumed to take $\tilde\Theta(N^t)$ time, random instances can be generated in time $\tilde{\Theta}(N^g)$, the problem is Average Case Self-reducible at $\tilde\Theta(N^t)$ time with error $\delta_1$, Splittable with error $\delta_2$, and Plantable with error $\delta_3$ then, there is a key-exchange in which Alice and Bob successfully communicate a bit in time $\tilde{O}( N^2t/N^g)$ with probability $\geq 1-1/n^\log(n)$ and Eve can't guess the bit with probability better than $1- 1/n^{o(1)}$ in time $(N^{3t}/N^{2g})^{1-\epsilon}$ for any $\epsilon>0$. 
+\end{theorem}
+\begin{proof}
+\xxx{TODO: boosting}
+\end{proof}

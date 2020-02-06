@@ -49,6 +49,10 @@
 \newtheorem{definition}{Definition}{\bfseries}{\itshape}
 \newtheorem{claim}{Claim}{\bfseries}{\itshape}
 \newtheorem{remark}{Remark}{\bfseries}
+\newtheorem{construction}[theorem]{Construction}
+\def\theoremNon{\par\noindent{\bf Theorem.\ } \ignorespaces}
+\def\endtheoremNon{}
+
 %This might work with amsthm
 \makeatletter
 \newtheorem{repeatthm@}{Theorem}{\bfseries}{\itshape}
@@ -64,6 +68,7 @@
 	\repeatlem@
 }
 {\endrepeatlem@}
+
 
 
 \usepackage{macros}
@@ -88,7 +93,7 @@
 \include{chap1} % Copied over...
 \include{chap2} % TODO
 \include{chap3} % Copied over...
-\include{chap4} % PPH TODO
+\include{chap4} % Copied over...
 \include{chap5} % FHGCrypto TODO
 \appendix
 \include{appa}

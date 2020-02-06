@@ -1,0 +1,230 @@
+\section{Fine Grained One Way Functions}
+
+
+\subsubsection{Weak and Strong OWFs in the Fine-Grained Setting}
+
+In traditional cryptography, we have notions of weak and strong OWFs. Weak OWFs can be inverted most of the time, but a polynomial-fraction of the time, they cannot be. These weak OWFs can be compiled into strong OWFs (showing that weak OWFs imply strong OWFs), where there is a negligible chance that the resulting strong OWF is invertable over the choice of inputs.
+
+Here we will briefly discuss how a 'medium' $\alpha(n)$-FGOWF can imply a 'strong' $\alpha(n)$-FGOWF, where 'strong' refers to definition \ref{def:fg-owf}
+
+\begin{definition}
+	A function $f$ is a medium $\alpha(n)$-FGOWF if there exists a sub-polynomial function $Q(n)$ such that for all $\PFT{\alpha(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \getsr \{0,\}^n}[ \cA(f(x)) \in f\inv(f(x)) ] \le 1 - \frac 1 {Q(n)}. \]
+\end{definition}
+
+\begin{claim}\label{thm:medium-strong-owf}
+	Medium $\alpha(n)$-FGOWFs imply strong $\alpha(n)$-FGOWFs.
+\end{claim}
+\begin{proof}
+	Let $f$ be a medium $\alpha(n)$-FGOWF, where the probability any $\PFT{\alpha(n)}$ adversary inverts it is $1 - \frac 1 {Q(n)}$. The basic idea will be to produce $f'$ that is just a concatination of many $f$s, just as in the traditional cryptographic case.
+	
+	Let $\epsilon = 1 - 1/Q(n)$ be the probability of an adversary's success in inverting $f$. For any constant positive integer function $c(n)$, let $f'(x_1 || \dots || x_{c(n)}) = f(x_1)|| \dots ||f(x_{c(n)})$. Now, for any $\PFT{c(n) \cdot \alpha(n)}$ adversary $\cA'$, there exists a $\PFT(\alpha(n))$ adversary $\cA$ such that
+	\[\Pr[\cA'(f'(x_1 || \dots || x_c)) \in f'^{-1}(f'(x_1 || \dots || x_c))] \le \prod_{i=1}^c\Pr[\cA(f'(x_i))] = \epsilon^c.\]
+	Now, if $c$ is subpolynomial, then $\PFT{c(n) \cdot \alpha(n)} = \PFT{\alpha(n)}$, since we ignore sub-polynomial factors.
+	
+	So, we let $c(n) = Q(n) \cdot \log^2(n)$, which is still subpolynomial. Then, for any $\PFT{\alpha(n)}$ adversary $\cA'$, 
+	\[\Pr[\cA'(f'(x_1 || \dots || x_c)) \in f'^{-1}(f'(x_1 || \dots || x_c))] \le (1 - \frac 1 {Q(n)})^{Q(n)\log^2(n)} \sim \frac 1 {e^{\log^2(n)}} = \frac{1}{n^{\log n}} = \insig(n).\]
+\end{proof}
+
+\paragraph{Weaker Fine-Grained OWFs.} Now, because we are in the fine-grained setting, we can talk about gaps. There is a notion of weak-OWFs in cryptography where we can say if there exists \emph{any} polynomial such that we can invert with probability $1 - 1/\poly$, we can construct strong OWFs. We want a similar notion for fine-grained OWFs. Here we can't just choose any polynomial --- we have to choose a polynomial that respects the gap.
+
+Formally, for an $\alpha(n)$-FGOWF $f$ that has $\PFT{\alpha(n)}$ adversaries inverting it with probability $1 - 1/P(n)$, we can get that a $\PFT{\alpha(n)}$ adversary can invert $f'$ with probability $(1 - 1/P(n))^{c(n)}$. Now, as long as there exists $\delta'$ such that $\alpha(n)^{1-\delta}P(n) = \alpha(n)^{1-\delta'}$, there is still a gap ($\delta' < \delta$) even if we compute $f$ $P(n)$ times to evaluate $f'$. Therefore, we are able to get a strong fine-grained OWF from a weak one, as long as it's not \emph{too} weak.
+
+\xxx{Rio: I put the rest of this section into a tex comment (talks about the even weaker FG-OWFs).}
+
+\subsubsection{Fine-Grained Hard-Core Bits and Pseudorandom Generators}
+One way functions serve as the building block for a lot of symmetric encryption, and are (usually) implied by any other cryptographic primitive, from collision-resistant hash functions to symmetric-key encryption, to any flavor of public key encryption, and so on. The next step to building more cryptographic primitives with one-way functions is to see if we can use them to construct pseudorandom generators. While we do not yet have a construction of a fine-grained pseudorandom generator that can generate some number of polynomially many pseudorandom bits, we take the first steps, showing how to get hardcore bits in section \ref{sec:fg-prgs}. In this section, we propose a definition for pseudorandom generators in the fine-grained setting; note that since we are only dealing with polynomial gaps, we will not be able to generate \emph{too} many pseudorandom bits.
+
+\begin{definition}\label{def:fg-hcb}
+	A function $b$ is a fine-grained hard-core (FGHC) predicate for a $\alpha(n)$-FGOWF if there exists a sub-polynomial function $Q(n)$ for all $\PFT{\alpha(n)}$ adversaries $\cA$,
+	\[ \Pr_{x \getsr \{0,1\}^n}[ \cA(f(x)) = b(x) ] \le \frac 1 2 + \frac 1 {Q(n)}. \]
+\end{definition}
+%TODO: can bootstrap to be 1/2 + fav 1/subpoly
+
+Recall that in traditional cryptography, any OWF implies the existance of another OWF with a hardcore bit with the Goldreich-Levin (GL) construction \cite{GL89}. The bad news: the GL construction required a security reduction with $O(n^2)$ evaluations of the one-way function. This is fine if the gap $\alpha(n)^\delta$ is bigger than $O(n^2)$, but we sometimes have smaller gaps than this to work with. So, we are proposing a GL-like construction that works for some FG OWFs (and we will see later that it works for all of our proposed FG OWF constructions).
+
+\begin{theorem}
+	Let $f$ be an $\fgowf{\alpha(n)}$. acting on strings $(x, y)$, where $x = n$ and $y = Q(n)$ for some subpolynomial $Q$, and let $\cA$ be a $\PFT{\alpha(n)}$ such that
+	\[ \Pr[\cA(f(x,y), y) \in f^{-1}(f(x,y))] \ge \frac 1 2 + \sig(n) \] 
+	Then, $f'(x,y,r) = f(x,y)||r$ where $|r| = |y|$ has the hardcore bit $y \cdot r$.
+\end{theorem}
+\begin{proof}
+	\xxx{This is just the GL proof we had before.}
+	
+	
+	%TODO: this is the hard part -- plug and chug
+\end{proof}
+
+
+In the same way we had medium (weak) $\fgowf{\alpha(n)}$, we can also take a 'medium' hardcore bit and turn it into a strong hardcore bit with this same type of amplification under the XOR lemma.
+
+\xxx{Rio: To deal with at a later point. Maybe just some discussion.}
+\begin{claim}
+	Suppose $f$ is a medium or strong $\fgowf{\alpha(n)}$ acting on $(x,y)$ where $x = n$ and $y = Q(n)$ for some subpolynomial $Q$, and let $b$ be a predicate on $(x,y)$ such that for all $\PFT{\alpha(n)}$ adversaries $\cA$, $\Pr[\cA(f(x,y)) = b(x,y)] \le \frac 1 2 + \frac 1 {Q'(n)}$ for any subpolynomial $Q'$, then there exists a strong $\fgowf{\alpha(n)}$ $f'$ with a strong hardcore bit $b'$.
+\end{claim}
+\begin{proof}
+	%	This is just an application of the computational XOR lemma \cite{Vaz87} in combination with the techniques from claim \ref{thm:medium-strong-owf}.
+	%	
+	%	Recall the technique from claim \ref{thm:medium-strong-owf}: $f'$ consisted of concatenating $f$ together many times. How many times depends on whether or not $f'$ is easy to invert. If $\Pr[\cA(f(x)) \in f\inv(f(x))] = 1 - \frac 1 {\hat Q(n)}$ (so $f$ could be medium or strong since in both cases $\hat Q$ is sub-polynomial), then let $Q^*(n) = \max(Q'(n), \hat Q(n)) \cdot \log^2(n)$. Let $f' = f || \dots || f$, concatenated $Q^*(n)$ times. Then, $f'$ is definitely now a strong $\fgowf{\alpha(n)}$, and also will have the following hardcore bit $b'$:
+	%	\[b'((x_1, y_1) \dots, (x_{Q^*(n)}, y_{Q^*(n)})) = b(y_1) \xor \dots \xor b(y_{Q^*(n)}).\]
+	%	
+	%	Any $\PFT{\alpha(n)}$ algorithm $\cA$ will be able to distinguish the vector $(b(y_1), \dots, b(y_{Q^*(n)})$
+	%	\xxx{Rio: I'm having a very tough time figuring this out for whatever reason.}
+	%TODO: figure this out
+\end{proof}
+
+\paragraph{A note on fine-grained pseudorandom generators.}
+\xxx{Rio: I'm still looking into this. It's complicated...}
+%TODO: constructions from GL and hc bits
+
+%TODO: Hill construction? What about https://people.seas.harvard.edu/~salil/research/OWFtoPRG-stoc10.pdf
+
+\subsection{Asymmetric Notions of Fine-Grained Cryptography}
+Finally, in this paper, we will propose a fine-grained key-exchange. It will be inspired by Merkle Puzzles \cite{Merkle78}. Before defining what it means to be a fine-grained key exchange protocol, let us first define some notation. For a protocol $\Pi$ between two or more parties, the publicly available information exchanged between the parties is denoted as the transcript of $\Pi$, $\transcript(\Pi)$. The time required to run $\Pi$ is denoted as $\Time(\Pi)$. $\Pi$ may require multiple rounds, but this measure of time includes all computation done by the parties involved. A party $P$'s output on $\Pi$ is denoted with the abuse of notation $P(\Pi)$.
+
+\begin{definition}\label{def:fg-key-exchange}
+	An $\fgkeyxc{\alpha(n)}{\epsilon}{\gamma}$ is a 2-party protocol $\Pi$ between two players $A$ and $B$ such that
+	\begin{itemize}
+		\item $\Pi$ is correct. At the end of $\Pi$, $A$ and $B$ both know the same key:
+		\[ \Pr_{\Pi, A, B}[A(\Pi) = B(\Pi)] \ge 1 - \gamma.\]
+		\item $\Pi$ is $\alpha(n)$-efficient. There exists some $\delta$ such that the combined time to execute $\Pi$, $\Time(A) + \Time(B) \le \alpha(n)^{1 - \delta}$.
+		\item $\Pi$ is secure. For any $\PFT{\alpha(n)}$ eavesdropper $E$ that sees the publicly traded messages between $A$ and $B$, denoted $\transcript(\Pi)$,
+		\[ \Pr_{\Pi, E}[E(\transcript(\Pi)) = A(\Pi) \mid A(\Pi) = B(\Pi) ] \le \epsilon. \]
+	\end{itemize}
+\end{definition}
+
+What we will actually be producing is a non-interactive key exchange. This definition of non-interactive key exchange was adapted from a work by Freire, Hofheinz, Kiltz, and Paterson to be fine-grained \cite{NIKE'13}.
+
+\begin{definition}
+	A non-interactive $\fgkeyxc{\alpha(n)}{\epsilon}{\gamma}$ consists of the following algorithms:
+	\begin{description}
+		\item [$\setup(1^n)$] Outputs a set of public parameters $\mpk$.
+		\item [$\keygen(ID, \mpk)$] Outputs a public-secret key pair $(pk, sk)$.
+		\item [$\sharedKey(ID_1, pk_1, ID_2, sk_2)$] Outputs the shared key $k$.
+	\end{description}
+	It must have the following correctness, efficiency, and security properties:
+	\begin{itemize}
+		\item It must be correct. So,
+		\[ \Pr_{\keygen, \sharedKey}[\sharedKey(ID_1, pk_1, ID_2, sk_2) = \sharedKey(ID_2, pk_2, ID_1, sk_1)] \ge 1 - \gamma \]
+		
+		\item The protocol is efficient. There exists a constant $\delta > 0$ such that all algorithms, $\setup$, $\keygen$ and $\sharedKey$ take time at most $\alpha(n)^{1 - \delta}$.
+		
+		\item The protocol is secure. Over the randomness of $\keygen$, we have that for all $\PFT{\alpha(n)}$ eavesdroppers $E$,
+		\begin{align*}
+		\Pr[E(\keygen(ID_1, \mpk), \keygen(ID_2, \mpk), \mpk) = \sharedKey(ID_1, pk_2, ID_2, sk_2)\\
+		\qquad\mid \sharedKey(ID_1, pk_1, ID_2, sk_2) = \sharedKey(ID_2, pk_2, ID_1, sk_1)] \le \epsilon
+		\end{align*}
+	\end{itemize}
+\end{definition}
+
+Note that non-interactive key exchange implies public key cryptography! This particular security guarantee protects against chosen plaintext attacks.
+\xxx{Rio: I should probably write down a definition for CPA secure PKE. TODO}
+
+%\begin{definition}
+%	A function $f$ is a nearly-weak $k,k'$-FGOWF if there exists a function $Q(n) \le O(n^{k-k'-\delta})$ for a constant $\delta > 0$ such that for all $\PFT{n^k}$ adversaries $\cA$,
+%	\[ \Pr_{x \getsr \{0,\}^n}[ \cA(f(x)) \in f\inv(f(x)) ] \le 1 - \frac 1 {Q(n)}. \]
+%\end{definition}
+%
+%\begin{claim}
+%	Nearly-weak $k,k'$-FGOWFs imply strong $k$-FGOWFs.
+%\end{claim}
+%\begin{proof}
+%	%TODO: it's gonna look like the previous proof
+%\end{proof}
+%
+%%\remove{
+%\xxx{There are some problems with these definitions. Need to work out where $\delta'$ comes in etc.}
+%
+%Just like in the usual cryptographic setting we have weak and strong OWFs (and weak OWFs imply strong OWFs), we have our own fine-grained version of weak and strong OWFs -- one will imply the other. There will be two versions: a `gap preserving' one-way function we will call a medium OWF, and an $\epsilon$-weak OWF.
+%
+%%TODO: there are some problems with these definitions...
+%
+%\paragraph{Definitions } 
+%These functions will define the $\epsilon(n,\delta')$ to be different functions. In our first definition $\epsilon$ won't even depend on $\delta'$. It asks that the adversary have a sub-polynomial error in $n$.
+%
+%\begin{definition}[$d$-medium one-way functions]
+%	A function $f: \{0,1\}^n \to \{0,1\}^*$ is $d$-medium one-way if $f(x)$ can be computed in $O(t(n))$ time and for all adversaries $\cA$ taking $O(t(n)^{g-\delta'})$ time for some $\delta'>0$, there exists a sub-polynomial function $
+%	\epsilon(n)$ such that,
+%	\[ \Pr_{x \gets \{0,1\}^n}\left[ \cA(f(x)) \in f\inv(x) \right] \le 1 - \frac 1 {\epsilon(n)} \]
+%	%TODO: where does \delta' factor into this definition?
+%	%%Andrea: I don't think it does. I think that we beleive that we can construct functions where, when \delta'>0 for any delta, the success is thus bounded. 
+%\end{definition}
+%
+%In the above definition we force the adversary to err quite a bit. What about adversaries that err only $\frac{1}{\text{poly}(n)}$? Well, given that computing $f(n)$ takes $t(n)$ time and inverting $f(n)$ takes $t(n)^g$ time if the adversary errs, for example, $\frac{1}{t(n)^{g+1}}$ of the time, we could not detect this in $t(n)^g$ time. 
+%
+%But, the difference between inverting and solving gives us some space to work with, and in that space we can have certain amounts of error. 
+%
+%\begin{definition}
+%	A function $f: \{0,1\}^n \to \{0,1\}^*$ is $(d,\epsilon)$-weak one-way if $f(x)$ can be computed in $O(t(n))$ time and for all adversaries $\cA$ taking $O(t(n)^{d-\delta'})$ time, there exists a function $g(n) = o(t(n)^{d-1-\epsilon})$ such that
+%	\[ \Pr_{x \gets \{0,1\}^n}\left[ \cA(f(x)) \in f\inv(x) \right] \le 1 - \frac 1 {g(n)} \]
+%\end{definition}
+%
+%\paragraph{Implications } 
+%\begin{theorem}
+%	The existence of a $d$-medium one-way function, $f$, implies the  existence of a $(d, n^{-c})$-one-way function, $f'$, for all constants $c$.
+%\end{theorem}
+%\begin{proof}
+%	Let the probability of correct inversion of $f$ be upper bounded by $1-\frac 1 {g(n)}$. 
+%	
+%	We can draw $2cg(n)\lg(n)$  independent samples $x_1, \ldots , x_{2cg(n)\lg(n)}$ from $\{0,1\}^n$. Now, our new one way function is $f'(x_1|x_2| \ldots |x_{2cg(n)\lg(n)}) = f(x_1)||f(x_2)||\ldots||f(x_{2cg(n)\lg(n)})$. Correctly inverting the function $f'$ requires inverting $2cg(n)\lg(n)$ samples. The probability of correct inversion of this new function will be 
+%	$(1-\frac 1 {g(n)})^{2g(n)\cdot c\lg(n)} < $
+%	
+%\end{proof}
+%
+%\begin{theorem}
+%	The existence of a $(d,\epsilon)$-weak one-way function implies the  existence of a $(d/(d-\epsilon), n^{-c})$-one-way function for all constants $c$.
+%\end{theorem}
+%\begin{proof}
+%	
+%	\xxx{We build this proof by doing many repetitions of the medium one way functions. Repeating the function $cg(n)\lg(n)$ times achieves this while preserving the polynomial gap.}
+%\end{proof}
+
+\subsection{One Way Functions}
+
+\begin{theorem}
+If an problem is hypothesized to take  $\tilde{\Omega}(t(n)^{1+\delta})$ time for some $\delta>0$ time to find a solution with probability $\geq 1/3$  and is plantable in $t(n)$ time with error $< 2/3$ then a fine grained one way function exists. 
+\end{theorem}
+\begin{proof}
+	\xxx{TODO: but you know, its not so hard to prove this}
+\end{proof}
+
+Given $I,(a,b,c)$ and, $(w_{a,b}, w_{b,c})$ let $I'$ be an instance of $I$ with three edge weights changed. Specifically, set $w(e_{a,b})= w_{a,b}$, $w(e_{b,c})= w_{b,c}$ and, $w(e_{c,a})= -w_{a,b}-w_{b,c}$.
+
+\begin{definition}
+Let $I$ be an instance of $0$ k-clique
+Let $f_{kClique}$ be the function 
+$$f_{kClique}(I,(a,b,c),(w_{a,b}, w_{b,c})) =
+\begin{cases}
+\emptyset , & \text{if }e(a,b), e(b,c),\text{or } e(c,a) \text{ are involved in a }0 \text{-triangle in I} \\
+\emptyset , & \text{if }e(a,b), e(b,c),\text{or } e(c,a) \text{ are involved in }> \text{1  }0 \text{-triangles in I'} \\
+I', & \text{else}
+\end{cases}
+$$
+\end{definition}
+
+\xxx{TODO: can we get away with not checking for the null characters? It will still be hard over the distribution when the inputs are average case 0 solutions. Then computing $f$ will be $O(n^2)$ this doesn't matter unless $k>4$.}
+
+\begin{theorem}
+The function $f_{kClique}$ is a fine-grained one way function over the distribution of inputs drawn uniformly from $k$-Clique instances with $0$ solutions given the average case $0$-k Clique assumption. 
+\label{thm:kcliqueOWF}
+\end{theorem}
+\begin{proof}
+Computing $f_{kClique}$ takes $n^{k-2}$ time when the instance $I$ has $n$ nodes. 
+
+Let $D_I$ be the uniform distribution over $0$-k clique instances with $0$ solutions. \\
+Let $D_{a,b,c)}$ be the uniform distribution of triples with each value chosen uniformly from $[1,n]$.\\
+Let $D_{w}$ be the distribution from Lemma \ref{lem:kcliquePlant} that generates average case solutions. \\
+Let $D_{in}$ be the distribution made by sampling $I$ from $D_I$, $(a,b,c)$ from $D_{(a,b,c)}$ and $(w_{a,b},\ldots)$ from $D_{w}$.
+
+Let the Adversary have a $\epsilon$ probability of inverting the function when the input to the function is chosen from $D_{in}$.
+
+We will then use the adversary to distinguish a random $0$ solution instance from a $1$ solution instance. If we are given an instance $\hat{I}$ then we give the adversary this instance and ask for an inversion. 
+
+If the instance has $0$ solutions the adversary will be unable to invert (no $(a,b,c)$ triple will form a $0$-triangle). If the instance has $1$ solution, this is by Lemma \ref{lem:kcliquePlant} going to be the same distribution as applying the function to the distribution from $D_{in}$. 
+
+Thus, the Adversary will invert the function and find the $0$-k clique an $\epsilon$ fraction of the time. If the Adversary fails we will guess $0$ solutions, if the Adversary succeeds we will guess $1$ solution. 
+
+Given that  $\hat{I}$ has a $1/2$ chance of being a $0$ input then we guess correctly $1/2+\epsilon$ of the time. 
+
+Thus, the Adversary can not invert the function correctly with probability $\geq 1/3$.
+\end{proof}

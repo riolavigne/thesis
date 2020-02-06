@@ -1,0 +1,12 @@
+\section{Introduction}
+
+\xxx{Story: building on Merkle etc we build cryptography out of combinatorial assumptions. We get a fine-grained key exchange from fine-grained assumptions, instead of from assumptions of an exponential gap! We demonstrate other changes needed to get one way functions with desired properties. We give the general form of what is needed to build the desired objects. Our assumptions seem like "One way function" type assumptions and combinatorial ones, and yet we can build a key exchange. }
+
+
+
+
+\xxx{A paragraph about how previous people did stuff with random oracles and big gap OWFs.  That was pretty cool! We do something even more awesome! We build a key exchange from small gap OWFs!}
+
+\xxx{A paragraph about how Ball et al looked at fine grained cryptography, but couldn't build OWFs. We build OWFs!}
+
+This paper contributes a construction of a fine-grained key exchange from fine-grained assumptions. We show that given problems which are efficiently Plantable, 
