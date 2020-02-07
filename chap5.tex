@@ -1,15 +1,36 @@
+% !TEX root = main.tex
+
 \chapter{Fine-Grained Cryptography}
 %TODO
+Blurb about FGC.
+
+\section{Overview}
 \input{fgcrypto/introduction}
+
+\section{Preliminaries: Model of Computation and Definitions}\label{sec:prelims}
 \input{fgcrypto/preliminaries}
+
+\section{Techniques}
+%TODO: ummmm...?
+
+\section{Average Case Assumptions}\label{sec:averageCaseAssumptions}
 \input{fgcrypto/avgCaseAssumptions}
+
+\section{Our assumptions - background and justification}\label{sec:justifyAssumptions}
 \input{fgcrypto/assumptionJustification}
-\input{fgcrypto/merklePuzzle}
 
-
-% Appendix stuff
-
+\section{Fine-Grained One-Way Functions}\label{sec:fg-owfs}
 \input{fgcrypto/fineGrainedOWF}
+
+\section{Fine-Grained Key Exchange}\label{sec:FineGrainedKeyExchange}
+\input{fgcrypto/merklePuzzle}
+\input{fgcrypto/keyExchangeProofs}
+
+\section{Properties of \kSum~and \zkclique~Hypotheses}\label{sec:kcliqueksumAllTHeThings}
 \input{fgcrypto/zkcisAllTheThings}
 \input{fgcrypto/rangeExtend}
-\input{fgcrypto/keyExchangeProofs}
+
+
+
+
+

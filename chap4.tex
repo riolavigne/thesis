@@ -1,14 +1,40 @@
+% !TEX root = main.tex
+
 \chapter{Property Preserving Hashing}
 %TODO
+Blurb about PPH.
+
+\section{Overview}\label{sec:pph-intro}
+\input{pph/introduction.tex}
+
+\section{Preliminaries for PPH}
 TODO
 
-\input{pph/introduction.tex}
+\section{Defining Property-Preserving Hash Functions}
+\label{sec:pph-definitions}\label{sec:pph-defs}
 \input{pph/definitions.tex}
+\input{pph/total-predicate-nonrobust-to-EO.tex} %Relationships between definitions
+
+\input{pph/multi-input-predicates.tex} %TODO: combine all these
+\input{pph/two-to-single-input-proof.tex} % Relates to multi-input
+
+
+\section{Property Preserving Hashing and Communication Complexity}\label{sec:owc-relations}
 \input{pph/owc-relations.tex}
+\input{pph/owc-to-pph-lb-proof.tex}
+\input{pph/owc-proofs.tex}%TODO: combine with above
+
+\subsection{A Gap-Hamming PPH from Collision Resistance}\label{sec:construction1}
 \input{pph/collision-resistance-construction.tex}
+\input{pph/construction-proofs.tex} % TODO: Combine with above. Doesn't relate to lattices?
+
+\subsection{A Gap-Hamming PPH from Sparse Short Vectors}
+\label{sec:ham}
 \input{pph/gap-hamming-construction.tex}
+
+\section{Necessity of Cryptographic Assumptions}\label{sec:lb}
 \input{pph/other-assumptions.tex}
+\input{pph/eq-implies-owf.tex}
 
 % Appendix stuff
-\input{pph/multi-input-predicates.tex}
-\input{pph/omitted-proofs.tex}
+%\input{pph/omitted-proofs.tex} %---- Moved all these inside!

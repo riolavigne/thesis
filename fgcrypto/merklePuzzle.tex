@@ -1,5 +1,7 @@
-\section{Fine-Grained Key Exchange}
-\label{sec:FineGrainedKeyExchange}
+% !TEX root = ../main.tex
+
+%\section{Fine-Grained Key Exchange}
+%\label{sec:FineGrainedKeyExchange}
 
 Now we will explain a construction for a \emph{key exchange} using general distributions. We will then specify the properties we need for problems to generate a secure key exchange. We will finally generate a key exchange using the strong \zkclique~hypothesis. Sketches for most of proofs of these theorems are provided here, while full proofs can be found in Appendix \ref{sec:keyExchangeProofs}.
 
@@ -154,7 +156,6 @@ Finally, using the fact that Alice and Bob do not use each other's messages to p
 	Next, the scheme is correct. This comes directly from the fact that the key exchange succeeds with probability $1 - \insig(n)$.
 	
 	Lastly, the scheme is secure. This is a simple reduction from the security game to an eavesdropper. For sake of contradiction, let Eve be a $\PFT{\ell(n)T(n)}$ adversary that can win the CPA-security game as in Definition \ref{def:fg-pkc} with probability $\frac 1 2 + \epsilon$ where $\epsilon = \sig(n)$. Eve can then directly win the key exchange wi†h the same advantage because the message the challenger gives to Eve is simply a transcript of a key exchange.
-	%TODO: FINISH??
 \end{proof}
 
 %We detail how to turn this non-interactive fine-grained key-exchange into a fine-grained public key cryptosystem in Appendix \ref{TODO}.

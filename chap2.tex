@@ -6,56 +6,6 @@ TODO
 Calligraphic letters, etc.
 
 \section{Encryption}
-\subsection{OR-Homomorphic PKCR Encryption Scheme}\label{sec:PKCR}
-As in \cite{C:AkaLaVMor17}, our protocols require a public key encryption scheme with additional properties, called \emph{Privately Key Commutative and Rerandomizable encryption}.
-We assume that the message space is bits. Then, a PKCR encryption scheme should be: (1) privately key commutative and (2) homomorphic with respect to the OR operation. We formally define these properties below.
-\footnote{PKCR encryption was introduced in \cite{EC:AkaMor17,C:AkaLaVMor17}, where it had three additional properties: key commutativity, homomorphism and rerandomization, hence, it was called Privately Key Commutative and \emph{Rerandomizable} encryption. However, rerandomization is actually implied by the strengthened notion of homomorphism. Therefore, we decided to not include the property, but keep the name.}
-
-Let $\PK$, $\SK$ and $\cC$ denote the public key, secret key and ciphertext spaces. As any public key encryption scheme, a PKCR scheme contains the algorithms $\keygen:\{0,1\}^* \to \PK \times \SK$, $\enc:\{0,1\} \times \PK \to \cC$ and $\dec:\cC \times \SK \to \{0,1\}$ for key generation, encryption and decryption respectively (where $\keygen$ takes as input the security parameter).
-
-For a public-key $\pk$ and a message $m$, we denote the encryption of $m$ under $\pk$ by $\encrypted{m}{\pk}$. Furthermore, for $k$ messages $m_1,\dots,m_k$, we denote by $\encrypted{m_1,\dots,m_k}{\pk}$ a vector, containing the $k$ encryptions of messages $m_i$ under the same key $\pk$.
-
-For an algorithm $\algorithm{A}(\cdot)$, we write $\algorithm{A}(\cdot \ ;U^*)$ whenever the randomness used in $\algorithm{A}(\cdot)$ should be made explicit and comes from a uniform distribution. By $\approx_c$ we denote that two distribution ensembles are computationally indistinguishable.
-
-\subsubsection{Privately Key-Commutative}
-We require $\PK$ to form a commutative group under the operation $\keymul$. So, given any $\pk_1, \pk_2 \in \PK$, we can efficiently compute $\pk_3 = \pk_1 \keymul \pk_2 \in \PK$ and for every $\pk$, there exists an inverse denoted $\pk^{-1}$. 
-This $\pk^{-1}$ must be efficiently computable given the secret key corresponding to $\pk$.
-
-This group must interact well with ciphertexts; there exists a pair of efficiently computable algorithms $\AddLayer : \cC \times \SK \to \cC$ and $\DelLayer : \cC \times \SK \to \cC$ such that
-\begin{itemize}
-	\item For every public key pair $\pk_1, \pk_2 \in \PK$ with corresponding secret keys $\sk_1$ and $\sk_2$, message $m \in \cM$, and ciphertext $c = [m]_{\pk_1}$,
-	\[\AddLayer(c, \sk_2) = [m]_{\pk_1 \keymul \pk_2}.\]
-	\item For every public key pair $\pk_1, \pk_2 \in \PK$ with corresponding secret keys $\sk_1$ and $\sk_2$, message $m \in \cM$, and ciphertext $c = [m]_{\pk_1}$,
-	\[\DelLayer(c, \sk_2) = [m]_{\pk_1 \keymul \pk_2^{-1}}.\]
-\end{itemize}
-Notice that we need the secret key to perform these operations, hence the property is called \emph{privately} key-commutative.
-
-\subsubsection{OR-Homomorphic}
-We also require the encryption scheme to be OR-ho\-mo\-mor\-phic, but in such a way that parties cannot tell how many 1's or 0's were OR'd (or who OR'd them). 
-We need an efficiently-evaluatable homomorphic-OR algorithm, $\homOr : \cC \times \cC \to \cC$, to satisfy the following: for every two messages $m, m' \in \{0,1\}$ and every two ciphertexts $c, c' \in \cC$ such that $\dec(c, \sk) = m$ and $\dec(c, \sk) = m'$,
-\begin{gather*}
-\left\{ (m,m', c,c', \pk, \enc(m \lor m', \pk; U^*)) \right\} \\
-\approx_c \\
-\left\{ (m,m', c,c', \pk, \homOr(c, c', \pk; U^*)) \right\}\\
-\end{gather*}
-Note that this is a stronger definition for homomorphism than usual; usually we only require correctness, not computational indistinguishability.
-
-In \cite{C:HMTZ16}, \cite{EC:AkaMor17} and \cite{C:AkaLaVMor17}, the authors discuss how to get this kind of homomorphic OR under the DDH assumption, and later \cite{EPRINT:AkaLaVMor17} show how to get it with the QR assumption. For more details on other kinds of homomorphic cryptosystems that can be compiled into OR-homomorphic cryptosystems, see \cite{EPRINT:AkaLaVMor17}.
-
-In this paper we show how to instantiate a PKCR encryption scheme under the LWE assumption (for details, see Section \ref{sec:lwe-pkcr}).
-
-
-\section{Graphs}
-In an undirected graph $G = (V,E)$ we denote by $\nbh{\party_i}$ the neighborhood of $\party_i \in V$. The $k$-neighborhood of a party $\party_i \in V$ is the set of all parties in $V$ within distance $k$ to $\party_i$.
-
-In our work we use the following lemma from \cite{C:AkaLaVMor17}. It states that in an undirected connected graph $G$, the probability that a random walk of length $8|V|^3 \tau$ covers $G$ is at least $1- \frac{1}{2^\tau}$. 
-
-\begin{lemma}[\cite{C:AkaLaVMor17}]\label{lem:randomWalkCover}
-	Let $G = (V,E)$ be an undirected connected graph. Further let $\mathcal{W}(u,\tau)$ be a random variable whose value is the set of nodes covered by a random walk starting from $u$ and taking $8|V|^3 \tau$  steps. We have
-	\begin{equation*}
-	\Pr_\mathcal{W}[\mathcal{W}(u,\tau) = V] \ge 1- \frac{1}{2^\tau}.
-	\end{equation*} 
-\end{lemma}
 
 \section{Hashing}
 $t$-wise independent.

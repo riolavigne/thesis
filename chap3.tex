@@ -1,34 +1,70 @@
+% !TEX root = main.tex
 \chapter{Topology Hiding Computation}
-%TODO
-TODO
 
-% FAILSTOP THC
+\section{Overview}
 \input{Failstop-TH/02-introduction}
+
+\section{Preliminaries for Topology Hiding Computation}\label{sec:prelim}
 \input{Failstop-TH/03-preliminaries}
-\input{Failstop-TH/04-model}
-\input{Failstop-TH/05-protocols}
-\input{Asynchronous-THC/04-model}
-\input{Failstop-TH/06-composition}
-\input{Failstop-TH/07-fhe-pkcr}
-\input{Failstop-TH/07-semi-malicious}
-\input{Failstop-TH/08-lwe}
-
-\section*{Failstop Supplementary Material}
-\input{Failstop-TH/app-05-protocols.tex}
-\input{Failstop-TH/app-06-broadcast.tex}
-\input{Failstop-TH/app-07-fhe.tex}
-
-% ASYNCHRONOUS THC
-\input{Asynchronous-THC/02-introduction}
 \input{Asynchronous-THC/03-preliminaries}
 
-\input{Asynchronous-THC/05-protocols}
-\input{Asynchronous-THC/06-general-protocols}
+\subsection{Techniques}
+Blurb about PKCR techniques
 
-\section*{Supplementary Material}
-\input{Asynchronous-THC/app-04-adv-delays-impossible}
+Blurb about techniques from ALM and BBMM for FS.
+
+Blurb about techniques from AM and BBMM for Delays.
+%TODO
+
+%------------ PKCR and PKCR* ------------%
+\section{Privately Key-Commutative Randomizable Encryption (PKCR)}
+
+\subsection{LWE based OR-Homomorphic PKCR Encryption}\label{sec:lwe-pkcr}
+\input{Failstop-TH/08-lwe}
+
+\subsection{Efficient Topology-Hiding Computation with FHE}\label{sec:fhe-dopke}
+\input{Failstop-TH/07-fhe-pkcr}
+\input{Failstop-TH/app-07-fhe.tex} %TODO: combine these files because one was app
+
+\section{\schScheme Encryption}\label{app-05-pkcr-ext}
 \input{Asynchronous-THC/app-05-pkcr-ext}
+
+%------------ Failstop ------------%
+\section{Fail-Stop Adversaries}
+Blurb about FS adversaries and the model.
+%TODO
+
+\subsection{Fail-Stop Model}
+\input{Failstop-TH/04-model}\label{sec:fs-model}
+
+\subsection{Fail-Stop Protocols}\label{sec:FS-protocols}
+\input{Failstop-TH/05-protocols}
+\input{Failstop-TH/app-05-protocols} %TODO: combine these files because one was app
+
+\section{Security Against Semi-malicious Adversaries}\label{sec:semimal}
+\input{Failstop-TH/07-semi-malicious}
+
+\subsection{Compiling Fail-Stop Protocols with Leakage}
+\input{Failstop-TH/06-composition}\label{sec:composition}
+\input{Failstop-TH/app-06-broadcast.tex} %TODO: combine these files
+
+
+%------------ Delay Model ------------%
+\section{Delays and Topology Hiding}
+\input{Asynchronous-THC/02-introduction}
+
+\subsection{Probabilistic Unknown Delay Model}
+\input{Asynchronous-THC/04-model}
+
+\subsubsection{Impossibility of other models}
+\input{Asynchronous-THC/app-04-adv-delays-impossible}
+
+\subsection{Protocols for Cycles and Trees}
+\input{Asynchronous-THC/05-protocols}
 \input{Asynchronous-THC/app-05-cycle-proof}
 \input{Asynchronous-THC/app-05-tree}
+
+\subsection{Protocol for General Graphs}
+\input{Asynchronous-THC/06-general-protocols}
 \input{Asynchronous-THC/app-06-hw-function}
 \input{Asynchronous-THC/app-06-hw-proof}
