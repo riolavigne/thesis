@@ -24,17 +24,15 @@ Blurb about techniques from AM and BBMM for Delays.
 
 \subsection{Efficient Topology-Hiding Computation with FHE}\label{sec:fhe-dopke}
 \input{Failstop-TH/07-fhe-pkcr}
-\input{Failstop-TH/app-07-fhe.tex} %TODO: combine these files because one was app
+%\input{Failstop-TH/app-07-fhe.tex} %TODO: combine these files because one was app
 
 \section{\schScheme Encryption}\label{app-05-pkcr-ext}
 \input{Asynchronous-THC/app-05-pkcr-ext}
 
 %------------ Failstop ------------%
 \section{Fail-Stop Adversaries}
-Blurb about FS adversaries and the model.
-%TODO
 
-\subsection{Fail-Stop Model}
+%\subsection{Fail-Stop Model}
 \input{Failstop-TH/04-model}\label{sec:fs-model}
 
 \subsection{Fail-Stop Protocols}\label{sec:FS-protocols}
@@ -46,25 +44,27 @@ Blurb about FS adversaries and the model.
 
 \subsection{Compiling Fail-Stop Protocols with Leakage}
 \input{Failstop-TH/06-composition}\label{sec:composition}
-\input{Failstop-TH/app-06-broadcast.tex} %TODO: combine these files
+%\input{Failstop-TH/app-06-broadcast.tex} %TODO: combine these files
 
 
 %------------ Delay Model ------------%
 \section{Delays and Topology Hiding}
 \input{Asynchronous-THC/02-introduction}
 
-\subsection{Probabilistic Unknown Delay Model}
+%\subsection{Probabilistic Unknown Delay Model}
+\subsection{The \delayModel}\label{sec:thcmodel}
 \input{Asynchronous-THC/04-model}
 
-\subsubsection{Impossibility of other models}
+\subsubsection{Impossibility of Stronger Models}\label{sec:impossible}
 \input{Asynchronous-THC/app-04-adv-delays-impossible}
 
-\subsection{Protocols for Cycles and Trees}
+\subsection{Protocols for Restricted Classes of Graphs}\label{sec:prcg}
 \input{Asynchronous-THC/05-protocols}
-\input{Asynchronous-THC/app-05-cycle-proof}
-\input{Asynchronous-THC/app-05-tree}
+%\input{Asynchronous-THC/app-05-cycle-proof}
+%\input{Asynchronous-THC/app-05-tree}
 
-\subsection{Protocol for General Graphs}
+\subsection{Protocol for General Graphs}\label{section:protGen}
 \input{Asynchronous-THC/06-general-protocols}
+\subsubsection{The Function Executed by the Hardware Boxes}\label{app-06-hw-function}
 \input{Asynchronous-THC/app-06-hw-function}
 \input{Asynchronous-THC/app-06-hw-proof}
