@@ -1,5 +1,8 @@
 % !TEX root = main.tex
 \chapter{Topology Hiding Computation}
+In this chapter, we describe a few results in the study of Topology Hiding Computation, exploring different models for communication and different kinds of adversaries. First, we consider the standard, synchronous cryptographic models from previous works \cite{EC:AkaMor17,C:AkaLaVMor17}, but allow adversaries to abort parties (the same model as \cite{BBMM18}). This is called the \emph{fail-stop} model. We demonstrate that using only standard cryptographic assumptions, we can get topology hiding broadcast on any graph, leaking only a fraction of a bit; previous works did this using secure hardware \cite{BBMM18}. Second, we look at a more realistic network model: edges in the communication network now have delays associated with them, meaning that messages are no longer sent instantly. Moreover, each edge can have a different delay (or distribution of delays). We show that in this new model, even a very weak active adversary can learn some information about the topology of the graph, so we choose to develop protocols against passive adversaries.
+
+This chapter is based on \cite{LLMMMT18} and \cite{LLMMMT20}.
 
 \section{Overview}
 \input{Failstop-TH/02-introduction}
@@ -8,36 +11,30 @@
 \input{Failstop-TH/03-preliminaries}
 \input{Asynchronous-THC/03-preliminaries}
 
-\subsection{Techniques}
-Blurb about PKCR techniques
-
-Blurb about techniques from ALM and BBMM for FS.
-
-Blurb about techniques from AM and BBMM for Delays.
-%TODO
-
 %------------ PKCR and PKCR* ------------%
 \section{Privately Key-Commutative Randomizable Encryption (PKCR)}
+In this section, we describe advances in \PKCR~Encryption: achieving \PKCR~assuming LWE, and defining an enhanced \PKCR~(\PKCR*) which can be compiled from normal \PKCR.
 
 \subsection{LWE based OR-Homomorphic PKCR Encryption}\label{sec:lwe-pkcr}
 \input{Failstop-TH/08-lwe}
-
-\subsection{Efficient Topology-Hiding Computation with FHE}\label{sec:fhe-dopke}
-\input{Failstop-TH/07-fhe-pkcr}
-%\input{Failstop-TH/app-07-fhe.tex} %TODO: combine these files because one was app
 
 \section{\schScheme Encryption}\label{app-05-pkcr-ext}
 \input{Asynchronous-THC/app-05-pkcr-ext}
 
 %------------ Failstop ------------%
-\section{Fail-Stop Adversaries}
+\section{Topology Hiding Computation with Fail-Stop Adversaries}
 
 %\subsection{Fail-Stop Model}
 \input{Failstop-TH/04-model}\label{sec:fs-model}
 
+%TODO: LEFT OFF HERE!!! COMBIIINE
 \subsection{Fail-Stop Protocols}\label{sec:FS-protocols}
 \input{Failstop-TH/05-protocols}
 \input{Failstop-TH/app-05-protocols} %TODO: combine these files because one was app
+
+\subsection{Efficient Topology-Hiding Computation with FHE}\label{sec:fhe-dopke}
+\input{Failstop-TH/07-fhe-pkcr}
+%\input{Failstop-TH/app-07-fhe.tex} %TODO: combine these files because one was app
 
 \section{Security Against Semi-malicious Adversaries}\label{sec:semimal}
 \input{Failstop-TH/07-semi-malicious}

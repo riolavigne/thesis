@@ -1,40 +1,44 @@
 % !TEX root = main.tex
 
-\chapter{Property Preserving Hashing}
-%TODO
-Blurb about PPH.
+\chapter{Adversarially Robust Property-Preserving Hashing}
+This chapter describes the new cryptographic notion: adversarially robust Property-Preserving Hash Functions (PPHs). Property-preserving hashing (without robustness) is a method of compressing a large input $\vecx$ into a short hash $h(\vecx)$ in such a way that given $h(\vecx)$ and $h(\vecy)$, one can compute a property $P(\vecx,\vecy)$ of the original inputs. The idea of property-preserving hash functions underlies sketching, compressed sensing and locality-sensitive hashing.
+
+Property-preserving hash functions are usually probabilistic: they use the random choice of a hash function from a family to achieve compression, and as a consequence, err on some inputs. Traditionally, the notion of correctness for these hash functions requires that for every two inputs $\vecx$ and $\vecy$, the probability that $h(\vecx)$ and $h(\vecy)$ mislead us into a wrong prediction of $P(\vecx,\vecy)$ is negligible. As observed in many recent works (incl. Mironov, Naor and Segev, STOC 2008; Hardt and Woodruff, STOC 2013; Naor and Yogev, CRYPTO 2015), such a correctness guarantee assumes that the adversary (who produces the offending inputs) has no information about the hash function, and is too weak in many scenarios.
+
+This chapters covers the study of {\em adversarial robustness} for property-preserving hash functions, providing definitions, deriving broad lower bounds due to a simple connection with communication complexity, and showing the necessity of computational assumptions to construct such functions. Our main positive results are two candidate constructions of property-preserving hash functions (achieving different parameters) for the (promise) gap-Hamming property which checks if $\vecx$ and $\vecy$ are ``too far'' or ``too close''. Our first construction relies on generic collision-resistant hash functions, and our second on a variant of the syndrome decoding assumption on low-density parity check codes.
+
+This chapter is based on \cite{BLV19}.
 
 \section{Overview}\label{sec:pph-intro}
 \input{pph/introduction.tex}
 
-\section{Preliminaries for PPH}
-TODO
+%\section{Preliminaries for PPH}
+%\input{pph/preliminaries.tex}
 
 \section{Defining Property-Preserving Hash Functions}
 \label{sec:pph-definitions}\label{sec:pph-defs}
 \input{pph/definitions.tex}
-\input{pph/total-predicate-nonrobust-to-EO.tex} %Relationships between definitions
+\input{pph/multi-input-predicates.tex}
 
-\input{pph/multi-input-predicates.tex} %TODO: combine all these
-\input{pph/two-to-single-input-proof.tex} % Relates to multi-input
-
+%\input{pph/two-to-single-input-proof.tex} % Relates to multi-input
+%\input{pph/total-predicate-nonrobust-to-EO.tex} %Relationships between definitions
 
 \section{Property Preserving Hashing and Communication Complexity}\label{sec:owc-relations}
 \input{pph/owc-relations.tex}
-\input{pph/owc-to-pph-lb-proof.tex}
-\input{pph/owc-proofs.tex}%TODO: combine with above
+%\input{pph/owc-to-pph-lb-proof.tex}
+%\input{pph/owc-proofs.tex}
 
-\subsection{A Gap-Hamming PPH from Collision Resistance}\label{sec:construction1}
+\section{A Gap-Hamming PPH from Collision Resistance}\label{sec:construction1}
 \input{pph/collision-resistance-construction.tex}
-\input{pph/construction-proofs.tex} % TODO: Combine with above. Doesn't relate to lattices?
+%\input{pph/construction-proofs.tex}
 
-\subsection{A Gap-Hamming PPH from Sparse Short Vectors}
+\section{A Gap-Hamming PPH from Sparse Short Vectors}
 \label{sec:ham}
 \input{pph/gap-hamming-construction.tex}
 
 \section{Necessity of Cryptographic Assumptions}\label{sec:lb}
 \input{pph/other-assumptions.tex}
-\input{pph/eq-implies-owf.tex}
+%\input{pph/eq-implies-owf.tex}
 
 % Appendix stuff
 %\input{pph/omitted-proofs.tex} %---- Moved all these inside!
