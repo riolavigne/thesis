@@ -1,0 +1,165 @@
+In this section, we discuss how to build a fine-grained key exchange with a gap approaching $N^2$. More formally, we build a $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$ using the \strongzkc~over range $R = n^{4k}$, so that honest parties take time $O(XXX)$ and any dishonest party must take time at least $\Omega(YYY)$. When $\ell(n)$ is optimized at $2n^{k}$, we get that the gap between honest and dishonest execution is $O(N)$ to $O(N^{2 - DDD})$.
+
+The construction here will be very similar to Construction \ref{const:fg-interactive-keyxc}, but instead of using the property of an instance having a solution vs an instance \emph{not} having one to find a matching index, Alice and Bob will use the \emph{location} of their planted \zkclique's. Recall that $\Generate(n,1)$ produces a witness. Alice and Bob will essentially be comparing witnesses.
+
+\begin{construction}[Better Fine-Grained Key Exchange]\label{const:better-keyxc}
+	A fine-grained key exchange for exchanging a single bit key using properties of \zkclique.
+	\begin{itemize}
+		\item $\setup(1^n)$: output $\mpk= (n, \ell)$ where $\ell = 2n^k$.
+		\item $\keygen(\mpk)$: Alice and Bob both get $n$ and $\ell$.
+		\begin{itemize}
+			\item Alice first generates a random subset $S_A \subset [\ell]$ where for each $i \in [\ell]$, $i \in S_A$ with probability $\frac 1 2$. She generates a list of \zkclique instances $\vec I_A = (I_A^1, \ldots, I_A^\ell)$ where for all $i \in S_A$, $I_A^i = \Generate(n,1)$ and for all $i \nin S_A$, $I_A^i = \Generate(n,0)$ (using Alice's private randomness). For each $i \in S_A$, Alice also receives the witness (zero clique) for $I_A^i$: $w_A^i = wit(I_A^i)$. Alice publishes $\vec I_A$ and a random vector $\vec v \getsr \{0,1\}^{ \log \ell }$.
+			\item Bob computes $\vec I_B = (I_B^1, \ldots, I_B^\ell)$ similarly: generating a random $S_B \subset [\ell]$ such that $i \in S_B$ with probability $\frac 1 2$, and for every instance $I_B^j \in \vec I_B$, if $j \in S_B$, $I_B^j = \Generate(n,1)$ and if $j \nin S_B$, $I_j = \Generate(n,0)$. Bob publishes $\vec I_B$ and keeps the set of witnesses $w_B^j$ for every $j \in S_B$.
+		\end{itemize}
+		\item Compute shared key: Alice receives $\vec I_B$ and Bob receives $\vec I_A$.
+		\begin{itemize}
+			\item For every $i \in S_A$, Alice checks if $w_A^i$ is also a witness for $I_B^i$. If $w_A^i = wit(I_B^i)$ then she records $i \in L_A$.
+			\item For every $j \in S_B$, Bob checks if $w_B^j$ is also a witness for $I_A^j$. If $w_B^j = wit(I_A^j)$ then he records $j \in L_B$.
+		\end{itemize}
+		\item Check: Alice takes her private list $L_A$: if $|L_A| \neq 1$, Alice publishes that the exchange failed. Bob does the same thing with his list $L_B$: if $|L_B| \neq 1$, Bob publishes that the exchange failed. If either Alice or Bob gave or received a failure, they both know, and go back to the $\keygen$ step.
+		
+		If no failure occurred, then $|L_A| = |L_B| = 1$. Alice interprets the index $i \in L_A$ as a vector and computes $i \cdot \vec v$ as her key. Bob uses the index in $j \in L_B$ and also computes $j \cdot \vec v$. With high probability, $i = j$ and so the keys are the same.
+	\end{itemize}
+\end{construction}
+
+\subsection{Proof of Correctness}
+As noted in Section \ref{sec:FineGrainedKeyExchange}, there could be problems with the instances generated: some of the $\Generate(n,0)$ could fail and have a solution, and similarly $\Generate(n,1)$ could not be the right distribution. Since we are dealing with the specifics of the \zkclique~problem, we will analyze the failure probability from that perspective.
+
+\begin{lemma}\label{lem:zkc-keyxc-correct}
+	After running Construction \ref{const:better-keyxc}, Alice and Bob agree on a key $k$ with probability at least $1 - \frac{\ell^2}{2R^2} \ge 1 - \frac{2}{n^{6k}}$.
+\end{lemma}
+\begin{proof}
+	Since this is a Las Vegas algorithm, the only way this could fail is if an event occurred such that both Alice and Bob's list $L_A$ and $L_B$ each had size exactly 1 and $L_A \neq L_B$.
+	
+	First, let's compute the probability that at a given index $i$, Alice and Bob's planted witnesses match. This happens if both Alice and Bob decide to plant (independently with probability $\frac 1 2$), and the locations they plant are equal. Let's denote this event as $\mathsf{witEq}_i$.
+	\begin{align*}
+	\Pr[\mathsf{witEq}_i] &= \Pr[\mbox{Alice and Bob plant} \land w_A^i = w_B^i]\\
+	&= \frac{1}{4} \cdot \Pr[w_A^i = w_B^i \vert \mbox{Alice and Bob plant}]\\
+	&= \frac {1}{4n^k}
+	\end{align*}
+	
+	Next, let $\mathsf{NoMatch}$ be the event that none of the planted witnesses match each other (so there is no intended solution).
+	\begin{align*}
+	\Pr[\mathsf{NoMatch}] &= 1 - \Pr[\exists i \mbox{s.t.} \mathsf{witEq}_i]\\
+	&\le 1 - \sum_{i = 1}^{\ell} \Pr[\mathsf{witEq}_i]\\
+	&= 1 - \ell \cdot \frac{1}{4n^k}\\
+	&= 1 - \frac{2n^k}{4n^k} = \frac 1 2.
+	\end{align*}
+	
+	Now, let $\mathsf{AtoB}_i$ be the event that Alice plants at index $i$ and matches with a non-planted clique on Bob's side, and $\mathsf{BtoA}_j$ be the event that Bob plants at index $j$ and matches with a non-planted clique on Alice's side. These probabilities are symmetric. Notice if we assume that there is no match and that Alice has planted at index $i$, the probability of the following event occurring is exactly the probability that a randomly weighted $k$-clique is a zero-$k$-clique.
+	\begin{align*}
+	\Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}] &\le \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch} \land \mbox{Alice plants at } i]\\
+	&= \frac{1}{R}.
+	\end{align*}
+	
+	Let $\mathsf{Bad}$ be the event that Alice and Bob agree on separate indices as the key (that is, the exchange fails). Putting this together with the above calculations, we have that
+	\begin{align*}
+	\Pr[\mathsf{Bad}] &\le \Pr[\mathsf{NoMatch} \land \not\exists i,j \mbox{ s.t. } \mathsf{AtoB}_i \land \mathsf{BtoA}_j]\\
+	&= \Pr[\mathsf{NoMatch}] \cdot \Pr[\exists i,j \mbox{ s.t. } \mathsf{AtoB}_i \land \mathsf{BtoA}_j \vert \mathsf{NoMatch}]\\
+	&\le \frac{1}{2} \cdot \Pr[\exists i \mbox{ s.t. } \mathsf{AtoB}_i \land \exists j \mbox{ s.t. } \mathsf{BtoA}_j \vert \mathsf{NoMatch}]\\
+	&\le \frac 1 2 \cdot \Pr[\exists i \mbox{ s.t. } \mathsf{AtoB}_i \vert \mathsf{NoMatch}] \cdot \Pr[\exists j \mbox{ s.t. } \mathsf{BtoA}_j \vert \mathsf{NoMatch}]\\
+	&\le \frac 1 2 \cdot \left(\sum_{i=1}^\ell \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}]  \right)\cdot 
+	\left(\sum_{j=1}^\ell \Pr[\mathsf{BtoA}_j \vert \mathsf{NoMatch}] \right)\\
+	&\le \frac 1 2 \cdot \left( 1 - \frac{\ell}{R} \cdot \frac{\ell}{R}
+	\right)\\
+	&\le \frac{1}{2} \cdot \frac{\ell^2}{R^2} = \frac{1}{2} \cdot \frac{4n^{2k}}{n^{8k}} = \frac{2}{n^{6k}}.
+	\end{align*}
+\end{proof}
+
+
+\subsection{Proof of Soundness}
+
+\paragraph{Time for Alice and Bob.}
+Here we will show that the key exchange algorithm terminates in time $\~O(XXX)$ by computing the time Alice and Bob take, and then because this is a Las Vegas type of algorithm, show that Alice and Bob will not have to repeat the exchange many times before a key is agreed upon with very high probability.
+\begin{lemma}
+	Alice and Bob take expected $\~O(n^{k+2})$ time to run Construction \ref{const:better-keyxc}.
+\end{lemma}
+\begin{proof}
+	As in Construction \ref{const:fg-interactive-keyxc}, Alice and Bob repeat all of the steps each time they report a failure. So, we will compute a lower bound on the probability that there is no failure: this is the chance that both there is exactly one intended match between witnesses and no unintended matches.
+	
+	First, let us compute the probability that there is exactly one index $i$ such that $w_A^i = w_B^i$. Notice that the chance that for an index $i$, that Alice and Bob agree is the chance that they both decide to plant a solution at $i$ and they planted in the same place: $\frac{1}{4} \cdot \frac{1}{n^k} = \frac{1}{4n^k}$. So, the probability that their intended plants match at exactly one index is
+	\begin{align*}
+	\Pr[\mbox{exactly one intended intersection}] &= \binom \ell 1 \cdot \Pr[\mbox{agree at index } \ell]
+	\\&\qquad \prod_{i=1}^{\ell - 1}\Pr[\mbox{don't agree at index }i]\\
+	&= \ell \left(1 - \frac 1 {2n^k} \right)^{\ell - 1} \frac{1}{4n^k} \\
+	&\ge 2n^k\left(1 - \frac 1 {2n^k} \right)^{2n^k} \cdot \frac 1 {4n^k}\\
+	&\sim \frac 1 e \cdot \frac 1 2 = \frac{1}{2e}.
+	\end{align*}
+	
+	Now, we will compute the probability that there are no unintended matches. Recall from the proof of \ref{lem:zkc-keyxc-correct} that if we ignore any edge of the planted clique, all other edge weights in the graph are uniform and independent. Let $\mathsf{NoMatch}_i$ be the event that $w_A^i \neq w_B^i$ or that one of these witnesses does not exist. So if we again let$\mathsf{AtoB}_i$ be the event that Alice plants at index $i$ and matches with a non-planted clique on Bob's side, and $\mathsf{BtoA}_j$ be the event that Bob plants at index $j$ and matches with a non-planted clique on Alice's side, we have
+	\begin{align*}
+	\Pr[ \mathsf{AtoB}_i] &= \Pr[\mathsf{NoMatch}_i]\Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i] + 0\\
+	&\le 1 \cdot \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i] = \frac{1}{R}.
+	\end{align*}
+	
+	Computing the probability that there are no unintended matches for either Alice or Bob, we get the following union bound:
+	\begin{align*}
+	\Pr[\mbox{no unintended matches}] &\le 1 - \Pr[\mbox{ exists unintended match}]\\
+	&\ge 1 - \sum{i = 1}^\ell \left( \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i] + \Pr[\mathsf{BtoA}_i \vert \mathsf{NoMatch}_i] \right)\\
+	&\ge 1 - \frac{2\ell}{R} \ge 1 - \frac{4n^k}{n^{4k}} = 1 - \frac{4}{n^{3k}}.
+	\end{align*}
+	
+	Finally, putting these probabilities together, we get the probability that Alice and Bob do not fail after a round is
+	\begin{align*}
+	\Pr[\mbox{Alice and Bob stop}] &\ge \Pr[\mbox{1 intended match} \land \mbox{no unintended matches}]\\
+	&= \Pr[\mbox{1 intended match}] \cdot \Pr[\mbox{no unintnded matches} | \mbox{1 intended}]\\
+	&\ge \Pr[\mbox{1 intended match}] \cdot \Pr[\mbox{no unintnded matches}]\\
+	&\ge \frac{1}{2e} \cdot \left(1 - \frac{4}{n^{3k}} \right)\\
+	&\ge \frac{1}{4e}.
+	\end{align*}
+	
+	Therefore, Alice and Bob are expected to terminate in a constant number of rounds (and will terminate with all-but-negligible probability after $\polylog(n)$ rounds).
+\end{proof}
+
+\paragraph{Time for Eve.}
+Now we prove that assuming \strongzkc~over range $R = n^{4k}$, then an eavesdropper requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability at least $\frac{1}{2}+\sig(n)$.
+
+\begin{lemma}\label{lem:zkc-eve-time}
+	Assuming the \strongzkc~over range $R = n^{4k}$, an eavesdropper Eve, when given the transcript $\vec I_T$ from Construction \ref{const:better-keyxc}, requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability $\frac{1}{2}+\frac{1}{4}$.
+\end{lemma}
+\begin{proof}
+	This proof will be very similar to the proof of Lemma \ref{lem:eve-time}. There are two parts: first is the Goldreich-Levin (GL) trick from Theorem \ref{thm:fine-grained-GL} showing that identifying the single bit of the key implies Eve can also solve for the shared index that Alice and Bob used, and the second is to use this index to solve an instance of \zkclique drawn from $D_1$ (i.e. find an witness/zero-$k$-clique).
+	
+	Just as in the proof of Lemma \ref{lem:eve-time}, we can use Theorem \ref{thm:fine-grained-GL} to show that if Eve has advantage $\delta_{eve}$ in distinguishing between a key of $1$ and a key of $0$, then we can use Eve to build $\cA$ that can reconstruct the index in $L_A \cap L_B$ with probability $\delta_{eve}/4$.
+	
+	Now, let $\cA$ be an algorithm that when given a random transcript of Alice and Bob's completed key exchange can output the index that Alice and Bob agreed upon with probability $\delta_{\cA}$. That is, $\cA$ outputs an index $i \in [\ell]$ such that $I_A^i$ and $I_B^i$ each have one \zkclique~ and $wit(I_A^i) = wit(I_B^i)$.
+	
+	Recall that \zkclique~is List-Hard; we will use $\cA$ to solve the list problem of \zkclique. Let $\vec I = ( I_1, \ldots, I_\ell )$ be an instance of the list problem for \zkclique: for a random index $i$, $I_i \gets D_1$, and for all other $j \neq i, I_j \gets D_0$.
+	\zkclique~is generalized splittable, but we will need a slightly different notion of splittable, and a slightly different algorithm than the one used in Lemma \ref{lem:zkcSplitConvenientRange}.
+	Our notion of splittable is the following, and tailored to \zkclique.
+	
+	
+	
+	\begin{definition}[(Specialized) Splittable]
+		A $T(n)$-\ACIH~problem $P$ is generalized splittable with error $\epsilon$, to the problem $P'$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ and a constant $m$ such that
+		\begin{itemize}
+			\item when given a $P$-instance $I \sim D_{0}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where  $\forall i\in [1,m]$ $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}(P',n)\times D_0(P',n)$.
+			\item when given an instance of a problem $I \sim D_{1}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where $\exists i\in[1,m]$ such that $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from the following special distribution: $D_1^*(P',n) = \{(I_1^i, I_2^i)$ where $val(I_1^i) = val(I_2^i) = 1$ and $wit(I_1^i) = wit(I_2^i)\}$. That is, each instance of this pair is drawn from the distribution with one solution and the witness for that solution is the same.
+		\end{itemize}
+	\end{definition}
+	
+	TODO. %This is where you left off. this is the meaty part
+\end{proof}
+
+\paragraph{Weak and Strong Key Exchange}
+Much like our original construction, we will now prove that Construction \ref{const:better-keyxc} is a weak key exchange (see Definition \ref{def:fgkeyxc}). Then, because of Theorem \ref{thm:amplifyKeyXC}, we will be able to amplify it to get a strong key exchange.
+
+\begin{theorem}
+	Given the strong \zkclique over range $R \ge n^{4k}$, there exists a
+	$\fgkeyxc{2n^{2k}}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{2k + 2}\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
+\end{theorem}
+\begin{proof}
+	TODO
+\end{proof}
+
+\begin{corollary}
+	Weak to strong! %TODO.. write this out and prove it
+\end{corollary}
+\begin{proof}
+	TODO
+\end{proof}
+
+\subsubsection{TODO} %umm.. what was supposed to be here?
+
+\subsection{Generalizing \zkclique~Properties}
+Note that it is certainly possible to abstract the property of \zkclique~used in this construction to generalize it to other problems. However, at some point we are over-complicating these properties. We choose to write this construction with respect to \zkclique, and leave formally describing the extra properties required for future work in the case that there are other problems that can be used in this kind of key exchange.

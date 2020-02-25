@@ -1,3 +1,5 @@
+% !TEX root = main.tex
+
 %% This is an example first chapter.  You should put chapter/appendix that you
 %% write into a separate file, and add a line \include{yourfilename} to
 %% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
@@ -52,8 +54,6 @@ To address the first perspective, we explore the realm of topology-hiding comput
 	More formally, each edge between parties in the Probabilistic Delay Model has its own distribution over delays. Each time a party sends a message to another party, that delay is sampled \emph{independently}. This simulates real world traffic having different delays as it gets sent from one server to another.
 	
 	Our results also included two new constructions in this model. The first is a construction that works under standard cryptographic assumptions, but only on trees, cycles, or graphs with small circumference. The second is a construction that requires secure hardware boxes/tokens, but works for arbitrary communication graphs. Although this is a very powerful assumption, there are still many challenges involved since an adversarial party can query this hardware at any point with any input.
-	
-	These results are currently in submission.
 \end{itemize}
 
 \paragraph{Adversarially Robust Property Preserving Hashes and One-Way Communication Lower Bounds}
@@ -82,7 +82,7 @@ These results were published in ITCS 2019 \cite{BLV19}.
 
 In unpublished follow-up research with Cyrus Rashtchian, we explored the intricacies of the CRHF method for constructing gap-hamming PPHs. We fleshed out the relationship between $d$, the ``center'' of our gap, and the size of the hash function output. We also discussed how to use this kind of construction to get a gap-$\ell_1$-norm PPH and found that with standard methods of transforming $\ell_1$ into $\ell_0$, it could not work. %TODO: publish? maybe?
 
-\paragraph{Fine-Grained Cryptography and Barriers}
+\subsection{Fine-Grained Cryptography and Barriers}
 Addressing the final perspective, this thesis will discuss our work in Fine-Grained cryptography. With my coauthors Lincoln and Vassilevska Williams, we built the first fine-grained key exchange built from fine-grained assumptions. The premise was to explore what cryptography could be like in ``Pessiland,'' a world in which there are no cryptographic one-way functions (which also implies no public key cryptography). We looked at this through the lens of fine-grained complexity, using both assumptions and reduction techniques from that field.
 
 While designing cryptography for this setting, we came across multiple barriers. The first was that some fine-grained problems would not lend themselves to build cryptography without refuting NSETH \cite{CarmosinoGIMPS16}. So, we would need to use a fine-grained problem that was not associated with that barrier. Another form of barrier we ran into was worst-case to average-case reductions for problems that would make for good cryptography. Even now, the only worst-case to average-case reductions for fine-grained problems are for counting versions of these problems. Unfortunately, counting-style problems do not lend themselves well to building cryptography, as there are no longer small enough witnesses. Finally, many standard cryptographic reductions no longer work in a fine-grained world, since they take a non-trivial polynomial amount of time, and so a challenge we faced was to ensure all of our reductions were fine-grained and build different types of primitives based off of these restricted reductions.
@@ -132,8 +132,10 @@ One could modify the SMT functionalities and use their parallel composition,
 but we find our formulation simpler and much better suited for THC.
 
 \subsection{Related Work to Property Preserving Hashing}
+%TODO: adapt PPH connections-to sections
 
 \subsection{Related Work to Fine-Grained Cryptography}
+%TODO: adapt FGC stuff
 
 \section{Outline of Thesis}
 %TODO

@@ -1,0 +1,70 @@
+% !TEX root = ../main.tex
+
+In this section we show how to get a PKCR encryption scheme from the LWE assumption.
+Basis of our PKCR scheme is the public-key crypto-system proposed in \cite{C:Regev06}. Let us briefly recall the public-key crypto-system:
+
+\paragraph{LWE PKE scheme \cite{C:Regev06}}
+Let $\kappa$ be the security parameter of the cryptosystem. The cryptosystem is parameterized by two integers $m$, $q$ and a probability distribution $\chi$ on $\mathbb{Z}_q$. To guarantee security and correctness of the encryption scheme, one can choose $q \ge 2$ to be some prime number between $\kappa^2$ and $2\kappa^2$, and let $m = (1+\epsilon)(\kappa+1)\log q$ for some arbitrary constant $\epsilon > 0$. The distribution $\chi$ is a discrete gaussian distribution with standard deviation $\alpha(\kappa) \coloneqq \frac{1}{\sqrt{\kappa}log^2\kappa}$.
+%We need that the public keys form a group $\langle \mathcal{PK}, \cdot \rangle$. Given public keys $\pk = A\cdot \sk + \mathbf{e}$, $\pk' = A \cdot \sk' + \mathbf{e}'$, we define the combined public key as $\pk \cdot \pk' \coloneqq \pk + \pk'$.
+
+\begin{description}
+	\item[Key Generation:]
+	
+	\emph{Setup}: For $i = 1,\dots,m$, choose $m$ vectors $\mathbf{a}_1,\dots,\mathbf{a}_m \in \mathbb{Z}_q^{\kappa}$ independently from the uniform distribution. Let us denote $A \in \mathbb{Z}_{q}^{m\times \kappa}$ the matrix that contains the vectors $\mathbf{a}_i$ as rows.
+	
+	\emph{Secret Key}: Choose $\mathbf{s} \in \mathbb{Z}_{q}^{\kappa}$ uniformly at random. The secret key is $\sk = \mathbf{s}$.
+	
+	\emph{Public Key}: Choose the error coefficients $e_1,\dots,e_m \in \mathbb{Z}_q$ independently according to $\chi$. The public key is given by the vectors $b_i = \langle \mathbf{a}_i,\sk \rangle + e_i$. In matrix notation, $\pk = A\cdot \sk + \mathbf{e}$.
+	
+	\item[Encryption:] To encrypt a bit $b$, we choose uniformly at random $\mathbf{x} \in \{0,1\}^{m}$. The ciphertext is $c = (\mathbf{x}^{\intercal} A, \mathbf{x}^{\intercal} \pk + b\frac{q}{2})$.
+	
+	\item[Decryption:] Given a ciphertext $c = (c_1,c_2)$, the decryption of $c$ is $0$ if $c_2 - c_1\cdot \mathsf{sk}$ is closer to $0$ than to $\lfloor \frac{q}{2} \rfloor$ modulo $q$. Otherwise, the decryption is $1$.
+	%Correctness: $c_2 - c_1\cdot \mathsf{sk} = x^{\top} \cdot e + b\frac{q}{2} \approx b\frac{q}{2}$. 
+\end{description}
+
+To extend this scheme to a PKCR scheme, we need to provide algorithms to rerandomize ciphertexts, to add and remove layers of encryption, and to homomorphically compute the OR. To obtain the OR-homomorphic property, it is enough to provide a XOR-Homomorphic PKCR encryption scheme, as was shown in~\cite{EPRINT:AkaLaVMor17}.
+
+\paragraph{Extension to PKCR} 
+We now extend the above PKE scheme to satisfy the requirements of PKCR (cf. Section~\ref{sec:pkcr-desc}). 
+For this we show how to rerandomize ciphertexts, how add and remove layers of encryption, and finally how to homomorphically compute XOR.
+
+\begin{description}
+	
+	\item[Rerandomization:] We note that a ciphertext can be rerandomized, which is done by homomorphically adding an encryption of $0$. The algorithm $\lweRand$ takes as input a cipertext and the corresponding public key, as well as a (random) vector $\mathbf{x} \in \{0,1\}^{m}$.
+	
+	\begin{algobox}{$\lweRand(c = (c_1,c_2),\pk,\mathbf{x})$}
+		\begin{algorithmic}
+			\State \Return $(c_1 + \mathbf{x}^{\intercal} A,c_2 + \mathbf{x}^{\intercal}\pk)$.
+		\end{algorithmic}
+	\end{algobox}
+	
+	\item[Adding and Deleting Layers of Encryption:] Given an encryption of a bit $b$ under the public key $\pk = A\cdot \sk + \mathbf{e}$, and a secret key $\sk'$ with corresponding public key $\pk' = A \cdot \sk' + \mathbf{e}'$, one can add a layer of encryption, i.e. obtain a ciphertext under the public key $\pk \cdot \pk' \coloneqq A \cdot (\sk + \sk') + \mathbf{e} + \mathbf{e}'$. Also, one can delete a layer of encryption.
+	
+	\begin{algobox}{$\lweAdd(c = (c_1,c_2),\sk)$}
+		\begin{algorithmic}
+			\State \Return $(c_1,c_1\cdot \sk + c_2)$
+		\end{algorithmic}
+	\end{algobox}
+	
+	\begin{algobox}{$\lweDel(c = (c_1,c_2),\sk)$}
+		\begin{algorithmic}
+			\State \Return $(c_1,c_2 - c_1\cdot \sk)$
+		\end{algorithmic}
+	\end{algobox}
+	
+	\textbf{Error Analysis}
+	Every time we add a layer, the error increases. Hence, we need to ensure that the error does not increase too much. After $l$ steps, the error in the public key is $\pk_{0\dots l} = \sum_{i = 0}^{l} \mathbf{e}_i$, where $\mathbf{e}_i$ is the error added in each step.
+	
+	The error in the ciphertext is $c_{0\dots l} = \sum_{i = 0}^{l} \mathbf{x}_{i} \sum_{j=0}^{i} \mathbf{e}_j$, where the $\mathbf{x}_{i}$ is the chosen randomness in each step. Since $\mathbf{x}_i \in \{0,1\}^{m}$, the error in the ciphertext can be bounded by $m \cdot \max_{i}\{\abs{\mathbf{e}_i}_{\infty}\} \cdot l^2$, which is quadratic in the number of steps.
+	
+	\item[Homomorphic XOR:] A PKCR encryption scheme requires a slightly stronger version of homomorphism. In particular, homomorphic operation includes the rerandomization of the ciphertexts. Hence, the algorithm $\lweHxor$ also calls $\lweRand$. The inputs to $\lweHxor$ are two ciphertexts encrypted under the same public key and the corresponding public key.
+	%Given two encryptions $c,c'$ of two bits $b,b'$ respectively, one can compute an encryption of $b \oplus b'$ by adding the ciphertexts. %Note that this operation works always
+	
+	\begin{algobox}{$\lweHxor(c = (c_1,c_2),c' = (c_1',c_2'),\pk)$}
+		\begin{algorithmic}
+			\State Set $c'' = (c_1 + c_1', c_2 + c_2')$.
+			\State Choose $\mathbf{x} \in \{0,1\}^{m}$ uniformly at random.
+			\State \Return $\lweRand(c'',\pk,\mathbf{x})$
+		\end{algorithmic}
+	\end{algobox}
+\end{description}

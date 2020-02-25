@@ -249,7 +249,6 @@ For both of these problems, planting a solution is exactly choosing some number 
 	First, let's prove this for \kSum. The reason \kSum~is plantable is because $\Generate(n,1)$ chooses $k$ indices at random in the \kSum~instance, and then changes the value one of them to make those $k$ instances form a solution the \kSum. This randomness requires specifying $k$ instances out of $kn$, and an edge-weight. Let $y$ be the $k\log(n)$ bits required to describe the $k$ locations of the solution; $y$ is part of the total randomness $r$ used in $\Generate(n,1)$. Without loss of generality, we can write $r = y||r'$. Let $f'(y||r', s) = \Generate(n,1; y||r')|| s$. Since $|y|$ is sub-polynomial, by Theorem \ref{thm:fine-grained-GL}, the bit $y \cdot s$ is hardcore for $f'$.
 	
 	Now, let's make the same argument for \zkclique. As before, $\Generate(n,1;r)$ can be written as $\Generate(n,1;y||r')$ where $y$ is the location of the zero $k$-clique generated. This location is just $k \cdot \log(n)$ bits; one coordinate from $n$ for each of the $k$ partitions in the graph. Therefore, we can define $f'(y||r', s) = \Generate(n,1;y||r') || s$, which, by Theorem \ref{thm:fine-grained-GL}, has the hardcore bit $y \cdot s$.
-	\qed
 \end{proof}
 
 %\xxx{Rio: To deal with at a later point. Maybe just some discussion.}

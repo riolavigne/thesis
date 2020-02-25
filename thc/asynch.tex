@@ -1,0 +1,21 @@
+% !TEX root = ../main.tex
+
+All previous results for \THC~are in the \emph{fully synchronous} model, where a protocol proceeds in rounds. This model makes
+two assumptions: first, the parties have access to synchronized clocks, and 
+second, every message is guaranteed to be delivered within one round.
+While the first assumption is reasonable in practice, as nowadays computers 
+usually stay synchronized with milliseconds of variation, the second assumption 
+makes protocols inherently impractical.
+In practice, the first assumption appears reasonable, since nowadays computers 
+usually stay synchronized with milliseconds of variation. On the 
+other hand, the second assumption makes protocols inherently impractical. 
+This is because the running time of 
+a protocol is always counted in the number of rounds, and the round length must be chosen based on the most pessimistic bound 
+on the message delivery time.
+For concreteness, consider a network where most of the time messages are delivered within milliseconds, but one of 
+the connections, once in a while, may slow down to a couple of hours. In this 
+case, a round would have to take a couple of hours.
+
+
+
+%TODO: asynch section

@@ -1,0 +1,322 @@
+% !TEX root = ../main.tex
+%
+%  ADD NEW NOTATION at the bottom
+%
+%-------------------------------------------------------------------------------
+%  Font and Notation
+%-------------------------------------------------------------------------------
+\newcommand{\xmath}[1]{\ensuremath{#1}\xspace}
+
+%-------------------------------------------------------------------------------
+%  Model used in this project
+%-------------------------------------------------------------------------------
+\newcommand{\delayModel}{Probabilistic Unknown Delay Model\xspace}
+\newcommand{\fixedDelayModel}{Fixed Unknown Delay Model\xspace}
+
+%-------------------------------------------------------------------------------
+%  Fonts used in this project
+%-------------------------------------------------------------------------------
+\newcommand{\command}[1]{\xmath{\textsc{#1}}}
+\newcommand{\algorithm}[1]{\xmath{\textsf{#1}}}
+\newcommand{\variable}[1]{\xmath{\texttt{#1}}}
+\newcommand{\parameter}[1]{\xmath{\texttt{#1}}}
+
+%Nice empty set
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+%-------------------------------------------------------------------------------
+%  General notation
+%-------------------------------------------------------------------------------
+%Fields, sets, functions
+\newcommand{\aset}[1]{\left\{ { #1 }\right\}}% {#1}
+\newcommand{\union}{\ensuremath{\cup}}  
+\DeclarePairedDelimiter\abs{\big\lvert}{\big\rvert}% |#1|
+%\newcommand{\nicevec}[1]{\overrightarrow{#1}}
+
+%Distribution
+\newcommand{\getsDist}{\twoheadleftarrow} %<<--
+
+%Player sets, adversary
+\newcommand{\party}{P\xspace}
+\newcommand{\PS}{\mathcal{P}} 
+\newcommand{\HS}{\mathcal{H}} %honest parties
+\newcommand{\CS}{\mathcal{Z}} %corrupted parties
+\newcommand{\crashedP}{\mathcal{C}}
+\newcommand{\passiveP}{\mathcal{Z}^p}
+\newcommand{\semiP}{\mathcal{Z}^s}
+\newcommand{\failstopP}{\mathcal{Z}^f}
+\newcommand{\Adv}[1][\relax]{\xmath{\mathcal{A}_{#1}}} 
+
+%Graph and neighborhood
+\newcommand{\graph}{G}
+\newcommand{\graphfam}{\mathcal{G}}% G
+\newcommand{\nbh}[1]{\mathbf{N}_G(#1)}% N(v)
+\newcommand{\nbhi}[2]{\mathbf{N}_{G_{#1}}(#2)}
+\newcommand{\nbhc}[1]{\mathbf{N}_G[#1]}% N[v]
+
+
+%-------------------------------------------------------------------------------
+% Global parameters 
+%-------------------------------------------------------------------------------
+%Security param
+\newcommand{\secparam}{\xmath{\kappa}}
+\newcommand{\negl}{\text{negl}}
+\newcommand{\poly}{\mathsf{poly}}
+
+%-------------------------------------------------------------------------------
+%  UC and Functionalites
+%-------------------------------------------------------------------------------
+\newcommand{\ucexe}[3]{\command{EXEC}_{#1,#2,#3}}
+%\newcommand{\uchyb}[2]{\command{HYB}_{#1,#2}}
+\newcommand{\ucenv}{\xmath{\mathcal{Z}}}
+\newcommand{\ucsim}[1][\relax]{\xmath{\mathcal{S}_{#1}}}
+\newcommand{\indist}[1][\relax]{\ensuremath{\overset {#1}{\approx}}}
+
+%Turning machines
+\newcommand{\itm}{\xmath{\mathtt{ITM}}}
+
+%Protocol
+\newcommand{\prot}{\Pi}
+
+%Functionalities
+\newcommand{\Func}[1][\relax]{\xmath{\mathcal{F}_{\textsc{#1}}}}
+%\newcommand{\wrapper}{\mathcal{W}}
+
+%M/S-ID
+\newcommand{\sid}{\text{sid}}
+\renewcommand{\mid}{\text{mid}}
+
+%-------------------------------------------------------------------------------
+%  Encryption Scheme
+%-------------------------------------------------------------------------------
+
+%Spaces
+\newcommand{\PK}{\mathcal{PK}}
+\newcommand{\SK}{\mathcal{SK}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cT}{\mathcal{T}}
+
+%PKE
+\newcommand{\keygen}{\algorithm{KeyGen}}
+\newcommand{\enc}{\algorithm{Encrypt}}
+\newcommand{\dec}{\algorithm{Decrypt}}
+
+%keys
+\newcommand{\pk}{\variable{pk}}
+\newcommand{\cpk}{\overline{\variable{pk}}}
+\newcommand{\sk}{\variable{sk}}
+
+%ciphertexts
+\newcommand{\ctx}{\variable{c}}
+
+
+%DOH-PKE
+\newcommand{\AddLayer}{\algorithm{AddLayer}}
+\newcommand{\DelLayer}{\algorithm{DelLayer}}
+\newcommand{\homOr}{\algorithm{HomOR}}
+\newcommand{\PKAddLayer}{\algorithm{PK-AddLayer}}
+\newcommand{\PKDelLayer}{\algorithm{PK-DelLayer}}
+
+%group
+\newcommand{\keymul}{\circledast}
+
+%AE
+\newcommand{\aeScheme}{\algorithm{AE}}
+\newcommand{\aeKgen}{\algorithm{AE.KeyGen}}
+\newcommand{\aeEnc}{\algorithm{AE.Enc}}
+\newcommand{\aeDec}{\algorithm{AE.Dec}}
+
+%prf
+\newcommand{\prf}{\algorithm{prf}}
+
+%FE, as in two-input FE by Gil (eprint 2015/158)
+\newcommand{\feScheme}{\algorithm{FE}}
+\newcommand{\feSetup}{\algorithm{FE.Setup}} % generate master key
+\newcommand{\feEnc}{\algorithm{FE.Enc}}
+\newcommand{\feDec}{\algorithm{FE.Dec}}
+\newcommand{\feKgen}{\algorithm{FE.KGen}} % generate function key
+
+%PKCR
+\newcommand{\pkcrScheme}{\algorithm{PKCR}}
+\newcommand{\pkcrEnc}{\algorithm{PKCR.Enc}}
+\newcommand{\pkcrDec}{\algorithm{PKCR.Dec}}
+\newcommand{\pkcrKgen}{\algorithm{PKCR.KGen}}
+\newcommand{\pkcrAdd}{\algorithm{PKCR.AddLayer}}
+\newcommand{\pkcrDel}{\algorithm{PKCR.DelLayer}}
+\newcommand{\pkcrRand}{\algorithm{PKCR.Rand}}
+
+%our scheme
+\newcommand{\schScheme}{\algorithm{PKCR*}}
+\newcommand{\schEnc}{\algorithm{PKCR*.Enc}}
+\newcommand{\schKgen}{\algorithm{PKCR*.KGen}}
+\newcommand{\schAdd}{\algorithm{PKCR*.AddLayer}}
+\newcommand{\schDel}{\algorithm{PKCR*.DelLayer}}
+\newcommand{\schRand}{\algorithm{PKCR*.Rand}}
+\newcommand{\schToOne}{\algorithm{PKCR*.ToOne}}
+
+
+%LWE stuff
+\newcommand{\lweAdd}{\algorithm{AddLayer}}
+\newcommand{\lweDel}{\algorithm{DelLayer}}
+\newcommand{\lweRand}{\algorithm{Rand}}
+\newcommand{\lweHxor}{\algorithm{hXor}}
+
+
+%-------------------------------------------------------------------------------
+%  Toplogy-Hiding Com Model
+%-------------------------------------------------------------------------------
+
+%Functionalities
+\newcommand{\fclock}{\Func[clock]}
+\newcommand{\fnetwork}{\Func[net]} % comment out before submitting
+\newcommand{\fnet}[1]{\Func[net]^{#1}}
+\newcommand{\finfo}[1][]{\Func[info]^{#1}}
+\newcommand{\fbroadcast}{\Func[BC]}
+
+\newcommand{\fhardware}{\Func[HW]}
+
+%F_net and F_info stuff
+\newcommand{\leakagefun}{\mathcal{L}}
+\newcommand{\pgraph}{P_{\mathsf{setting}}} 
+
+
+%-------------------------------------------------------------------------------
+%  Protocols
+%-------------------------------------------------------------------------------
+\newcommand{\protocolCycle}{\algorithm{CycleProt}}
+\newcommand{\protocolTree}{\algorithm{TreeProt}}
+\newcommand{\protocolHardware}{\algorithm{Hardware}}
+\newcommand{\protocolHwPrep}{\algorithm{Hw-Preprocessing}}
+\newcommand{\protocolHwComp}{\algorithm{Hw-Computation}}
+\newcommand{\protocolHw}{\algorithm{Hardware}}
+
+%-------------------------------------------------------------------------------
+%  One-Bit Protocol
+%-------------------------------------------------------------------------------
+
+\newcommand{\roundProtC}{\algorithm{RandomWalkPhase}}
+\newcommand{\simCalgoA}{\algorithm{PhaseSimulation}}
+\newcommand{\protocolAll}{\algorithm{All-to-All-BC}}
+
+%Parameters
+\newcommand{\walklength}{\parameter{T}}  
+
+%Variables
+%content
+\newcommand{\uhbit}{u}
+\newcommand{\msgbit}{b}
+\newcommand{\inputbits}{\mathsf {input}}
+\newcommand{\outputbits}{\mathsf {output}}
+
+\newcommand{\etx}{\variable{e}} %why e?
+\newcommand{\cc}{\hat{\variable{c}}}
+
+
+%Notation
+\newcommand{\encrypted}[2]{[#1]_{#2}}
+\newcommand{\permutation}{\pi}
+
+%-------------------------------------------------------------------------------
+%  p-Bit Leakage Protocol
+%-------------------------------------------------------------------------------
+\newcommand{\protocolD}{\xmath{\algorithm{BC-FB}_{p}}}
+\newcommand{\roundProtD}{\xmath{\algorithm{ProbabilisticRandomWalkPhase}_{p}}}
+\newcommand{\simCalgoD}{\algorithm{ProbabilisticPhaseSimulation}}
+\newcommand{\simCalgoDSendOutput}{\algorithm{GenerateOutput}}
+
+%Parameters
+\newcommand{\phaseReps}{\rho}
+
+%-------------------------------------------------------------------------------
+%  Semi-Malicious Protocol
+%-------------------------------------------------------------------------------
+\newcommand{\genRandomness}{\algorithm{GenerateRandomness}}
+\newcommand{\smCompiler}{\algorithm{EnhanceProtocol}}
+
+%------------------------------
+%  ADD NEW NOTATION below
+%-------------------------------
+
+%Protocol names
+\newcommand{\protocolO}{\algorithm{BC}}
+\newcommand{\protocolA}{\algorithm{BC-OBF}}
+\newcommand{\roundProtA}{\algorithm{RoundBC-OBF}}
+\newcommand{\protocolB}{\algorithm{BC-FBF}}
+\newcommand{\roundProtB}{\algorithm{RoundBC-FBF}}
+\newcommand{\fheProtocol}{\algorithm{DFH-THC}}
+\newcommand{\fheWalk}{\algorithm{DFH-RandomWalkPhase}}
+\newcommand{\protocolMultibit}{\xmath{\algorithm{MultibitBC}_p}}
+
+
+\newcommand{\homOp}{\algorithm{HomOp}}
+
+\newcommand{\LeveledEncrypt}{\algorithm{Leveled-Encrypt}}
+\newcommand{\LeveledDecrypt}{\algorithm{Leveled-Decrypt}}
+\newcommand{\LeveledHomOp}{\algorithm{Leveled-HomOp}}
+\newcommand{\LeveledAddLayer}{\algorithm{Leveled-AddLayer}}
+\newcommand{\LeveledDelLayer}{\algorithm{Leveled-DelLayer}}
+
+\newcommand{\LeveledPK}[1]{\mathbf{pk}_{#1}}
+\newcommand{\LeveledSK}[1]{\mathbf{sk}_{#1}}
+\newcommand{\LeveledEncrypted}[2]{\llbracket #1 \rrbracket_{\LeveledPK{#2}}}
+
+
+%PKCR / DOH-PKE encryption
+\newcommand{\pkcr}{\algorithm{PKCR}}
+\newcommand{\dohpke}{\textrm{DFH-PKE}\xspace}
+\newcommand{\Rand}{\textsf{Rand}}
+\newcommand{\Layered}[2]{\llbracket #1 \rrbracket_{#2}}
+\newcommand{\LayeredPK}[2]{\mathbf{#1}^{(#2)}}
+\newcommand{\LayeredPk}[1]{\mathbf{#1}}
+
+\newcommand{\msgLabel}[4]{{{#1}_{#2 \rightarrow #3}^{({#4})}}}
+
+%FHE encryption
+\newcommand{\fhe}{\textrm{FHE}\xspace}
+
+%-------------------------------------------------------------------------------
+%  MPC Protocols
+%-------------------------------------------------------------------------------
+\newcommand{\mpcOB}{\algorithm{MPC-OB}}
+\newcommand{\mpcFB}{\algorithm{MPC-FB}}
+\newcommand{\broadcastRounds}{R}
+\newcommand{\mpcRounds}{M}
+
+\DeclareMathOperator{\divm}{div}
+
+%-------------------------------------------------------------------------------
+%  PKCR Delay Cycle Protocol
+%-------------------------------------------------------------------------------
+\newcommand{\Ex}{\operatorname{E}}%{\mathop{\bbE}}
+\newcommand{\Med}{\operatorname{Med}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\received}{\mathsf{Rec}}
+\newcommand{\toSend}{\mathsf{Send}}
+\newcommand{\sending}{\mathsf{Sending}}
+\newcommand{\timesSend}{\mathsf{Copies}}
+\newcommand{\duplicate}{\mathsf{dup}}
+\newcommand{\wait}{\mathsf{w}}
+\newcommand{\round}{\mathsf{r}}
+\newcommand{\roundTicks}{R}
+\newcommand{\edgeDelay}[1]{D_{#1}}
+\newcommand{\roundEdgeDelay}[1]{D^{\mathsf{round}}_{#1}}
+\newcommand{\layerRem}{\mathsf{d}}
+\newcommand{\sampleDelay}{d}
+\newcommand{\waitfn}[1]{\left\lceil \Med[\edgeDelay{#1}]/\roundTicks \right\rceil}
+\newcommand{\medSum}{\operatorname{MedRSum[\edgeDelay{}]}}
+
+\newcommand{\leakageInput}{\mathsf{aux}}
+\newcommand{\delaySet}{\mathcal D}
+\newcommand{\leakageCycle}{{\leakagefun_\mathsf{median}}}
+\newcommand{\leakageTree}{{\leakagefun_\mathsf{median}}}
+\newcommand{\leakageHw}{{\leakagefun_\mathsf{sum}}}
+
+%-------------------------------------------------------------------------------
+%  Impossibility Result: Adversarial Delays
+%-------------------------------------------------------------------------------
+\newcommand{\corruptEdges}{E_{\mathsf{\CS}}}
+\newcommand{\honestEdges}{E_{\mathsf{honest}}}

@@ -1,8 +1,15 @@
 % !TEX root = main.tex
 
 \chapter{Fine-Grained Cryptography}
-%TODO
-Blurb about FGC.
+In this chapter, we identify sufficient properties for a fine-grained average-case assumption that imply cryptographic primitives such as fine-grained public key cryptography (PKC).
+We build a novel cryptographic key exchange using
+a problem with a small number of relatively weak structural properties, such that if a computational problem satisfies them, our key exchange has provable fine-grained security guarantees, based on the hardness of the problem. We then show that a natural and plausible average-case assumption for the key problem Zero-$k$-Clique from fine-grained complexity satisfies our properties. We also develop fine-grained one-way functions and hardcore bits even under these weaker assumptions.
+
+
+Where previous works had to assume random oracles or the existence of strong one-way functions to get a key-exchange computable in $O(n)$ time secure against $O(n^2)$ adversaries (see [Merkle'78] and [BGI'08]), our assumptions seem much weaker. Our key exchange has a similar gap, $O(n)$ secure against $O(n^{1.5-\epsilon})$ adversaries, between the computation of the honest party and the adversary as prior work, while being non-interactive, implying fine-grained PKC.
+We also show that using more specific properties of Zero-$k$-Clique, we can build a key exchange computable in $O(n)$ time secure against $O(n^{2 - \epsilon})$ adversaries, approaching Merkle's construction guarantees.
+
+This chapter is based on \cite{LLVW19}.
 
 \section{Overview}
 \input{fgcrypto/introduction}
@@ -10,7 +17,7 @@ Blurb about FGC.
 \section{Preliminaries: Model of Computation and Definitions}\label{sec:prelims}
 \input{fgcrypto/preliminaries}
 
-\section{Techniques}
+%\section{Techniques}
 %TODO: ummmm...?
 
 \section{Average Case Assumptions}\label{sec:averageCaseAssumptions}
@@ -19,6 +26,9 @@ Blurb about FGC.
 \section{Our assumptions - background and justification}\label{sec:justifyAssumptions}
 \input{fgcrypto/assumptionJustification}
 
+\section{Properties of \kSum~and \zkclique~Hypotheses}\label{sec:kcliqueksumAllTHeThings}
+\input{fgcrypto/zkcisAllTheThings}
+
 \section{Fine-Grained One-Way Functions}\label{sec:fg-owfs}
 \input{fgcrypto/fineGrainedOWF}
 
@@ -26,9 +36,10 @@ Blurb about FGC.
 \input{fgcrypto/merklePuzzle}
 \input{fgcrypto/keyExchangeProofs}
 
-\section{Properties of \kSum~and \zkclique~Hypotheses}\label{sec:kcliqueksumAllTHeThings}
-\input{fgcrypto/zkcisAllTheThings}
-\input{fgcrypto/rangeExtend}
+\section{A Better Fine-Grained Key Exchange}\label{sec:n2-gap-keyxc}
+\input{fgcrypto/n2KeyExchange.tex}
+
+%\input{fgcrypto/rangeExtend}
 
 
 

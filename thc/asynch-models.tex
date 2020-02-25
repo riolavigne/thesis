@@ -1,0 +1,13 @@
+% !TEX root = ../main.tex
+
+Common models for asynchronous communication 
+\cite{STOC:BenCanGol93,FOCS:Canetti01} consider a worst-case scenario and give 
+the adversary the power to schedule the messages.
+
+In more depth, the model of \cite{STOC:BenCanGol93} has the protocol communication described as a sequence of steps, where only one party is active each step. The catch is that a scheduler gets to adversarially decide on the order of the steps. The scheduler is `oblivious,' meaning it does not know what messages are being sent at each step, but does know who is sending a message to whom.
+
+The UC-model, detailed in \cite{FOCS:Canetti01}, provides a more general approach to asynchronous multiparty (distributed) protocols. In this model, the adversary gets direct access to all channels connecting parties. He can both read all messages sent along these paths \emph{and} determine when messages are finally delivered.
+
+Notice that in both of these models, the ability to schedule messages means the adversary automatically learns which parties 
+are communicating. As a consequence, it is unavoidable that the adversary 
+learns the topology of the communication graph, which we want to hide. A first attempt to rectify this problem would be to use a separate adversary that schedules messages from the adversary that corrupts parties: a scheduler and a corrupter, where topology-hiding would be guaranteed as long as the corrupter does not learn anything beyond the local structure of the communication graph. However, if the scheduler is also adversarial, he can signal to the corrupt parties what kind of graph the network is. For example, if there is a triangle in the graph, the scheduler would know, and could delay the first message along \emph{all} channels by 3 seconds (and would not delay messages otherwise). An adversary would then immediately be able to distinguish between a communication graph with a triangle and one without.

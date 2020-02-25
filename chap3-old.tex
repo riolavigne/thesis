@@ -1,0 +1,67 @@
+% !TEX root = main.tex
+\chapter{Topology Hiding Computation}
+In this chapter, we describe a few results in the study of Topology Hiding Computation, exploring different models for communication and different kinds of adversaries. First, we consider the standard, synchronous cryptographic models from previous works \cite{EC:AkaMor17,C:AkaLaVMor17}, but allow adversaries to abort parties (the same model as \cite{BBMM18}). This is called the \emph{fail-stop} model. We demonstrate that using only standard cryptographic assumptions, we can get topology hiding broadcast on any graph, leaking only a fraction of a bit; previous works did this using secure hardware \cite{BBMM18}. Second, we look at a more realistic network model: edges in the communication network now have delays associated with them, meaning that messages are no longer sent instantly. Moreover, each edge can have a different delay (or distribution of delays). We show that in this new model, even a very weak active adversary can learn some information about the topology of the graph, so we choose to develop protocols against passive adversaries.
+
+This chapter is based on \cite{LLMMMT18} and \cite{LLMMMT20}.
+
+\section{Overview}
+\input{Failstop-TH/02-introduction}
+
+\section{Preliminaries for Topology Hiding Computation}\label{sec:prelim}
+\input{Failstop-TH/03-preliminaries}
+\input{Asynchronous-THC/03-preliminaries}
+
+%------------ PKCR and PKCR* ------------%
+\section{Privately Key-Commutative Randomizable Encryption (PKCR) from LWE}
+In this section, we describe a recent advance in \PKCR~Encryption: achieving \PKCR~assuming LWE.
+
+%\subsection{LWE based OR-Homomorphic PKCR Encryption}\label{sec:lwe-pkcr}
+\input{Failstop-TH/08-lwe}
+
+%\section{\schScheme Encryption}\label{app-05-pkcr-ext}
+%\input{Asynchronous-THC/app-05-pkcr-ext}
+
+%------------ Failstop ------------%
+%\section{Topology Hiding Computation with Fail-Stop Adversaries}
+%
+%%\subsection{Fail-Stop Model}
+%\input{Failstop-TH/04-model}\label{sec:fs-model}
+%
+%
+%\subsection{Fail-Stop Protocols}\label{sec:FS-protocols}
+%\input{Failstop-TH/05-protocols}
+%\input{Failstop-TH/app-05-protocols} %TODO: combine these files because one was app
+%
+%\subsection{Efficient Topology-Hiding Computation with FHE}\label{sec:fhe-dopke}
+%\input{Failstop-TH/07-fhe-pkcr}
+%\input{Failstop-TH/app-07-fhe.tex} %TODO: combine these files because one was app
+
+%\section{Security Against Semi-malicious Adversaries}\label{sec:semimal}
+%\input{Failstop-TH/07-semi-malicious}
+%
+%\subsection{Compiling Fail-Stop Protocols with Leakage}
+%\input{Failstop-TH/06-composition}\label{sec:composition}
+%%\input{Failstop-TH/app-06-broadcast.tex} %TODO: combine these files
+
+
+%------------ Delay Model ------------%
+\section{Asynchronous Topology Hiding}
+\input{Asynchronous-THC/02-introduction}
+
+%\subsection{Probabilistic Unknown Delay Model}
+%\subsection{The \delayModel}\label{sec:thcmodel}
+%\input{Asynchronous-THC/04-model}
+
+\subsubsection{Impossibility of Stronger Models}\label{sec:impossible}
+\input{Asynchronous-THC/app-04-adv-delays-impossible}
+
+%\subsection{Protocols for Restricted Classes of Graphs}\label{sec:prcg}
+%\input{Asynchronous-THC/05-protocols}
+%%\input{Asynchronous-THC/app-05-cycle-proof}
+%%\input{Asynchronous-THC/app-05-tree}
+
+%\subsection{Protocol for General Graphs}\label{section:protGen}
+%\input{Asynchronous-THC/06-general-protocols}
+%\subsubsection{The Function Executed by the Hardware Boxes}\label{app-06-hw-function}
+%\input{Asynchronous-THC/app-06-hw-function}
+%\input{Asynchronous-THC/app-06-hw-proof}
