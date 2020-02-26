@@ -71,7 +71,7 @@ As noted in Section \ref{sec:FineGrainedKeyExchange}, there could be problems wi
 
 \paragraph{Time for Alice and Bob.}
 Here we will show that the key exchange algorithm terminates in time $\~O(XXX)$ by computing the time Alice and Bob take, and then because this is a Las Vegas type of algorithm, show that Alice and Bob will not have to repeat the exchange many times before a key is agreed upon with very high probability.
-\begin{lemma}
+\begin{lemma}\label{lem:n2-alice-bob-time}
 	Alice and Bob take expected $\~O(n^{k+2})$ time to run Construction \ref{const:better-keyxc}.
 \end{lemma}
 \begin{proof}
@@ -115,30 +115,63 @@ Here we will show that the key exchange algorithm terminates in time $\~O(XXX)$ 
 Now we prove that assuming \strongzkc~over range $R = n^{4k}$, then an eavesdropper requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability at least $\frac{1}{2}+\sig(n)$.
 
 \begin{lemma}\label{lem:zkc-eve-time}
-	Assuming the \strongzkc~over range $R = n^{4k}$, an eavesdropper Eve, when given the transcript $\vec I_T$ from Construction \ref{const:better-keyxc}, requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability $\frac{1}{2}+\frac{1}{4}$.
+	Assuming the \strongzkc~over range $R \geq n^{8k}$, an eavesdropper Eve, when given the transcript $\vec I_T$ from Construction \ref{const:better-keyxc}, requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability $\frac{1}{2}+\frac{1}{4}$.
 \end{lemma}
 \begin{proof}
 	This proof will be very similar to the proof of Lemma \ref{lem:eve-time}. There are two parts: first is the Goldreich-Levin (GL) trick from Theorem \ref{thm:fine-grained-GL} showing that identifying the single bit of the key implies Eve can also solve for the shared index that Alice and Bob used, and the second is to use this index to solve an instance of \zkclique drawn from $D_1$ (i.e. find an witness/zero-$k$-clique).
 	
 	Just as in the proof of Lemma \ref{lem:eve-time}, we can use Theorem \ref{thm:fine-grained-GL} to show that if Eve has advantage $\delta_{eve}$ in distinguishing between a key of $1$ and a key of $0$, then we can use Eve to build $\cA$ that can reconstruct the index in $L_A \cap L_B$ with probability $\delta_{eve}/4$.
 	
-	Now, let $\cA$ be an algorithm that when given a random transcript of Alice and Bob's completed key exchange can output the index that Alice and Bob agreed upon with probability $\delta_{\cA}$. That is, $\cA$ outputs an index $i \in [\ell]$ such that $I_A^i$ and $I_B^i$ each have one \zkclique~ and $wit(I_A^i) = wit(I_B^i)$.
+	Now, let Eve be an algorithm that when given a random transcript of Alice and Bob's completed key exchange can output the index that Alice and Bob agreed upon with probability $\delta_{Eve}$. That is, $\cA$ outputs an index $i \in [\ell]$ such that $I_A^i$ and $I_B^i$ each have one \zkclique~ and $wit(I_A^i) = wit(I_B^i)$.
 	
-	Recall that \zkclique~is List-Hard; we will use $\cA$ to solve the list problem of \zkclique. Let $\vec I = ( I_1, \ldots, I_\ell )$ be an instance of the list problem for \zkclique: for a random index $i$, $I_i \gets D_1$, and for all other $j \neq i, I_j \gets D_0$.
-	\zkclique~is generalized splittable, but we will need a slightly different notion of splittable, and a slightly different algorithm than the one used in Lemma \ref{lem:zkcSplitConvenientRange}.
-	Our notion of splittable is the following, and tailored to \zkclique.
+	Recall that \zkclique~is List-Hard; we will use Eve to solve the list problem of \zkclique. Let $\vec I = ( I_1, \ldots, I_\ell )$ be an instance of the list problem for \zkclique: for a random index $i$, $I_i \gets D_1$, and for all other $j \neq i, I_j \gets D_0$.
+	\zkclique~is also correlated splittable, as proved in Section \ref{sec:zkcsplittable} with error $\epsilon_{split} \leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R} \leq ???$. Recall also that $\epsilon_{plant} \leq 2n^k/R$.
 	
+	As in Lemma \ref{lem:eve-time}, we will take our list problem, split each instance, and plant in some of those instances before we hand what should look like a transcript to Eve. Eve will then return an index, which our List-Problem adversary $\cA$ can brute-force check in time $O(n^k)$. This process is as follows:
+	\begin{enumerate}
+		\item Adversary $\cA$ gets a list problem of \zkclique: $\vec I = ( I_1, \ldots, I_\ell )$.
+		\item $\cA$ splits $\vec I$ via $\Split_{Cor}$ to get $m = \binom k 2$ pairs of lists: $\vec I^{(c)} = ( (I_{1,0}^{(c)}, I_{1,1}^{(c)}), \ldots,  (I_{\ell,0}^{(c)}, I_{\ell,1}^{(c)}))$ for every $c \in [m]$.
+		\item For every $i \in \ell$, $\cA$ chooses with probability $\frac 1 2$ to add $i$ to set $S_{plantA}$, and with the same probability add $i$ to $S_{PlantB}$. %TODO: probability accidentally plant identical witness??
+		Then for each $c \in [m]$ and every $i \in S_{plantA}$ and $j \in S_{PlantB}$, $\cA$ replaces $I_{i, 0}^{(c)}$ with $\Generate(n,1)$ and $I_{j, 1}^{(c)}$ with $\Generate(n,1)$.
+		
+		\item For every $c \in [m]$, $\cA$ gives the planted $\vec I^{(c)}$ to Eve. If Eve returns a index $j$, $\cA$ brute force checks if $I_j$ has a zero-$k$-clique. If so, $\cA$ returns $j$.
+		
+		If none of these indices work, $\cA$ returns failure symbol $\bot$.
+	\end{enumerate}
 	
+	Before we go to the next part of the proof, we will define what an Ideal Transcript between Alice and Bob looks like. Alice and Bob produce lists of \zkclique~instances where for every $i \in S_A$ and $j \in S_B$, $I_A^i, I_B^j \sim D_1$, and for every $i \not\in S_A$ and $j \not\in S_B$ we have $I_A^i, I_B^j \sim D_0$. Moreover, there exists a single $i^*$ so that $wit(I_A^{i^*}) = wit(I_B^{i^*})$ --- this does not hold true for any other index.
 	
-	\begin{definition}[(Specialized) Splittable]
-		A $T(n)$-\ACIH~problem $P$ is generalized splittable with error $\epsilon$, to the problem $P'$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ and a constant $m$ such that
-		\begin{itemize}
-			\item when given a $P$-instance $I \sim D_{0}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where  $\forall i\in [1,m]$ $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}(P',n)\times D_0(P',n)$.
-			\item when given an instance of a problem $I \sim D_{1}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where $\exists i\in[1,m]$ such that $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from the following special distribution: $D_1^*(P',n) = \{(I_1^i, I_2^i)$ where $val(I_1^i) = val(I_2^i) = 1$ and $wit(I_1^i) = wit(I_2^i)\}$. That is, each instance of this pair is drawn from the distribution with one solution and the witness for that solution is the same.
-		\end{itemize}
-	\end{definition}
+	Let $i^*$ represent the index in the list problem with a solution.
 	
-	TODO. %This is where you left off. this is the meaty part
+	\paragraph{TVD of List-Hard Problem Transformation to Ideal Transcript.}
+	Recall there exists a $c^*$ such that $\vec I^{(c^*)}$ is a list of pairs where there exists an index $i$ such that $(I_{i,0}^{(c^*)}, I_{i,1}^{(c^*)})$ is TVD $\epsilon_{split}$ from $D_{\Cor}$ and for all $j \neq i$, $(I_{j,0}^{(c^*)}, I_{j,1}^{(c^*)})$ is TVD $\epsilon_{split}$ from $D_0\times D_0$. This gives $\vec I^{(c^*)}$ TVD at most $\ell \epsilon_{split}$ from an ideal distribution at this step.
+	
+	Now, let us take the ideal distribution from the step above and plant. With probability $\frac 1 2$, we will \emph{not} plant over index $i^*$ on Alice's side, and with the same probability will not plant over $i^*$ on Bob's side. So with probability at least $\frac 1 4$, we have not planted over $i^*$, preserving $(I_{j,0}^{(c^*)}, I_{j,1}^{(c^*)})\sim D_{\Cor}$.
+	
+	Assuming we did not plant over $i^*$, we plant at most $2\ell -2 < 2\ell$ instances, which puts us at most $2\ell \epsilon_{plant}$ TVD from the ideal distribution. Notice that this final ideal distribution is the ideal transcript distribution.
+	
+	Now, assume that we did not plant over $i^*$. Then, the TVD from the ideal distribution is
+	\begin{align*}
+	\ell \epsilon_{split} + 2\ell \epsilon_{plant} &\le 1 - \left(2n^k \cdot \frac{ 4^{k^2} \cdot k^2 \cdot 3n^{k}}{\sqrt{R}} + \frac{4n^{2k}}{\sqrt R } \right)\\
+	&\le \frac{4^{k^2} k^2 \cdot 6n^{2k}}{n^{4k}} + \frac{4}{n^{2k}}\\
+	&= \insig(n)
+	\end{align*}
+
+	
+	\paragraph{TVD of Real Transcript to Ideal Transcript.} First, we will assume that there is exactly one $i^*$ in $S_A \cap S_B$ such that $wit(I_A^{i^*}) = wit(I_B^{i^*})$; this happens with probability at least $\frac{1}{2e}$ as per the proof of Lemma \ref{lem:n2-alice-bob-time}. Then, the TVD between this transcript and an Ideal Transcript is at most
+	\[2\ell \epsilon_{plant} \leq \frac{4n^{2k}}{\sqrt R} = \insig(n). \]
+	
+	\paragraph{Finishing the proof.}
+	In order to make a `real'-looking transcript, $\cA$ needs to produce failed key exchange messages between Alice and Bob. This is easy to do -- just simulate their exchanges (which is an exact simulation of the real distribution) until one will succeed in producing a key. Then, replace the successful one with the reduction-generated transcript. The chance that the actual protocol between Alice and Bob ends with them producing an $i^*$ where $i^* \in S_A \cap S_B$ and $wit(I_A^{i^*}) = wit(I_B^{i^*})$ is $1 - \insig(n)$ (combining Lemma \ref{lem:zkc-keyxc-correct} and Lemma \ref{lem:n2-alice-bob-time} via union bound).
+	
+	So, assume that when planting in the reduction, we do not plant over $i^*$, which happens with probability $\frac 1 2$. Let $\mathsf{RedT}$ indicate the distribution of the reduction transcript, $\mathsf{RealT}$ be the distribution of the real transcript, and $\mathsf{IdealT}$ be the distribution of an Ideal Transcript. Then, the total variation distance between the reduction-generated transcript and a real transcript is
+	\begin{align*}
+	\TVD(\mathsf{RedT}, \mathsf{RealT}) &\le \TVD(\mathsf{RedT}, \mathsf{IdealT}) + \TVD(\mathsf{IdealT}, \mathsf{RealT})\\
+	&\le 2\cdot \insig(n) = \insig(n).
+	\end{align*}
+	
+	Since Eve succeeds on $\delta_{Eve}$-fraction of Real Transcripts, she will succeed on at least $\delta_{Eve} - \insig(n)$ Reduction Transcripts. Since $\delta_{Eve}$ is $\frac{1/4}{4} = \frac{1}{16}$, thanks to the GL trick described before, $\cA$ can solve the search problem with probability at least $\frac{1}{17} < \frac{1}{16} - \insig(n)$. This event happens with probability $\frac{1}{2}$, so the chance that $\cA$ is able to solve the list-hard problem is at least $\frac{1}{34}$.
+	This is greater than $\frac{1}{100}$, violating the \strongzkc.
 \end{proof}
 
 \paragraph{Weak and Strong Key Exchange}
@@ -158,8 +191,6 @@ Much like our original construction, we will now prove that Construction \ref{co
 \begin{proof}
 	TODO
 \end{proof}
-
-\subsubsection{TODO} %umm.. what was supposed to be here?
 
 \subsection{Generalizing \zkclique~Properties}
 Note that it is certainly possible to abstract the property of \zkclique~used in this construction to generalize it to other problems. However, at some point we are over-complicating these properties. We choose to write this construction with respect to \zkclique, and leave formally describing the extra properties required for future work in the case that there are other problems that can be used in this kind of key exchange.

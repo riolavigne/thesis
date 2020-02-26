@@ -100,7 +100,7 @@ We now introduce the splittable property. Intuitively a splittable problem has a
 %We use this property in the proof that our crypto system is hard. We can be more general than this, allowing the generation of many pairs some of which may be wrong. 
 
 
-\begin{definition}[(Generalized) Splittable]
+\begin{definition}[(Generalized) Splittable]\label{def:gen-split}
 	A $T(n)$-\ACIH~problem $P$ is generalized splittable with error $\epsilon$, to the problem $P'$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ and a constant $m$ such that
 	\begin{itemize}
 		\item when given a $P$-instance $I \sim D_{0}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where  $\forall i\in [1,m]$ $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}(P',n)\times D_0(P',n)$.
@@ -113,7 +113,19 @@ We now introduce the splittable property. Intuitively a splittable problem has a
 %	\end{itemize}
 \end{definition}
 
+Now we will give a slightly different definition of splittable, one that relies of the structure of witnesses. In essence, instead of splitting an instance with a solution into two instances with solutions, we split it into two instances with solutions that share a witness, hence we call it `correlated.' This is much more specialized and used in our later construction based off of \zkclique~in Section \ref{sec:n2-gap-keyxc}.
 
+Let $\Cor = \{ (I_0, I_1) : val(I_0) = val(I_1) = 1 \land wit(I_0) = wit(I_1) \}$, the set of witness-correlated single-solution pairs of problem instances, and let $D_\Cor$ be the uniform distribution on $\Cor$.
+
+\begin{definition}[Correlated Splittable]\label{def:cor-split}
+	A $T(n)$-\ACIH~problem $P$ is correlated splittable with error $\epsilon$, to the problem $P'$ if there exists a $\PFT{T(n)}$ algorithm $\Split$ and a constant $m$ such that
+	\begin{itemize}
+		\item when given a $P$-instance $I \sim D_{0}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where  $\forall i\in [1,m]$ $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_{0}(P',n)\times D_0(P',n)$.
+		\item when given an instance of a problem $I \sim D_{1}(P,n)$, $\Split(I)$ produces a list of length $m$ of pairs of instances  $\{(I_1^1,I_2^1),\ldots,(I_1^m,I_2^m)\}$ where $\exists i\in[1,m]$ such that $I_1^i,I_2^i$ are drawn from a distribution with total variation distance at most $\epsilon$ from $D_\Cor$.
+	\end{itemize}
+\end{definition}
+
+Notice that Correlated Splittable has the same guarantees for instances drawn from $D_0$ as Generalized Splittable. In Section \ref{sec:zkcsplittable}, we will show that \zkclique~is both Generalized and Correlated Splittable (though with different $\Split$ algorithms, since the two definitions are incompatible).
 
 \subsection {Concrete Hypothesis}
 
