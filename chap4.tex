@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\chapter{Adversarially Robust Property-Preserving Hashing}
+\chapter{Adversarially Robust Property-Preserving Hashing}\label{chap:PPH}
 This chapter describes the new cryptographic notion: adversarially robust Property-Preserving Hash Functions (PPHs). Property-preserving hashing (without robustness) is a method of compressing a large input $\vecx$ into a short hash $h(\vecx)$ in such a way that given $h(\vecx)$ and $h(\vecy)$, one can compute a property $P(\vecx,\vecy)$ of the original inputs. The idea of property-preserving hash functions underlies sketching, compressed sensing and locality-sensitive hashing.
 
 Property-preserving hash functions are usually probabilistic: they use the random choice of a hash function from a family to achieve compression, and as a consequence, err on some inputs. Traditionally, the notion of correctness for these hash functions requires that for every two inputs $\vecx$ and $\vecy$, the probability that $h(\vecx)$ and $h(\vecy)$ mislead us into a wrong prediction of $P(\vecx,\vecy)$ is negligible. As observed in many recent works (incl. Mironov, Naor and Segev, STOC 2008; Hardt and Woodruff, STOC 2013; Naor and Yogev, CRYPTO 2015), such a correctness guarantee assumes that the adversary (who produces the offending inputs) has no information about the hash function, and is too weak in many scenarios.

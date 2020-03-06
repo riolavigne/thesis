@@ -27,7 +27,7 @@ Due to the nature of the security reduction, we make assume the \strongzkc, but 
 \subsection{Proof of Correctness}
 As noted in Section \ref{sec:FineGrainedKeyExchange}, there could be problems with the instances generated: some of the $\Generate(n,0)$ could fail and have a solution, and similarly $\Generate(n,1)$ could not be the right distribution. Since we are dealing with the specifics of the \zkclique~problem, we will analyze the failure probability from that perspective.
 
-\begin{lemma}\label{lem:zkc-keyxc-correct}
+\begin{lemma}\label{lem:n2-keyxc-correct}
 	After running Construction \ref{const:better-keyxc}, Alice and Bob agree on a key $k$ with probability at least $1 - \frac{\ell^2}{2\hat R^2} \ge 1 - \frac{2}{n^{6k}}$.
 \end{lemma}
 \begin{proof}
@@ -88,7 +88,7 @@ Here we will show that the key exchange algorithm terminates in time $\~O(n^{k+2
 	&\sim \frac 1 e \cdot \frac 1 2 = \frac{1}{2e}.
 	\end{align*}
 	
-	Now, we will compute the probability that there are no unintended matches. Recall from the proof of \ref{lem:zkc-keyxc-correct} that if we ignore any edge of the planted clique, all other edge weights in the graph are uniform and independent. Let $\mathsf{NoMatch}_i$ be the event that $w_A^i \neq w_B^i$ or that one of these witnesses does not exist. So if we again let$\mathsf{AtoB}_i$ be the event that Alice plants at index $i$ and matches with a non-planted clique on Bob's side, and $\mathsf{BtoA}_j$ be the event that Bob plants at index $j$ and matches with a non-planted clique on Alice's side, we have
+	Now, we will compute the probability that there are no unintended matches. Recall from the proof of \ref{lem:n2-keyxc-correct} that if we ignore any edge of the planted clique, all other edge weights in the graph are uniform and independent. Let $\mathsf{NoMatch}_i$ be the event that $w_A^i \neq w_B^i$ or that one of these witnesses does not exist. So if we again let$\mathsf{AtoB}_i$ be the event that Alice plants at index $i$ and matches with a non-planted clique on Bob's side, and $\mathsf{BtoA}_j$ be the event that Bob plants at index $j$ and matches with a non-planted clique on Alice's side, we have
 	\begin{align*}
 	\Pr[ \mathsf{AtoB}_i] &= \Pr[\mathsf{NoMatch}_i]\Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i] + 0\\
 	&\le 1 \cdot \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i] = \frac{1}{\hat R}.
@@ -116,7 +116,7 @@ Here we will show that the key exchange algorithm terminates in time $\~O(n^{k+2
 \paragraph{Time for Eve.}
 Now we prove that assuming \strongzkc~over range $R = n^{8k}$, then an eavesdropper requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability at least $\frac{1}{2}+\sig(n)$.
 
-\begin{lemma}\label{lem:zkc-eve-time}
+\begin{lemma}\label{lem:n2-eve-time}
 	Assuming the \strongzkc~over range $R \geq n^{8k}$, an eavesdropper Eve, when given the transcript $\vec I_T$ from Construction \ref{const:better-keyxc}, requires $\~\Omega(n^{2k})$ time to solve for the shared key with probability $\frac{3}{4}$.
 \end{lemma}
 \begin{proof}
@@ -178,19 +178,22 @@ Now we prove that assuming \strongzkc~over range $R = n^{8k}$, then an eavesdrop
 \paragraph{Weak and Strong Key Exchange}
 Much like our original construction, we will now prove that Construction \ref{const:better-keyxc} is a weak key exchange (see Definition \ref{def:fgkeyxc}). Then, because of Theorem \ref{thm:amplifyKeyXC}, we will be able to amplify it to get a strong key exchange.
 
-\begin{theorem}
+\begin{theorem}\label{thm:n2-weak-keyxc}
 	Given the strong \zkclique over range $R \ge n^{4k}$, there exists a
-	$\fgkeyxc{2n^{2k}}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{2k + 2}\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
+	$\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{2k + 2}\right)$ for every polynomial $\ell(n)= n^{\Omega(1)}$.
 \end{theorem}
 \begin{proof}
-	TODO
+	This is just a combination of the above lemmas. The probability that the algorithm is correct \emph{and} runs in time $\~O(n^{k+2})$ is $1 - \frac{1}{n^{6k}} - \negl(n) \ge 1 - \frac{1}{n^{5k}}$, by combining Lemmas \ref{lem:n2-alice-bob-time} and \ref{lem:n2-keyxc-correct}. Then, Lemma \ref{lem:n2-eve-time} states that any eavesdropper requires time at least $\~\Omega(n^{2k})$ to have a $\frac 1 4$ advantage in guessing the shared key.
 \end{proof}
 
+Now, an eavesdropper having a $\frac 1 4$ advantage at guessing a shared key is too much. Fortunately, we can amplify the soundness of the protocol via Theorem \ref{thm:amplifyKeyXC}.
+
 \begin{corollary}
-	Weak to strong! %TODO.. write this out and prove it
+	Given the \strongzkc over range $R \ge n^{8k}$, there exists a
+	$\strongfgkeyxc{n^{2k}}$.
 \end{corollary}
 \begin{proof}
-	TODO
+	Theorem \ref{thm:n2-weak-keyxc} shows that there exists a $\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$. This means that we can apply Theorem \ref{thm:amplifyKeyXC} and get a $\fgkeyxc{n^2}{\insig(n)}{\insig(n)}$.
 \end{proof}
 
 \subsection{Generalizing \zkclique~Properties}

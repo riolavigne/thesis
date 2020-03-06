@@ -1,4 +1,4 @@
-% !TEX root = ../main.tex
+% !TEX root = main.tex
 
 Modern cryptography has developed a variety of important cryptographic primitives, from One-Way Functions (OWFs) to Public-Key Cryptography to Obfuscation. 
 Except for a few more limited information theoretic results \cite{Shamir79,CKGS98,RW02}, cryptography has so far required making a computational assumption, P $\neq$ NP being a baseline requirement.
@@ -96,96 +96,96 @@ An instance of \zkclique~is a complete $k$-partite graph $G$, where each edge is
 
 Our other contribution addresses an open question from Ball et al.: can a fine-grained one-way function be constructed from worst case assumptions? While we do not fully achieve this, we generate new plausible average-case assumptions from fine-grained problems that imply fine-grained one-way functions. %We also explore how these fine-grained OWFs can generate fine-grained hardcore bits. The standard Goldreich-Levin construction \cite{hardCoreBitsAndXorLemmaFromGL} does not directly work, so we devise a natural variant of fine-grained hardcore bits and develop methods to generate them.
 
-%TODO: turn this into related-work section for Ch1
-\subsection{Previous Works}
-There has been much prior work leading up to our results. First, there are a few results using assumptions from fine-grained complexity and applying them to cryptography. Second, there has been work with the kind of assumptions that we will be using. 
-
-
-\subsubsection{Fine-Grained Cryptography}
-Ball et al. \cite{avgCaseFineGrained,eprintAvgCaseFG} produce fine-grained wost-case to average-case reductions. Ball et al. leave an open problem of producing a one-way-function from a worst case assumption. They prove that from some fine-grained assumptions building a one-way-function would falsify NSETH \cite{CarmosinoGIMPS16}\cite{avgCaseFineGrained}.
-%Ball et al. \cite{avgCaseFineGrained,eprintAvgCaseFG} considered the key hard problems from fine-grained complexity and showed that one can obtain problems that are hard on average, in a fine-grained sense, using fine-grained worst-case to average-case reductions. They established useful definitions of fine-grained one-way functions, and derived the first proof-of-work in the fine-grained setting, based on a {\em worst-case} assumption from fine-grained complexity. However, their approach was not sufficient to give a construction of one-way-functions (or public-key cryptography), and indeed Ball et al. proved a limitation of their approach in this regard - extending their approach would falsify the Nondeterministic Strong Exponential Time Hypothesis of Carmosino et al. \cite{CarmosinoGIMPS16}. Because of this seeming barrier, one would either need to develop brand new techniques, or use a different hardness assumption.
-We avoid their barrier in this paper by producing a construction of both fine-grained OWFs and fine-grained PKE from an \emph{average-case} assumption.
-%We choose to do the latter in this paper, producing a construction of both fine-grained OWFs and fine-grained PKE from an \emph{average-case} assumption. So, the question of how to build OWFs from worst case fine-grained complexity assumptions that was left open by Ball et al. is still open. However, our demonstration of explicit constructions for a fine-grained PKE from polynomial problems begins to classify what polynomial time assumptions result in public key cryptography. %opens the possibility of cryptography when no strong OWFs exist. 
-
-
-%However, Merkel puzzle constructions require a OWF that is not invertible in $2^{n(\frac{1}{2}+\epsilon)}$ time for some $\epsilon>0$. So while this is a fine-grained exponential assumption, we only require a fine-grained polynomial assumption.
-
-
-
-
-\paragraph{Fine-Grained Key Exchanges.} Fine-grained cryptography is a relatively unexplored area, even though it had its start in the 1970's with Merkle puzzles: the gap between honestly participating in the protocol versus breaking the security guarantee was only quadratic \cite{Merkle78}. Merkle originally did not describe a plausible hardness assumption under which the security of the key exchange can be based. 30 years later, Biham, Goren, and Ishai showed how to implement Merkle puzzles by making an assumption of the existence of either a random oracle or an exponential gap one way function \cite{BGI08}. That is, Merkle puzzles were built under the assumption that a one-way function exists which takes time $2^{n(1/2+\delta)}$ to invert for some $\delta>0$. So while prior work indeed succeeded in building a fine-grained key-exchange, it needed a very strong variant of OWFs to exist. It is thus very interesting to obtain fine-grained public key encryption schemes based on a fine-grained assumption (that might even work in Pessiland and below).
-
-%Considering Merkle Puzzles and other cryptographic assumptions, one may be concerned that a fine-grained assumption is as strong as, say, assuming that exponentially-hard OWFs exist. However, these two assumptions are essentially orthogonal to each other, and in some senses standard cryptographic assumptions are stronger. For example, the standard notion of OWFs trivially imply that fine-grained OWFs exist, but there is no known way of showing the reverse.
-
-% Merkel Puzzles
-%The known constructions of Merkle puzzles produce fine-grained PKE from fine-grained exponential OWFs \cite{Merkle78,BGI08,optimalMerklePuzzles}. We are able to build a only slightly weaker PKE from a \textit{polynomial} time hardness assumption. Furthermore, we show that a class of  polynomial time fine-grained assumptions lead to fine-grained PKEs.%As we mentioned earlier, our assumption might still hold even if exponential OWFs do not exist.
-%TODO: make sure this meshes with the above
-
-\paragraph{Another notion of Fine-Grained Cryptography.} In 2016, work by Degwekar, Vaikuntanathan, and Vasudevan \cite{DVV16} discussed fine-grained complexity with respect to both honest parties and adversaries restricted to certain circuit classes. They obtained constructions for some cryptographic primitives (including PKE) when restricting an adversary to a certain circuit class. From the assumption $\mathsf{NC}1 \neq \xor L/\poly$ they show Alice and Bob can be in $AC^0[2]$ while being secure against $\mathsf{NC}1$ adversaries. While \cite{DVV16} obtains some unconditional constructions, their security relies on the circuit complexity of the adversary, and does not apply to arbitrary time-bounded adversaries as is usually the case in cryptography. That is, this restricts the types of algorithms an adversary is allowed to use beyond just how much runtime these algorithms can have. It would be interesting to get similar results in the low-polynomial time regime, without restricting an adversary to a certain circuit class. Our results achieve this, though not unconditionally.
-
-\paragraph{Tight Security Reductions and Fine-Grained Crypto.}
-Another area the world of fine-grained cryptography collides with is that of tight security reductions in cryptography. Bellare et.al. coined the term ``concrete'' security reductions in \cite{BellareKR94,BellareGR95}. Concrete security reductions are parametrized by time ($t$), queries ($q$), size ($s$), and success probability ($\eps$). 
-%This definition stated that a program (adversary) could only run in time $t$, making $q$ queries of size at most $\ell$, to some oracle for a function, can only succeed with probability at most $\epsilon$ in solving some problem.
-This line of work tracks how a reduction from a problem to a  construction of some cryptographic primitive effects the four parameters of interest.  
-%This line of work relies on seeing how exactly a reduction from a problem that is $(t,q,\ell,\epsilon)$-secure to a construction of some cryptographic primitive is comparably secure, keeping track of how $t$, $q$, $\ell$, and $\epsilon$ change. 
-This started a rich field of study connecting theory to practical cryptographic primitives (such as PRFs, different instantiations of symmetric encryption, and even IBE for example \cite{BellareCK96,BellareDJR97,KatzW03,BellareR09}). %Since we are not guaranteed much in terms of security or even a negligible advantage in our fine-grained setting, 
-In fine-grained reductions we also need to track exactly how our adversary's advantage changes throughout our reductions, however, we also track the running time of the honest parties. % --- at least up to the nearest polynomial. However, we also seek to convey the security in our constructions in a way that makes it relatively easy to compose schemes without needing to worry too much about runtime. 
-So, unlike in the concrete security literature, when the hard problems are polynomially hard (perhaps because $P=NP$), we can track the gap in running times between the honest and dishonest parties. This allows us to build one way functions and public key cryptosystems when the hard problems we are given are only polynomially hard. 
-%So, unlike in the concrete security literature, we ignore log factors and instead focus on $\~O$ notation.
-%%%TODO: this is not a convincing differece between their work and ours
-
-\vspace{-0.5cm}
-
-\begin{figure}
-	\begin{center}
-		\begin{tabular}{| l | l | l | l | l |}
-			\hline
-			Paper & Assumptions & Crypto & Runtime & \begin{tabular}{l} Power of\\ Adversary
-			\end{tabular} \\\hline
-			\cite{Merkle78} & Random Oracles* & Key Exchange & $O(N)$ & $O(N^2)$\\\hline
-			\cite{BGI08} & Exponentially-Strong OWFs & Key Exchange & $O(N)$ & $O(N^2)$ \\\hline
-			\cite{eprintAvgCaseFG} & WC \ThSum, OV, APSP, or SETH & Proof of Work & $O(N^2)$ & N/A \\\hline
-			[This work] & \zkclique~or \kSum& \begin{tabular}{l} OWFs,\\
-				Key Exch. \& PKE
-			\end{tabular} &\begin{tabular}{l}
-			$O(N)$\\
-			$O(N)$
-		\end{tabular} & \begin{tabular}{l}
-		$O(N^{1 + \delta})$\\
-		$O(N^{1.5 - \delta})$
-	\end{tabular} \\\hline
-	\cite{DVV16} & $\mathsf{NC}1 \neq \xor L/\poly$ & \begin{tabular}{l}
-		OWFs, and PRGs\\
-		with sublinear \\
-		stretch, CRHFs, \\
-		and PKE\\ \\
-	\end{tabular} &$\mathsf{NC}1$ &$\mathsf{NC}1$\\
-	&$\mathsf{NC}1 \neq \xor L/\poly$ &\begin{tabular}{l} PKE and CRHFs\\ \\
-	\end{tabular}  & $\mathsf{AC}^0[2]$&$\mathsf{NC}1$ \\
-	& Unconditional &\begin{tabular}{l}
-		PRGs with poly\\
-		stretch, Symmetric\\
-		encryption,\\
-		and CRHFs\\
-	\end{tabular}  & $\mathsf{AC}^{0}$ & $\mathsf{AC}^0$\\\hline
-\end{tabular}
-\caption{\label{fig:comparison} A table of previous works' results in this area. There have been several results characterizing different aspects of fine-grained cryptography. *It was \cite{BGI08} who showed that Merkle's construction could be realized with a random oracle. However, Merkle presented the construction.  }
-\end{center}
-\end{figure}
-%\vspace{-1.22cm}
-\subsubsection{Similar Assumptions}
-This paper uses hypotheses on the running times of problems that, while solvable in polynomial time, are variants of natural NP-hard problems, in which the size of the solution is a fixed constant. For instance, \kSum~is the variant of Subset Sum, where we are given $n$ numbers and we need to find exactly $k$ elements that sum to a given target, and \zkclique~is the variant of Zero-Clique, in which we are given a graph and we need to find exactly $k$ nodes that form a clique whose edge weights sum to zero.
-
-With respect to Subset Sum, Impagliazzo and Naor showed how to directly obtain OWFs and PRGs assuming that Subset Sum is hard on average \cite{IN02}. The OWF is $f(\vec a, \vec s) = (\vec a, \vec a \cdot \vec s)$, where $\vec a$ is the list of elements (chosen uniformly at random from the range $R$) and $s \in \{0,1\}^n$ represents the set of elements we add together.
-In addition to Subset Sum, OWFs have also been constructed from planted Clique, SAT, and Learning-Parity with Noise \cite{Lindell,JP00}. The constructions from the book of Lindell and the chapter written by Barak \cite{Lindell} come from a definition of a ``plantable'' NP-hard problem that is assumed to be hard on average.
-
-Although our OWFs are equivalent to scaled-down, polynomial-time solvable characterizations of these problems, we also formalize the property that allows us to get these fine-grained OWFs (plantability). We combine these NP constructions and formalizations to lay the groundwork for fine-grained cryptography.
-
-In the public-key setting, there has been relatively recent work taking NP-hard problems and directly constructing public-key cryptosystems \cite{ABW10}. They take a problem that is NP-hard in its worst case and come up with an average-case assumption that works well for their constructions. Our approach is similar, and we also provide evidence for why our assumptions are correct.
-
-In recent work, Subset Sum was also shown to directly imply public-key cryptography \cite{LPS10}. The construction takes ideas from Regev's LWE construction \cite{Regev05}, turning a vector of subset sum elements into a matrix by writing each element out base $q$ in a column. The subset is still represented by a 0-1 matrix, and error is handled by the lack of carrying digits. It is not clear how to directly translate this construction into the fine-grained world. First, directly converting from Subset Sum to \kSum~just significantly weakens the security without added benefit. More importantly, the security reduction has significant polynomial overhead, and would not apply in a very pessimistic Pessiland where random planted Subset Sum instances can be solved in quadratic time, say.
-
-While it would be interesting to reanalyze the time-complexity of this construction (and others) in a fine-grained way, this is not the focus of our work. Our goal is to obtain novel cryptographic approaches exploiting the fine-grained nature of the problems, going beyond just recasting normal cryptography in the fine-grained world, and obtaining somewhat generic constructions.
+%-------- Moved to INTRO Related Works --------%
+%\subsection{Previous Works}
+%There has been much prior work leading up to our results. First, there are a few results using assumptions from fine-grained complexity and applying them to cryptography. Second, there has been work with the kind of assumptions that we will be using. 
+%
+%
+%\subsubsection{Fine-Grained Cryptography}
+%Ball et al. \cite{avgCaseFineGrained,eprintAvgCaseFG} produce fine-grained wost-case to average-case reductions. Ball et al. leave an open problem of producing a one-way-function from a worst case assumption. They prove that from some fine-grained assumptions building a one-way-function would falsify NSETH \cite{CarmosinoGIMPS16}\cite{avgCaseFineGrained}.
+%%Ball et al. \cite{avgCaseFineGrained,eprintAvgCaseFG} considered the key hard problems from fine-grained complexity and showed that one can obtain problems that are hard on average, in a fine-grained sense, using fine-grained worst-case to average-case reductions. They established useful definitions of fine-grained one-way functions, and derived the first proof-of-work in the fine-grained setting, based on a {\em worst-case} assumption from fine-grained complexity. However, their approach was not sufficient to give a construction of one-way-functions (or public-key cryptography), and indeed Ball et al. proved a limitation of their approach in this regard - extending their approach would falsify the Nondeterministic Strong Exponential Time Hypothesis of Carmosino et al. \cite{CarmosinoGIMPS16}. Because of this seeming barrier, one would either need to develop brand new techniques, or use a different hardness assumption.
+%We avoid their barrier in this paper by producing a construction of both fine-grained OWFs and fine-grained PKE from an \emph{average-case} assumption.
+%%We choose to do the latter in this paper, producing a construction of both fine-grained OWFs and fine-grained PKE from an \emph{average-case} assumption. So, the question of how to build OWFs from worst case fine-grained complexity assumptions that was left open by Ball et al. is still open. However, our demonstration of explicit constructions for a fine-grained PKE from polynomial problems begins to classify what polynomial time assumptions result in public key cryptography. %opens the possibility of cryptography when no strong OWFs exist. 
+%
+%
+%%However, Merkel puzzle constructions require a OWF that is not invertible in $2^{n(\frac{1}{2}+\epsilon)}$ time for some $\epsilon>0$. So while this is a fine-grained exponential assumption, we only require a fine-grained polynomial assumption.
+%
+%
+%
+%
+%\paragraph{Fine-Grained Key Exchanges.} Fine-grained cryptography is a relatively unexplored area, even though it had its start in the 1970's with Merkle puzzles: the gap between honestly participating in the protocol versus breaking the security guarantee was only quadratic \cite{Merkle78}. Merkle originally did not describe a plausible hardness assumption under which the security of the key exchange can be based. 30 years later, Biham, Goren, and Ishai showed how to implement Merkle puzzles by making an assumption of the existence of either a random oracle or an exponential gap one way function \cite{BGI08}. That is, Merkle puzzles were built under the assumption that a one-way function exists which takes time $2^{n(1/2+\delta)}$ to invert for some $\delta>0$. So while prior work indeed succeeded in building a fine-grained key-exchange, it needed a very strong variant of OWFs to exist. It is thus very interesting to obtain fine-grained public key encryption schemes based on a fine-grained assumption (that might even work in Pessiland and below).
+%
+%%Considering Merkle Puzzles and other cryptographic assumptions, one may be concerned that a fine-grained assumption is as strong as, say, assuming that exponentially-hard OWFs exist. However, these two assumptions are essentially orthogonal to each other, and in some senses standard cryptographic assumptions are stronger. For example, the standard notion of OWFs trivially imply that fine-grained OWFs exist, but there is no known way of showing the reverse.
+%
+%% Merkel Puzzles
+%%The known constructions of Merkle puzzles produce fine-grained PKE from fine-grained exponential OWFs \cite{Merkle78,BGI08,optimalMerklePuzzles}. We are able to build a only slightly weaker PKE from a \textit{polynomial} time hardness assumption. Furthermore, we show that a class of  polynomial time fine-grained assumptions lead to fine-grained PKEs.%As we mentioned earlier, our assumption might still hold even if exponential OWFs do not exist.
+%%TODO: make sure this meshes with the above
+%
+%\paragraph{Another notion of Fine-Grained Cryptography.} In 2016, work by Degwekar, Vaikuntanathan, and Vasudevan \cite{DVV16} discussed fine-grained complexity with respect to both honest parties and adversaries restricted to certain circuit classes. They obtained constructions for some cryptographic primitives (including PKE) when restricting an adversary to a certain circuit class. From the assumption $\mathsf{NC}1 \neq \xor L/\poly$ they show Alice and Bob can be in $AC^0[2]$ while being secure against $\mathsf{NC}1$ adversaries. While \cite{DVV16} obtains some unconditional constructions, their security relies on the circuit complexity of the adversary, and does not apply to arbitrary time-bounded adversaries as is usually the case in cryptography. That is, this restricts the types of algorithms an adversary is allowed to use beyond just how much runtime these algorithms can have. It would be interesting to get similar results in the low-polynomial time regime, without restricting an adversary to a certain circuit class. Our results achieve this, though not unconditionally.
+%
+%\paragraph{Tight Security Reductions and Fine-Grained Crypto.}
+%Another area the world of fine-grained cryptography collides with is that of tight security reductions in cryptography. Bellare et.al. coined the term ``concrete'' security reductions in \cite{BellareKR94,BellareGR95}. Concrete security reductions are parametrized by time ($t$), queries ($q$), size ($s$), and success probability ($\eps$). 
+%%This definition stated that a program (adversary) could only run in time $t$, making $q$ queries of size at most $\ell$, to some oracle for a function, can only succeed with probability at most $\epsilon$ in solving some problem.
+%This line of work tracks how a reduction from a problem to a  construction of some cryptographic primitive effects the four parameters of interest.  
+%%This line of work relies on seeing how exactly a reduction from a problem that is $(t,q,\ell,\epsilon)$-secure to a construction of some cryptographic primitive is comparably secure, keeping track of how $t$, $q$, $\ell$, and $\epsilon$ change. 
+%This started a rich field of study connecting theory to practical cryptographic primitives (such as PRFs, different instantiations of symmetric encryption, and even IBE for example \cite{BellareCK96,BellareDJR97,KatzW03,BellareR09}). %Since we are not guaranteed much in terms of security or even a negligible advantage in our fine-grained setting, 
+%In fine-grained reductions we also need to track exactly how our adversary's advantage changes throughout our reductions, however, we also track the running time of the honest parties. % --- at least up to the nearest polynomial. However, we also seek to convey the security in our constructions in a way that makes it relatively easy to compose schemes without needing to worry too much about runtime. 
+%So, unlike in the concrete security literature, when the hard problems are polynomially hard (perhaps because $P=NP$), we can track the gap in running times between the honest and dishonest parties. This allows us to build one way functions and public key cryptosystems when the hard problems we are given are only polynomially hard. 
+%%So, unlike in the concrete security literature, we ignore log factors and instead focus on $\~O$ notation.
+%%%%TODO: this is not a convincing differece between their work and ours
+%
+%\vspace{-0.5cm}
+%
+%\begin{figure}
+%	\begin{center}
+%		\begin{tabular}{| l | l | l | l | l |}
+%			\hline
+%			Paper & Assumptions & Crypto & Runtime & \begin{tabular}{l} Power of\\ Adversary
+%			\end{tabular} \\\hline
+%			\cite{Merkle78} & Random Oracles* & Key Exchange & $O(N)$ & $O(N^2)$\\\hline
+%			\cite{BGI08} & Exponentially-Strong OWFs & Key Exchange & $O(N)$ & $O(N^2)$ \\\hline
+%			\cite{eprintAvgCaseFG} & WC \ThSum, OV, APSP, or SETH & Proof of Work & $O(N^2)$ & N/A \\\hline
+%			[This work] & \zkclique~or \kSum& \begin{tabular}{l} OWFs,\\
+%				Key Exch. \& PKE
+%			\end{tabular} &\begin{tabular}{l}
+%			$O(N)$\\
+%			$O(N)$
+%		\end{tabular} & \begin{tabular}{l}
+%		$O(N^{1 + \delta})$\\
+%		$O(N^{1.5 - \delta})$
+%	\end{tabular} \\\hline
+%	\cite{DVV16} & $\mathsf{NC}1 \neq \xor L/\poly$ & \begin{tabular}{l}
+%		OWFs, and PRGs\\
+%		with sublinear \\
+%		stretch, CRHFs, \\
+%		and PKE\\ \\
+%	\end{tabular} &$\mathsf{NC}1$ &$\mathsf{NC}1$\\
+%	&$\mathsf{NC}1 \neq \xor L/\poly$ &\begin{tabular}{l} PKE and CRHFs\\ \\
+%	\end{tabular}  & $\mathsf{AC}^0[2]$&$\mathsf{NC}1$ \\
+%	& Unconditional &\begin{tabular}{l}
+%		PRGs with poly\\
+%		stretch, Symmetric\\
+%		encryption,\\
+%		and CRHFs\\
+%	\end{tabular}  & $\mathsf{AC}^{0}$ & $\mathsf{AC}^0$\\\hline
+%\end{tabular}
+%\caption{\label{fig:comparison} A table of previous works' results in this area. There have been several results characterizing different aspects of fine-grained cryptography. *It was \cite{BGI08} who showed that Merkle's construction could be realized with a random oracle. However, Merkle presented the construction.  }
+%\end{center}
+%\end{figure}
+%%\vspace{-1.22cm}
+%\subsubsection{Similar Assumptions}
+%This paper uses hypotheses on the running times of problems that, while solvable in polynomial time, are variants of natural NP-hard problems, in which the size of the solution is a fixed constant. For instance, \kSum~is the variant of Subset Sum, where we are given $n$ numbers and we need to find exactly $k$ elements that sum to a given target, and \zkclique~is the variant of Zero-Clique, in which we are given a graph and we need to find exactly $k$ nodes that form a clique whose edge weights sum to zero.
+%
+%With respect to Subset Sum, Impagliazzo and Naor showed how to directly obtain OWFs and PRGs assuming that Subset Sum is hard on average \cite{IN02}. The OWF is $f(\vec a, \vec s) = (\vec a, \vec a \cdot \vec s)$, where $\vec a$ is the list of elements (chosen uniformly at random from the range $R$) and $s \in \{0,1\}^n$ represents the set of elements we add together.
+%In addition to Subset Sum, OWFs have also been constructed from planted Clique, SAT, and Learning-Parity with Noise \cite{Lindell,JP00}. The constructions from the book of Lindell and the chapter written by Barak \cite{Lindell} come from a definition of a ``plantable'' NP-hard problem that is assumed to be hard on average.
+%
+%Although our OWFs are equivalent to scaled-down, polynomial-time solvable characterizations of these problems, we also formalize the property that allows us to get these fine-grained OWFs (plantability). We combine these NP constructions and formalizations to lay the groundwork for fine-grained cryptography.
+%
+%In the public-key setting, there has been relatively recent work taking NP-hard problems and directly constructing public-key cryptosystems \cite{ABW10}. They take a problem that is NP-hard in its worst case and come up with an average-case assumption that works well for their constructions. Our approach is similar, and we also provide evidence for why our assumptions are correct.
+%
+%In recent work, Subset Sum was also shown to directly imply public-key cryptography \cite{LPS10}. The construction takes ideas from Regev's LWE construction \cite{Regev05}, turning a vector of subset sum elements into a matrix by writing each element out base $q$ in a column. The subset is still represented by a 0-1 matrix, and error is handled by the lack of carrying digits. It is not clear how to directly translate this construction into the fine-grained world. First, directly converting from Subset Sum to \kSum~just significantly weakens the security without added benefit. More importantly, the security reduction has significant polynomial overhead, and would not apply in a very pessimistic Pessiland where random planted Subset Sum instances can be solved in quadratic time, say.
+%
+%While it would be interesting to reanalyze the time-complexity of this construction (and others) in a fine-grained way, this is not the focus of our work. Our goal is to obtain novel cryptographic approaches exploiting the fine-grained nature of the problems, going beyond just recasting normal cryptography in the fine-grained world, and obtaining somewhat generic constructions.
 
 
 \subsection{Technical Overview}

@@ -9,7 +9,7 @@ Here we will show that by assuming the Weak \kSum~hypothesis (see definition \re
 
 \begin{theorem}
 	Assuming the weak \kSum-$R$ hypothesis, \kSum-$R$ is plantable with error $\leq 2n^k/R$ in $O(n)$ time.
-	%If the weak $k$-sum hypothesis holds over a range $R > 100 n^k$, then \kSum-$R$ is $n^{2+\delta}$-\ACIH.
+	%If the weak $k$-sum hypothesis holds over a \textit{range} $R > 100 n^k$, then \kSum-$R$ is $n^{2+\delta}$-\ACIH.
 	\label{thm:ksumPlantable}
 \end{theorem}
 \begin{proof}
@@ -150,7 +150,7 @@ Now we will have generated many, $(\ell'(n))^k$, of these list versions of the \
 
 
 \begin{theorem}
-	Given the \strongzkc, \zkclique~is $(n^k, \ell(n), 1/100)$ Average Case List-Hard with list length $\ell(n)$ for any $\ell(n) = n^{\Omega(1)}$.
+	Given the \strongzkc, \zkclique~is $(n^k,$ $\ell(n), 1/100)$ Average Case List-Hard with list length $\ell(n)$ for any $\ell(n) = n^{\Omega(1)}$.
 	\label{thm:zkcAvgListHard}
 	%\label{thm:zkcSelfReduce}
 \end{theorem}
@@ -266,7 +266,7 @@ Next we show that zero-k-clique is both generalized and correlated splittable (s
 	\begin{itemize}
 		\item $I \sim D_0(\ZkC[R], n)$. We need to show that every pair $(I_1^{(c)}, I_2^{(c)})$ is sampled from a distribution total variation distance $\le 2n^k/\sqrt R$ from $D_0(\ZkC[\sqrt R], n)^2$. Note that every pair is correlated very heavily with every other pair with respect to edge weights. But, within each pair, they are close to $D_0(\ZkC[\sqrt R], n)^2$.
 		
-		From lemma \ref{lem:TVDnosol}, this is TVD at most $\frac {n^k}{R}$ from just choosing edge-weights uniformly at random. So, consider $I' \sim \Generate(n,0)$, and do the same operations as for $I$ in the reduction: every bit in every edge weight will be chosen uniformly at random, meaning that the edge-weights in $\lowI'$ and $\highI'$ will also be uniform over $\sqrt R$. Permuting (or not) the nodes in $\lowI'$ does not change this distribution, and neither does adding (any) $c$ to a subset of edges in $\highI'$. Therefore, using lemma \ref{lem:TVDnosol}, \emph{both} $I_1'^{(c)}$ and $I_2'^{(c)}$ are TVD at most $\frac{n^k}{\sqrt R}$ from $D_0(\ZkC[\sqrt R], n)$. Since TVD is a metric, this implies that $I_1^{(c)}$ is TVD at most $n^k / \sqrt R$ from the distribution of $I_1'^{(c)}$, and thus at most $n^k / \sqrt R + n^k/ R$ from $D_0(\ZkC[\sqrt R], n)$ --- the same is true for $I_2^{(c)}$, even when conditioned on $I_1^{(c)}$. Therefore, the pair, for every $c$, is TVD at most $2(n^k / \sqrt R + n^k/ R) \le \frac{4 n^k}{\sqrt R}$.
+		From Lemma \ref{lem:TVDnosol}, this is TVD at most $\frac {n^k}{R}$ from just choosing edge-weights uniformly at random. So, consider $I' \sim \Generate(n,0)$, and do the same operations as for $I$ in the reduction: every bit in every edge weight will be chosen uniformly at random, meaning that the edge-weights in $\lowI'$ and $\highI'$ will also be uniform over $\sqrt R$. Permuting (or not) the nodes in $\lowI'$ does not change this distribution, and neither does adding (any) $c$ to a subset of edges in $\highI'$. Therefore, using Lemma \ref{lem:TVDnosol}, \emph{both} $I_1'^{(c)}$ and $I_2'^{(c)}$ are TVD at most $\frac{n^k}{\sqrt R}$ from $D_0(\ZkC[\sqrt R], n)$. Since TVD is a metric, this implies that $I_1^{(c)}$ is TVD at most $n^k / \sqrt R$ from the distribution of $I_1'^{(c)}$, and thus at most $n^k / \sqrt R + n^k/ R$ from $D_0(\ZkC[\sqrt R], n)$ --- the same is true for $I_2^{(c)}$, even when conditioned on $I_1^{(c)}$. Therefore, the pair, for every $c$, is TVD at most $2(n^k / \sqrt R + n^k/ R) \le \frac{4 n^k}{\sqrt R}$.
 		
 		
 		\item $I \sim D_1(\ZkC[R], n)$. We want to show that we get a list in which exactly one of the pairs of instances is distributed close to $D_1(\ZkC[\sqrt R], n)^2$ for $\Split_{Gen}$ and close to $D_{\Cor}$ for $\Split_{Cor}$.
@@ -327,3 +327,4 @@ Our techniques also generalize to any large enough range (even ones not of the f
 	
 	Then we use the splitting procedure from Lemma \ref{lem:zkcSplitConvenientRange} (either $\Split_{Gen}$ or $\Split_{Cor}$ for generalized and correlated respectively) to generate two instances from each of our generated instances. The probability of a no instance becoming a yes instance is $\leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R}$, if there is a yes instance then it will generate a yes instance and have total variation distance at most $\leq \binom{k}{2}4^{\binom{k}{2}}3 n^k/\sqrt{R}$ from $D^{zkc}_{1}[\sqrt{R'},n]^2$ or $D_{\Cor}$.
 \end{proof}
+

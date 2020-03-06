@@ -1,22 +1,18 @@
 % !TEX root = main.tex
 
-%% This is an example first chapter.  You should put chapter/appendix that you
-%% write into a separate file, and add a line \include{yourfilename} to
-%% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
-%% You can process specific files by typing their names in at the 
-%% \files=
-%% prompt when you run the file main.tex through LaTeX.
 \chapter{Introduction}
 
 One of the core goals of cryptography is to be able to offer security and privacy without sacrificing functionality.
-To do this, cryptographers define notions of both correctness and security. We can then build systems that we prove satisfy both of these definitions. Correctness states that the system provides the functionality we want, while security is essentially the notion that we can effectively hide information from an adversary. Depending on the notion of security, this adversary may be all powerful (information-theoretic or computationally unbounded), may run only in polynomial time (computationally bounded), or even bounded by a specific polynomial runtime like $O(n^2)$ (a fine-grained adversary). This thesis will focus on realizing three different functionalities, each one hiding different information, and three different notions of security.
+To do this, cryptographers define notions of both correctness and security. We can then build systems that we prove satisfy both of these definitions. Correctness states that the system provides the functionality we want, while security is essentially the idea that we can effectively hide information from an adversary. Depending on the notion of security, this adversary may be all powerful (information-theoretic or computationally unbounded), may run only in polynomial time (computationally bounded), or even bounded by a specific polynomial runtime like $O(n^2)$ (a fine-grained adversary). This thesis will focus on realizing and the difficulties of realizing three different functionalities, each one hiding different information, and three different notions of security.
 
 %THC
 In the first part of this thesis, we discuss results in the area of Topology Hiding Computation (\THC). \THC~is a generalization of secure multiparty computation. In this model, parties are in an incomplete but connected communication network, each party with its own private inputs. The functionality these parties want to realize is evaluating some function (computation) over all of their inputs. On the security and privacy side, these parties want to hide both their private inputs and who their neighbors are.
 So, the goal is for these parties to run a protocol, communicating only with their neighbors, so that by the end of the protocol, they learn the output of the function on their inputs and \emph{nothing else}, including information about what the communication network looks like other than their own neighborhood.
 
-It turns out that \THC~is a difficult notion to realize, mired in impossibility results.
-We circumvent two impossibility results in \THC~in two different ways. First, there is an impossibility result for \THC~stating that it is impossible to design \THC~against adversaries that can ``turn off'' parties during the protocol \cite{MOR15}. In essence, an adversary that has this power can always learn something about the graph. So, instead of designing a protocol that would attempt to leak no information, we designed a protocol to limit the amount of information leaked as much as possible. We ran into similar impossibility results when considering a model more similar to the real-world: channels between parties now have unknown delays on them, and an adversary may be able to control the delay. We had to find a model that mirrored this real-world complication, and this was also not impossible to achieve.
+It turns out that \THC~is a difficult notion to realize, and so being able to achieve it from many different standard cryptographic assumptions is useful. In this thesis, we show how to get \THC~from the Learning-With-Errors assumption, adding to the list of standard assumptions already known to work.
+
+This subfield is also mired in impossibility results.
+First, there is an impossibility result for \THC~stating that it is impossible to design \THC~against adversaries that can ``turn off'' parties during the protocol \cite{MOR15}. In essence, an adversary that has this power can always learn something about the graph. So, protocols for this model are designed to limit the amount of information leaked as much as possible. We present another impossibility result when considering almost any kind of asynchronous model: channels between parties now have unknown delays on them, and an adversary may be able to control the delay on some of those edges (though messages must be eventually be delivered in unbounded polynomial time).
 
 % PPH: information theoretic adversaries
 In the second part of the thesis, we focus on Adversarially Robust Property Preserving Hashes (PPH).
@@ -31,30 +27,22 @@ However, due to its fine-grained nature many standard cryptographic reductions (
 
 \section{Results}
 In this thesis, we explore these three different notions of hiding while preserving a functionality:
-%will explore what to do when we hit one of these impossibility results described above, therefore going beyond impossibility. We explore this from three different perspectives:
+
 \begin{enumerate}
 	\item hide private inputs and network topology while preserving computation,
-	%Weaken the adversarial model so that the problem we are trying to solve is no longer impossible, and so that the model still provides a meaningful notion of security.
+
 	\item hide as much information as possible while preserving a property between inputs,
-	%Use the impossibility results to direct feasibility results and constructions.
+
 	\item and hide messages from a weak adversary while preserving the communication and fine-grained runtime.
 \end{enumerate}
 
+
 \paragraph{Topology-Hiding Computation}
-To address the first perspective, we explore the realm of topology-hiding computation (\THC). \THC~is a generalization of secure multiparty computation (MPC), where we hide not only each party's input, but also the communication graph; parties know who their neighbors are, but learn nothing else about the structure of the graph. In 2017, we showed that \THC~is possible against a very weak adversary \cite{ALM17}, but there were still many open questions surrounding the nature of \THC.
-\begin{itemize}
-	\item \textbf{Fail-stop Adversaries.} Fail-stop adversaries can turn off parties during the protocol. As shown by Moran, Orlav, and Richelson in 2015 \cite{MOR15}, it is impossible to achieve perfect topology hiding when giving the adversary this power. The next question is how to get around such an impossibility while still providing meaningful privacy and security. Since the adversary was going to learn something in any protocol we could devise, we decided to use a model that would incorporate this leakage.
-	
-	Our results here were a definition of security that included access to a ``leakage oracle'' and a protocol that used this oracle in the security proof. This oracle would spit out yes or no answers to specific queries, leaking one bit of information at a time. In the security reduction of our protocol, a simulator would only need to call this oracle at most once, leaking at most one bit of information to an adversary. Concretely, we could bound the probability that the simulator would have to call the leakage oracle, meaning that we would leak only a polynomial-fraction of a bit. Our protocol ran in $\~O(\kappa n^4 / \rho)$ rounds, where $\kappa$ is the security parameter, $n$ is the number of parties, and $\rho$ is the probability that we leak a bit.
-	
-	These results are detailed in our paper at TCC 2018 \cite{LLMMMT18}.
-	
-	\item \textbf{Probabilistic Delay Model.} This model was the result of first trying to build \THC~in a purely asynchronous setting, only to prove that it was impossible to do so. So, to get around this without just reducing ourselves to the fail-stop case, we designed a new model that more closely resembled an asynchronous, real-world setting.
-	
-	More formally, each edge between parties in the Probabilistic Delay Model has its own distribution over delays. Each time a party sends a message to another party, that delay is sampled \emph{independently}. This simulates real world traffic having different delays as it gets sent from one server to another.
-	
-	Our results also included two new constructions in this model. The first is a construction that works under standard cryptographic assumptions, but only on trees, cycles, or graphs with small circumference. The second is a construction that requires secure hardware boxes/tokens, but works for arbitrary communication graphs. Although this is a very powerful assumption, there are still many challenges involved since an adversarial party can query this hardware at any point with any input.
-\end{itemize}
+To address the first perspective, we explore the realm of topology-hiding computation (\THC). \THC~is a generalization of secure multiparty computation (MPC), where we hide not only each party's input, but also the communication graph; parties know who their neighbors are, but learn nothing else about the structure of the graph. In 2017, we showed that \THC~is possible against a very weak adversary \cite{ALM17}, but there were still many open questions surrounding the nature of \THC. This thesis addresses two of them.
+
+The first is simply what standard cryptographic assumptions can imply \THC. Prior work from \cite{BBMM18} shows that \THC~implies oblivious transfer (OT). This means that we will need to make some kind of cryptographic assumption that will imply public key crypto. Both \cite{EC:AkaMor17} and \cite{ALM17} used a very common cryptographic assumption: Decisional Diffie-Hellman (DDH). Then, in a later update, \cite{EPRINT:AkaLaVMor17} showed that you could achieve this with the Quadratic Residuosity (QR) assumption. In this thesis, we will show how the Learning-With-Errors (LWE) assumption can achieve the same results.
+
+The second open question we address here regards asynchronous networks. All prior work in \THC~was in the synchronous model: at every round, a party either sent a message and it would be received that same round or, in the fail-stop model (\cite{BBMM18,LLMMMT18}) not send a message at all. It was an open question whether or not we could achieve \THC~in an asynchronous network. Unfortunately, for all of the standard notions of asynchronous, we show that \THC~is impossible. This is primarily because all of these notions give power to the adversary to control when messages are sent. One can immediately notice that an adversary should not be able to see who is communicating with whom, but even taking that out of the equation, an adversary with any control over an edge can learn something about the structure of the graph. This means that if we want to design a \THC~protocol over a network that is not fully synchronous (as real-world networks tend to be), the model of the network cannot give the adversary control over the timing of sending and receiving messages.
 
 \paragraph{Adversarially Robust Property Preserving Hashes and One-Way Communication Lower Bounds}
 Addressing the second perspective, we look at a new cryptographic primitive: adversarially robust Property Preserving Hashes (\PPH). The inspiration here is two-fold. First, collision-resistant hash functions (CRHFs) are a staple in cryptography: no PPT adversary can produce an $x_1 \neq x_2$ such that $h(x_1) = h(x_2)$ except with negligible probability over $h$ sampled from the CRHF family and coins of the adversary, and hence one can preserve the ``equality'' predicate on compressed inputs even against adversarially chosen inputs. We want to compress inputs while maintaining some property other than equality between them, even in the presence of adversarially chosen inputs. The properties we considered were those that already had non-robust constructions, in particular locality-sensitive hashing (LSH) \cite{IndykM98}. An LSH family is a hash function family $\cH = \{ h:\{0,1\}^n \to \{0,1\}^m \}$ that compresses inputs ($m < n$) and is \emph{mostly} correct. For example, say we were preserving a gap-$\ell_p$ norm for a gap between $r$ and $cr$ for some constant $c > 1$ (note that in our case, gap-hamming is equivalent to gap-$\ell_0$ norm). Then, we have a threshold $\tau$ so that for any pair $x_1, x_2 \in \{0,1\}$
@@ -111,17 +99,7 @@ The fail-stop setting was first considered in \cite{TCC:MorOrlRic15} where the a
 In the information-theoretic setting, the main result is negative \cite{HJ07}: any MPC protocol in the information-theoretic setting inherently leaks information about the network graph. They also show that if the routing table is leaked, one can construct an MPC protocol which leaks no additional information.
 
 \paragraph{Other Network Models.}
-Katz et al. \cite{KMTZ13} introduce eventual-delivery and channels with a 
-fixed known upper bound. These functionalities implement communication between 
-two parties, where the adversary can set, for each message, the delay after 
-which it is delivered. For reasons stated at the beginning of this section, 
-such functionalities cannot be used directly to model topology-hiding 
-computation. Instead of point-to-point channels we need to model the whole 
-communication network, and we cannot allow the adversary to set the delays. 
-Intuitively, $\fnetwork$ implements a number of bounded-delay channels, each of 
-which is modified so that the delay is chosen once and independently of the 
-adversary. If we did not consider hiding the topology, our modified channels 
-would be a stronger assumption.
+Katz et al. \cite{KMTZ13} introduce eventual-delivery and channels with a fixed known upper bound. These functionalities implement communication between two parties, where the adversary can set, for each message, the delay after which it is delivered. %Intuitively, $\fnetwork$ implements a number of bounded-delay channels, each of which is modified so that the delay is chosen once and independently of the adversary. If we did not consider hiding the topology, our modified channels would be a stronger assumption.
 
 Cohen et al. \cite{CCGZ16} define different channels with probabilistic 
 delays, for example point-to-point channels (the SMT functionalities) and an 
@@ -132,11 +110,96 @@ One could modify the SMT functionalities and use their parallel composition,
 but we find our formulation simpler and much better suited for THC.
 
 \subsection{Related Work to Property Preserving Hashing}
-%TODO: adapt PPH connections-to sections
+The notion of compressing an input while preserving something about it intersects many areas of theoretical computer science. The idea of property-preserving hashing underlies sketching ~\cite{MunroP80,DBLP:journals/scp/MisraG82,AlonMS96,CormodeM05,CharikarCF04}, compressed sensing~\cite{ChenDS01}, and locality-sensitive hashing (LSH)~\cite{IndykM98}. However, much of this work does not deal with any kind of adversary. Much like how Universal Hash Functions~\cite{CarterW77}, which can be used to test the equality of data points, cannot be used for that purpose in the presence of adversarially generated inputs, LSHs give no guarantees in this setting either. The answer to Universal Hash Functions came in the form of pseudorandom functions (PRF)~\cite{GoldreichGM86}, universal one-way hash functions (UOWHF)~\cite{NaorY89} and collision-resistant hash functions (CRHF) for different adversarial settings (e.g. oracle-access or direct access to the code of the hash function). We do something similar with respect to LSH and explore properties other than locality.
+
+Along that line, Mironov, Naor and Segev~\cite{MNS08} showed {\em interactive protocols} for sketching in such an adversarial environment, achieving our goal, but requiring interaction. In contrast, we focus on non-interactive hash functions. Hardt and Woodruff~\cite{HW13} showed negative results which say that linear functions cannot be robust (even against computationally bounded adversaries) for certain natural $\ell_p$ distance properties; our work will use non-linearity and computational assumptions to overcome the \cite{HW13} attack. Finally, Naor and Yogev~\cite{NY15} study adversarial Bloom filters which compress a set in a way that supports checking set membership; we will use their lower bound techniques in Chapter~\ref{sec:lb}.
+
+\paragraph{Secure Sketching.}
+Fuzzy extractors and secure sketching \cite{DORS08} aim to achieve similar goals to PPHs. Both of these seek to preserve the privacy of their inputs. Secure sketches generate random-looking sketches that hide information about the original input so that the original input can be reconstructed when given something close to it. Fuzzy extractors generate uniform-looking keys based off of fuzzy (biometric) data also using entropy: as long as the input has enough entropy, so will the output. As stated above, both guarantee that if inputs are close, they will `sketch' or `extract' to the same object. Now, the entropy of the sketch or key guarantees that randomly generated far inputs will not collide, but there are no guarantees about adversarially generated far inputs. For our definition of robust PPHs, we want to make sure that adversarially generated inputs, close or far, will not fool our hash function evaluation.
+
+\paragraph{One-Way Communication.}
+Key to this thesis is One-Way Communication (OWC) \cite{Yao79,KNR95}. OWC is the study of protocols between two parties (e.g. Alice and Bob) that only allow for communication in one direction (e.g. Alice to Bob), with the goal of evaluating a joint function on their inputs. The goal of OWC is to minimize the total communication while maintaining correctness of the protocol with high probability. From another perspective, OWC can be seen as hashing Alice's input to Bob, with the goal of compressing her input as much as possible while preserving correctness. Lower bounds in the OWC model translate directly into impossibility results for PPHs. And so, we will reference OWC results from \cite{Woodruff04,Woodruff07,JKS08} (who proved OWC lower bounds for hamming distance with certain parameters), and strengthen them to be lower bounds for PPHs, using strategies from \cite{JKS08} in Chapter \ref{sec:owc-relations}.
 
 \subsection{Related Work to Fine-Grained Cryptography}
-%TODO: adapt FGC stuff
+There has been much prior work leading up to the results presented in this thesis. First, there are a few results using assumptions from fine-grained complexity and applying them to cryptography. Second, there has been work with the kind of assumptions that we will be using.
+
+
+\subsubsection{Fine-Grained Cryptography}
+Ball et al. \cite{avgCaseFineGrained,eprintAvgCaseFG} produce fine-grained wost-case to average-case reductions. Ball et al. leave an open problem of producing a one-way-function from a worst case assumption. They prove that from some fine-grained assumptions building a one-way-function would falsify NSETH \cite{CarmosinoGIMPS16}\cite{avgCaseFineGrained}.
+We avoid their barrier in this paper by producing a construction of both fine-grained OWFs and fine-grained PKE from an \emph{average-case} assumption.
+
+
+
+\paragraph{Fine-Grained Key Exchanges.} Fine-grained cryptography is a relatively unexplored area, even though it had its start in the 1970's with Merkle puzzles: the gap between honestly participating in the protocol versus breaking the security guarantee was only quadratic \cite{Merkle78}. Merkle originally did not describe a plausible hardness assumption under which the security of the key exchange can be based. 30 years later, Biham, Goren, and Ishai showed how to implement Merkle puzzles by making an assumption of the existence of either a random oracle or an exponential gap one way function \cite{BGI08}. That is, Merkle puzzles were built under the assumption that a one-way function exists which takes time $2^{n(1/2+\delta)}$ to invert for some $\delta>0$. So while prior work indeed succeeded in building a fine-grained key-exchange, it needed a very strong variant of OWFs to exist. It is thus very interesting to obtain fine-grained public key encryption schemes based on a fine-grained assumption (that might even work in Pessiland and below).
+
+\paragraph{Another notion of Fine-Grained Cryptography.} In 2016, work by Degwekar, Vaikuntanathan, and Vasudevan \cite{DVV16} discussed fine-grained complexity with respect to both honest parties and adversaries restricted to certain circuit classes. They obtained constructions for some cryptographic primitives (including PKE) when restricting an adversary to a certain circuit class. From the assumption $\mathsf{NC}1 \neq \xor L/\poly$ they show Alice and Bob can be in $AC^0[2]$ while being secure against $\mathsf{NC}1$ adversaries. While \cite{DVV16} obtains some unconditional constructions, their security relies on the circuit complexity of the adversary, and does not apply to arbitrary time-bounded adversaries as is usually the case in cryptography. That is, this restricts the types of algorithms an adversary is allowed to use beyond just how much runtime these algorithms can have. It would be interesting to get similar results in the low-polynomial time regime, without restricting an adversary to a certain circuit class. Our results achieve this, though not unconditionally.
+
+\paragraph{Tight Security Reductions and Fine-Grained Crypto.}
+Another area the world of fine-grained cryptography collides with is that of tight security reductions in cryptography. Bellare et.al. coined the term ``concrete'' security reductions in \cite{BellareKR94,BellareGR95}. Concrete security reductions are parametrized by time ($t$), queries ($q$), size ($s$), and success probability ($\eps$). 
+This line of work tracks how a reduction from a problem to a  construction of some cryptographic primitive effects the four parameters of interest.  
+This started a rich field of study connecting theory to practical cryptographic primitives (such as PRFs, different instantiations of symmetric encryption, and even IBE for example \cite{BellareCK96,BellareDJR97,KatzW03,BellareR09}).
+In fine-grained reductions we also need to track exactly how our adversary's advantage changes throughout our reductions, however, we also track the running time of the honest parties.
+So, unlike in the concrete security literature, when the hard problems are polynomially hard (perhaps because $P=NP$), we can track the gap in running times between the honest and dishonest parties. This allows us to build one way functions and public key cryptosystems when the hard problems we are given are only polynomially hard. 
+%TODO: THIS IS WHERE YOU LEFT OFF READING THINGS
+\vspace{-0.5cm}
+
+\begin{figure}
+	\begin{center}
+		\begin{tabular}{| l | l | l | l | l |}
+			\hline
+			Paper & Assumptions & Crypto & Runtime & \begin{tabular}{l} Power of\\ Adversary
+			\end{tabular} \\\hline
+			\cite{Merkle78} & Random Oracles* & Key Exchange & $O(N)$ & $O(N^2)$\\\hline
+			\cite{BGI08} & Exponentially-Strong OWFs & Key Exchange & $O(N)$ & $O(N^2)$ \\\hline
+			\cite{eprintAvgCaseFG} & WC \ThSum, OV, APSP, or SETH & Proof of Work & $O(N^2)$ & N/A \\\hline
+			\begin{tabular}{l}
+				[This thesis]/\\
+				\cite{LLVW19}
+			\end{tabular}
+			 & \zkclique~or \kSum& \begin{tabular}{l} OWFs,\\
+				Key Exch. \& PKE
+			\end{tabular} &\begin{tabular}{l}
+				$O(N)$\\
+				$O(N)$
+			\end{tabular} & \begin{tabular}{l}
+				$O(N^{1 + \delta})$\\
+				$O(N^{1.5 - \delta})$
+			\end{tabular} \\\hline
+			\cite{DVV16} & $\mathsf{NC}1 \neq \xor L/\poly$ & \begin{tabular}{l}
+				OWFs, and PRGs\\
+				with sublinear \\
+				stretch, CRHFs, \\
+				and PKE\\ \\
+			\end{tabular} &$\mathsf{NC}1$ &$\mathsf{NC}1$\\
+			&$\mathsf{NC}1 \neq \xor L/\poly$ &\begin{tabular}{l} PKE and CRHFs\\ \\
+			\end{tabular}  & $\mathsf{AC}^0[2]$&$\mathsf{NC}1$ \\
+			& Unconditional &\begin{tabular}{l}
+				PRGs with poly\\
+				stretch, Symmetric\\
+				encryption,\\
+				and CRHFs\\
+			\end{tabular}  & $\mathsf{AC}^{0}$ & $\mathsf{AC}^0$\\\hline
+		\end{tabular}
+		\caption{\label{fig:comparison} A table of previous works' results in this area. There have been several results characterizing different aspects of fine-grained cryptography. *It was \cite{BGI08} who showed that Merkle's construction could be realized with a random oracle. However, Merkle presented the construction.  }
+	\end{center}
+\end{figure}
+
+\subsubsection{Similar Assumptions}
+This paper uses hypotheses on the running times of problems that, while solvable in polynomial time, are variants of natural NP-hard problems, in which the size of the solution is a fixed constant. For instance, \kSum~is the variant of Subset Sum, where we are given $n$ numbers and we need to find exactly $k$ elements that sum to a given target, and \zkclique~is the variant of Zero-Clique, in which we are given a graph and we need to find exactly $k$ nodes that form a clique whose edge weights sum to zero.
+
+With respect to Subset Sum, Impagliazzo and Naor showed how to directly obtain OWFs and PRGs assuming that Subset Sum is hard on average \cite{IN02}. The OWF is $f(\vec a, \vec s) = (\vec a, \vec a \cdot \vec s)$, where $\vec a$ is the list of elements (chosen uniformly at random from the range $R$) and $s \in \{0,1\}^n$ represents the set of elements we add together.
+In addition to Subset Sum, OWFs have also been constructed from planted Clique, SAT, and Learning-Parity with Noise \cite{Lindell,JP00}. The constructions from the book of Lindell and the chapter written by Barak \cite{Lindell} come from a definition of a ``plantable'' NP-hard problem that is assumed to be hard on average.
+
+Although our OWFs are equivalent to scaled-down, polynomial-time solvable characterizations of these problems, we also formalize the property that allows us to get these fine-grained OWFs (plantability). We combine these NP constructions and formalizations to lay the groundwork for fine-grained cryptography.
+
+In the public-key setting, there has been relatively recent work taking NP-hard problems and directly constructing public-key cryptosystems \cite{ABW10}. They take a problem that is NP-hard in its worst case and come up with an average-case assumption that works well for their constructions. Our approach is similar, and we also provide evidence for why our assumptions are correct.
+
+In recent work, Subset Sum was also shown to directly imply public-key cryptography \cite{LPS10}. The construction takes ideas from Regev's LWE construction \cite{Regev05}, turning a vector of subset sum elements into a matrix by writing each element out base $q$ in a column. The subset is still represented by a 0-1 matrix, and error is handled by the lack of carrying digits. It is not clear how to directly translate this construction into the fine-grained world. First, directly converting from Subset Sum to \kSum~just significantly weakens the security without added benefit. More importantly, the security reduction has significant polynomial overhead, and would not apply in a very pessimistic Pessiland where random planted Subset Sum instances can be solved in quadratic time, say.
+
+While it would be interesting to reanalyze the time-complexity of this construction (and others) in a fine-grained way, this is not the focus of our work. Our goal is to obtain novel cryptographic approaches exploiting the fine-grained nature of the problems, going beyond just recasting normal cryptography in the fine-grained world, and obtaining somewhat generic constructions.
+
 
 \section{Outline of Thesis}
-%TODO
-TODO
+Because this thesis spans multiple subjects, each chapter is self-contained. In Chapter \ref{chap:THC}, we present two results in the area of Topology-Hiding Computation (THC): achieving THC from the Learning-With Errors assumption in Section \ref{sec:lwe-pkcr}, and showing that Topology-Hiding Broadcast is impossible if we allow an adversary to control message timings in Section \ref{sec:impossible}.
+Then, in Chapter \ref{chap:PPH}, we introduce the notion of a robust Property Preserving Hash (PPH), defining our notions in Section \ref{sec:pph-defs}. We discuss impossibility results for which properties cannot be hashed and preserved in Section \ref{sec:owc-relations}, describe constructions for the gap-hamming property in Sections \ref{sec:construction1} and \ref{sec:ham}, and demonstrate that making cryptographic assumptions is necessary for building PPHs for many kinds of properties.
+Finally, in Chapter\ref{chap:FGC}, we define and construct multiple fine-grained cryptographic primitives. First, we define our notions of fine-grained One-Way Functions, key-exchanges, and public-key cryptosystems in Section \ref{sec:prelims}. We construct fine-grained One-Way Functions in Section \ref{sec:fg-owfs}. Second, we construct fine-grained key-exchanges and fine-grained public key cryptosystems in two ways: from general properties of a fine-grained assumption in Section \ref{sec:FineGrainedKeyExchange}, and from assuming the \strongzkc in Section \ref{sec:n2-gap-keyxc}.

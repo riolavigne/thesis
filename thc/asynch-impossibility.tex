@@ -98,7 +98,7 @@ In order to give the adversary as little power as possible, we define a public (
 
 \newcommand{\delayAlg}{\mathsf{DelayAlgorithm}}
 \begin{definition}
-	A \emph{indistinguishability-delay algorithm (IDA)} for a protocol $\Pi$, $\delayAlg_{\Pi}$, is a probabilistic polynomial-time algorithm that takes as input an arbitrary graph outputs unbounded polynomial delays for every time $\tau$ and every edge in the graph. Explicitly, for any graph $G = (V, E)$, $\delayAlg(G)$ outputs $\cT$ such that for every edge $(i,j) \in E_b$ and time $\tau$, $\cT((i,j), \tau) = d_{(i,j), \tau}$ is a delay that is at least one.
+	A \emph{indistinguishability-delay algorithm (IDA)} for a protocol $\Pi$, $\mathsf{Delay}$\-$\mathsf{Algorithm}_{\Pi}$, is a probabilistic polynomial-time algorithm that takes as input an arbitrary graph outputs unbounded polynomial delays for every time $\tau$ and every edge in the graph. Explicitly, for any graph $G = (V, E)$, $\delayAlg(G)$ outputs $\cT$ such that for every edge $(i,j) \in E_b$ and time $\tau$, $\cT((i,j), \tau) = d_{(i,j), \tau}$ is a delay that is at least one.
 \end{definition}
 
 \paragraph{The Indistinguishability Game}
@@ -171,7 +171,6 @@ Notice that $\cA$ is given access to $\delayAlg$ at the start of the protocol. O
 	If $\cC$ chooses $G_0$, then $\party_D$ is on the left side of the graph and has probability $\Pr[H_{D, b} | E_{\tau^*}]$ of having the output bit by time $T$ because its view is consistent with $\party_L$ delaying at time $\tau^*$.
 	If $\cC$ chooses $G_1$, then $\party_D$ is on the right side of the graph, and has a view consistent with the first long delay happening at time $\tau^*+1$ and therefore has $\Pr[H_{D,b} | E_{\tau^*}]$ of having the output bit by time $T$.
 	Because there is a noticeable difference in these probabilities, $\cA$ can distinguish between these two cases with $\frac 1 2$ plus some non-negligible probability.
-	\qed
 \end{proof}
 
 \paragraph{Consequences of this lower bound.}

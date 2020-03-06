@@ -273,7 +273,6 @@ Note that this encryption scheme can be used to send any sub-polynomial number o
 	The optimization comes from minimizing $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$, which is simply to set $n^k \sqrt{\ell(n)} = n^2 \ell(n)$. This results in $\ell(n) = n^{2k - 4}$.
 	
 	The gap between honest parties and dishonest parties is computed as follows. Honest parties take $H(n) = \~O(\ell(n)n^2) = \~O(n^{2k - 2})$. Dishonest parties take $E(n) = \~O(\ell(n)n^k) = \~O(n^{3k - 4})$. We have that $E(n) = H(n)^t$ where $t = \frac{3k-4}{2k-2}$, which approaches $1.5$ as $k \to \infty$. So, we have close to a 1.5 gap between honest parties and dishonest ones as long as we assume $T(n) = n^{k}$.
-	\qed
 \end{proof}
 
 The \zThclique~hypothesis (the Zero Triangle hypothesis) is generally better believed than the \zkclique~hypothesis for larger $k$. Note that even with the strong \zThclique~hypothesis we get a key exchange with a gap in the running times of Alice and Bob vs Eve. In this case, the gap is $t = 5/4 = 1.2$.

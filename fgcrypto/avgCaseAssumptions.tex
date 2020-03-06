@@ -225,10 +225,12 @@ Some may find the assumption with range $n^k$ to be the most believable assumpti
 	Let $sol(I)$ be a function over instances of \zkclique~problems where $sol(I)=0$ if there are no zero $k$-cliques and $sol(I)=1$ if there is at least one zero $k$-clique. Let $wit(I)$ be a zero $k$-clique in $I$, if one exists.
 	%Let $Pr[sol(I)=0]=p_0.$ 
 	Given an instance $I$ drawn from the distribution $D^{zkc}_{\textrm{uniform}}[n^k,n]$ there is some large enough $n$ such that
-	for any  $\PFT{n^k}$ algorithm $A$
-	\[ \Pr_{I \sim D}[A(I) = wit(I)| sol(I)=1] \le 1/200. \]
+	for any  $\PFT{n^k}$ algorithm $\cA$
+	\[ \Pr_{I \sim D}[\cA(I) = wit(I)| sol(I)=1] \le 1/200. \]
 \end{definition}
 
+Our constructions will work by assuming \Strongzkc~over a relatively large range: $R = \Omega(n^{8k})$. Fortunately, we are able to prove that finding zero-$k$-cliques over smaller ranges is as hard as finding them over larger ones.
+So, if you believe that \zkclique~is hard over a range where an uniformly sampled instance is expected to have almost one solution (e.g. a small range like $O(n^{1.01\cdot k})$), we can show that this implies larger ranges, which are used extensively in our constructions, are also hard.
 
 \begin{theorem}\label{thm:rangeExtendThm}
 \Strongzkc for range $R=n^{c k}$ is implied by the Random Edge \RandomZKC if $c>1$ is a constant.\footnote{Thank you to Russell Impagliazzo for discussions related to the sizes of ranges $R$.}

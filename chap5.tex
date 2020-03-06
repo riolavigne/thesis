@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\chapter{Fine-Grained Cryptography}
+\chapter{Fine-Grained Cryptography}\label{chap:FGC}
 In this chapter, we identify sufficient properties for a fine-grained average-case assumption that imply cryptographic primitives such as fine-grained public key cryptography (PKC).
 We build a novel cryptographic key exchange using
 a problem with a small number of relatively weak structural properties, such that if a computational problem satisfies them, our key exchange has provable fine-grained security guarantees, based on the hardness of the problem. We then show that a natural and plausible average-case assumption for the key problem Zero-$k$-Clique from fine-grained complexity satisfies our properties. We also develop fine-grained one-way functions and hardcore bits even under these weaker assumptions.
@@ -28,6 +28,7 @@ This chapter is based on \cite{LLVW19}.
 
 \section{Properties of \kSum~and \zkclique~Hypotheses}\label{sec:kcliqueksumAllTHeThings}
 \input{fgcrypto/zkcisAllTheThings}
+%\input{fgcrypto/rangeExtend}
 
 \section{Fine-Grained One-Way Functions}\label{sec:fg-owfs}
 \input{fgcrypto/fineGrainedOWF}
@@ -36,10 +37,8 @@ This chapter is based on \cite{LLVW19}.
 \input{fgcrypto/merklePuzzle}
 \input{fgcrypto/keyExchangeProofs}
 
-\section{A Better Fine-Grained Key Exchange}\label{sec:n2-gap-keyxc}
+\section{A Key Exchange Approaching the $N^2$ Gap}\label{sec:n2-gap-keyxc}
 \input{fgcrypto/n2KeyExchange.tex}
-
-%\input{fgcrypto/rangeExtend}
 
 
 

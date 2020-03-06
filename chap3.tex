@@ -1,5 +1,5 @@
 % !TEX root = main.tex
-\chapter{Topology Hiding Computation}
+\chapter{Topology Hiding Computation}\label{chap:THC}
 In this chapter, we describe a few results in the study of Topology Hiding Computation, exploring different cryptographic assumptions, models for communication, and kinds of adversaries.
 First, we show that we can realize all current standard-assumption THC constructions by via Learning-With-Errors (see \cite{C:Regev06}). This is because all of the current constructions rely on a type of encryption called Privately-Key-Commutative-Randomizable encryption (\PKCR), described in more detail in Section \ref{sec:pkcr-desc}.
 Then, we will explore what an asynchronous model for THC could look like. We show that, unfortunately, all standard notions of asynchronous models give the adversary too much power to achieve even topology-hiding broadcast.
@@ -18,7 +18,7 @@ This chapter is based off of sections from both \cite{LLMMMT18} and \cite{LLMMMT
 \input{thc/lwe-pkcr}\label{sec:lwe-pkcr}
 
 %------------ Asynch Models ------------%
-\section{Asynchronous Topology Hiding}
+\section{Barriers to Asynchronous Topology Hiding}\label{sec:impossible}
 \input{thc/asynch}
 \subsection{Standard Asynchronous Models}
 \input{thc/asynch-models}
