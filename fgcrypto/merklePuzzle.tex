@@ -260,7 +260,7 @@ Note that this encryption scheme can be used to send any sub-polynomial number o
 
 
 \begin{corollary}
-	Given the \strongzkc~ over range $R = \ell(n)^2 n^{2k}$, there exists a\\ $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
+	Given the \strongzkc~over range $R = \ell(n)^2 n^{2k}$, there exists a\\ $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
 	
 	There also exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
 	
@@ -279,15 +279,10 @@ The \zThclique~hypothesis (the Zero Triangle hypothesis) is generally better bel
 
 Also, since the \zkclique-hypothesis may be more believable over a smaller range, say $R = n^k$, we can combine Corollary \ref{cor:kcliqueKeyExchange} and Theorem \ref{thm:rangeExtendThm} to get the below result: even with a relatively small range, we can still build a fine-grained public-key cryptosystem.
 
+%TODO: This is where you left off. Check out theorem 26 on page 144
 \begin{corollary}
-	Given the \strongzkc~over range $R = n^{k}$, where $\ell(n)$ is polynomial, there exists a $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
-	
-	There also exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
-	
-	Both of these protocols are optimized when $\ell(n) = n^{2k-4}$.
-	\label{cor:kcliqueKeyExchangeRange}
+	Given the \strongzkc~over range $R = n^{k}$, there exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
 \end{corollary}
 \begin{proof}
-	Using Corollary \ref{cor:kcliqueKeyExchange} and Theorem \ref{thm:rangeExtendThm} we can use the hardness of \strongzkc~ over range $R = n^{k}$ to show hardness for \strongzkc~ over range $R = \ell(n)^2n^{2k}$.
+	%TODO
 \end{proof}
-

@@ -175,7 +175,7 @@ Now we prove that assuming \strongzkc~over range $R = n^{8k}$, then an eavesdrop
 	This is greater than $\frac{1}{100}$, violating the \strongzkc.
 \end{proof}
 
-\paragraph{Weak and Strong Key Exchange}
+\paragraph{Weak and Strong Key Exchange and Public Key Cryptosystem}
 Much like our original construction, we will now prove that Construction \ref{const:better-keyxc} is a weak key exchange (see Definition \ref{def:fgkeyxc}). Then, because of Theorem \ref{thm:amplifyKeyXC}, we will be able to amplify it to get a strong key exchange.
 
 \begin{theorem}\label{thm:n2-weak-keyxc}
@@ -194,6 +194,17 @@ Now, an eavesdropper having a $\frac 1 4$ advantage at guessing a shared key is 
 \end{corollary}
 \begin{proof}
 	Theorem \ref{thm:n2-weak-keyxc} shows that there exists a $\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$. This means that we can apply Theorem \ref{thm:amplifyKeyXC} and get a $\fgkeyxc{n^2}{\insig(n)}{\insig(n)}$.
+\end{proof}
+
+Finally, as before, we can compile our interactive key exchange into one that does not involve interaction.
+\begin{corollary}
+	Given the \strongzkc~over range $R = n^{8k}$, exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
+	
+	Both of these protocols are optimized when $\ell(n) = n^{2k-4}$.
+	\label{cor:n2-pkc}
+\end{corollary}
+\begin{proof}
+	
 \end{proof}
 
 \subsection{Generalizing \zkclique~Properties}

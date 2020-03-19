@@ -1,3 +1,5 @@
+% !TEX root = ../main.tex
+
 Secure communication over an insecure network is one of the fundamental goals of cryptography. 
 A fundamental solution to this problem is secure multiparty computation. Here, one commonly assumes that all parties have pairwise communication channels.
 In contrast, for many real-world scenarios, the communication network is not complete, and parties can only communicate with a subset of other parties. A natural question is whether a set of parties can successfully perform a joint computation over an incomplete communication network while revealing no information about the network topology.
@@ -5,7 +7,7 @@ In contrast, for many real-world scenarios, the communication network is not com
 The problem of \emph{topology-hiding computation} (THC) 
 was introduced by Moran et al. \cite{TCC:MorOrlRic15}, who showed that 
 THC is possible in the setting with passive corruptions and graphs with logarithmic diameter. Further solutions improve the 
-communication efficiency \cite{HMTZ16}, and allowed for larger classes of graphs \cite{EC:AkaMor17,ALM17}.
+communication efficiency \cite{C:HMTZ16}, and allowed for larger classes of graphs \cite{EC:AkaMor17,ALM17}.
 A natural next step is to extend these results to settings with  more powerful adversaries. Unfortunately, even a protocol in the setting with fail-corruptions (in addition to passive corruptions) must leak topological information about the graph \cite{TCC:MorOrlRic15}.
 
 A comparison of previous works in topology-hiding communication is found in Tables~\ref{tbl:overview1}.

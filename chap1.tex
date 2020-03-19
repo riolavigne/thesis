@@ -128,7 +128,7 @@ There has been much prior work leading up to the results presented in this thesi
 Ball et al. \cite{avgCaseFineGrained,eprintAvgCaseFG} produce fine-grained wost-case to average-case reductions. Ball et al. leave an open problem of producing a one-way-function from a worst case assumption. They prove that from some fine-grained assumptions building a one-way-function would falsify NSETH \cite{CarmosinoGIMPS16}\cite{avgCaseFineGrained}.
 We avoid their barrier in this paper by producing a construction of both fine-grained OWFs and fine-grained PKE from an \emph{average-case} assumption.
 
-
+More recent works have shown worst-case to average-case reductions for the counting $k$-cliques problem. First, there was a breakthrough reduction from worst-case counting to average-case counting over a distribution of graphs with min-entropy $\~\Omega(n^2)$, although this distribution is not easy to describe \cite{GR18}. Then, Boix-Adser\`a, Brennan, and Bresler showed that a reduction from worst-case $k$-clique-counting on hypergraphs to average-case clique-counting on Erd\"os-Renyi graphs, showing that this problem is average-case hard on a natural graph distribution \cite{BBB19}. This thesis focuses on the \zkclique~problem, which is finding a zero-weighted $k$-clique in a (typically) complete $k$-partite graph, while the counting $k$-clique problem focuses on determining the number of $k$-cliques in a graph. So, while these results do not directly impact our work, they can be seen as evidence that average-case fine-grained graph problems can be hard.
 
 \paragraph{Fine-Grained Key Exchanges.} Fine-grained cryptography is a relatively unexplored area, even though it had its start in the 1970's with Merkle puzzles: the gap between honestly participating in the protocol versus breaking the security guarantee was only quadratic \cite{Merkle78}. Merkle originally did not describe a plausible hardness assumption under which the security of the key exchange can be based. 30 years later, Biham, Goren, and Ishai showed how to implement Merkle puzzles by making an assumption of the existence of either a random oracle or an exponential gap one way function \cite{BGI08}. That is, Merkle puzzles were built under the assumption that a one-way function exists which takes time $2^{n(1/2+\delta)}$ to invert for some $\delta>0$. So while prior work indeed succeeded in building a fine-grained key-exchange, it needed a very strong variant of OWFs to exist. It is thus very interesting to obtain fine-grained public key encryption schemes based on a fine-grained assumption (that might even work in Pessiland and below).
 
@@ -143,15 +143,25 @@ So, unlike in the concrete security literature, when the hard problems are polyn
 %TODO: THIS IS WHERE YOU LEFT OFF READING THINGS
 \vspace{-0.5cm}
 
-\begin{figure}
+\begin{figure}{
+		\footnotesize
 	\begin{center}
 		\begin{tabular}{| l | l | l | l | l |}
 			\hline
 			Paper & Assumptions & Crypto & Runtime & \begin{tabular}{l} Power of\\ Adversary
 			\end{tabular} \\\hline
 			\cite{Merkle78} & Random Oracles* & Key Exchange & $O(N)$ & $O(N^2)$\\\hline
-			\cite{BGI08} & Exponentially-Strong OWFs & Key Exchange & $O(N)$ & $O(N^2)$ \\\hline
-			\cite{eprintAvgCaseFG} & WC \ThSum, OV, APSP, or SETH & Proof of Work & $O(N^2)$ & N/A \\\hline
+			\cite{BGI08} &
+			\begin{tabular}{l}
+				Exponentially-Strong\\
+				OWFs
+			\end{tabular} & Key Exchange & $O(N)$ & $O(N^2)$ \\\hline
+			\cite{eprintAvgCaseFG} &
+			\begin{tabular}{l}
+				WC \ThSum, OV, \\
+				APSP, or SETH
+				\end{tabular}
+			& Proof of Work & $O(N^2)$ & N/A \\\hline
 			\begin{tabular}{l}
 				[This thesis]/\\
 				\cite{LLVW19}
@@ -181,7 +191,7 @@ So, unlike in the concrete security literature, when the hard problems are polyn
 			\end{tabular}  & $\mathsf{AC}^{0}$ & $\mathsf{AC}^0$\\\hline
 		\end{tabular}
 		\caption{\label{fig:comparison} A table of previous works' results in this area. There have been several results characterizing different aspects of fine-grained cryptography. *It was \cite{BGI08} who showed that Merkle's construction could be realized with a random oracle. However, Merkle presented the construction.  }
-	\end{center}
+	\end{center}}
 \end{figure}
 
 \subsubsection{Similar Assumptions}
