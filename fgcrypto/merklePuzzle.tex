@@ -217,47 +217,25 @@ Finally, using the fact that Alice and Bob do not use each other's messages to p
 	There is a constant probability that the construction fails at each round. So, Alice and Bob will simply run the protocol $c\cdot\log(n)$ times in parallel and take the key generated from the first successful exchange. There are two errors to keep track of: the chance that Alice and Bob's $S_A$ and $S_B$ do not intersect in exactly one spot and the probability that an instance was generated with a false-positive. Since $\epsilon_{plant}$ is so small ($O(1/n^{\Omega(1)})$), we do not need to worry about the false-positives (the chance of generating one is insignificant). So, the error we are concerned with is the chance that none of the $c \log(n)$ instances of the key exchange end up having $S_A$ and $S_B$ overlapping in exactly 1 entry. This happens with probability at most $\Pr[\mbox{no overlap } c\log(n) \mbox{ times}] = \left( \Pr[\mbox{no overlap once}] \right)^{c \log n} \leq O(1/n^c)$, which is also insignificant. Therefore, the chance this key exchange fails is at most $1 - (\frac{c\log(n)}{10,000 \ell e} + \frac{1}{n^c}) = 1 - \insig(n)$.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{thm:fg-pkc-exists}
 	 If a problem $P$ is $\ell(n)$-\keyER, then a $\ell(n) \cdot T(n)$-fine-grained public key cryptosystem exists.
 \end{theorem}
 \begin{proof}
-	First, consider an amplified, non-interactive version of Construction \ref{const:fg-interactive-keyxc} (combination of Corollary \ref{cor:strongFGKeyXc} and lemma \ref{lem:non-interactive-const}): Alice and Bob run the protocol $m$ times in parallel, where $m =  \frac{512}{1 - \beta^2} \cdot \log(n)$, and Alice sends an additional random binary vector $\vec r \in \{0,1\}^m$. The key they agree on is the dot-product between $\vec r$ and the vector of keys exchanged. This is a $\textsf{Strong}$ $(\ell(n)T(n))\textsf{-FG-}$ $\textsf{KeyExchange}$ (see Corollary \ref{cor:strongFGKeyXc}). We now define the three algorithms for a fine-grained public key cryptosystem.
+	First, consider an amplified, non-interactive version of Construction \ref{const:fg-interactive-keyxc} (combination of Corollary \ref{cor:strongFGKeyXc} and lemma \ref{lem:non-interactive-const}): Alice and Bob run the protocol $m$ times in parallel, where $m = \subpoly(n)$.
+	The $m$-bit key they agree is the vector of keys exchanged. We now define the three algorithms for a fine-grained public key cryptosystem.
 	\begin{itemize}
 		\item $\keygen(1^n)$: run Bob's half of the non-interactive protocol $m$ times, generating $m$ collections of $c\log(n)$ lists of $\ell(n)$ instances of $P$: $\{(\vec I_B^{(1,i)}, \ldots,$ $\vec I_B^{(c\log(n), i)} )\}_{i \in [m]}$. Each list $\vec I_B^{(j,i)}$ has a random set $S_B^{(j,i)} \subset [\ell]$ where instances $I_k \in \vec I_B^{(j,i)}$ are from $\Generate(n,1)$ if $k \in S_B^{(j,i)}$ and from $\Generate(n,0)$ otherwise. The public key is $pk = \{(\vec I_B^{(1,i)}, \ldots, \vec I_B^{(c\log(n), i)} )\}_{i \in [m]}$ and the secret key is $sk = \{(S_B^{(1,i)}, \ldots, S_B^{(c\log(n),i)})\}_{i \in m}$.
-		\item $\enc(pk, m \in \{0,1\})$: run Alice's half of the protocol $m$ times, solving for the shared key, and then encrypting a message under that key. More formally, generate $m$ lists of $c\log(n)$ sets $S_A^{(j,i)} \subset [\ell]$ such that $|S_A^{(j,i)}| = \sqrt{\ell}$. Then, generate lists of instances $\vec I_A^{(j,i)}$ for $i \in \{1,\ldots, m\}$ and $j \in \{1, \ldots, c\log(n)\}$, where for every instance $I_{k}^{(j,i)} \in \vec I_A^{(j,i)}$, $I_{k}^{(j,i)} = \Generate(n,1)$ if $k \in S_A^{(j,i)}$ and otherwise use $\Generate(n,0)$. Now, for each of these $m$ instances, compute the shared key as in Construction the non-interactive version \ref{const:fg-interactive-keyxc} (see lemma \ref{lem:non-interactive-const}), to get a vector of keys $\vec k = (k_1, \ldots, k_m)$. If any of these exchanges fail, output $\bot$. Now, compute a random binary vector $\vec r \in \{0,1\}^m$ and let $key = \vec k \cdot \vec r$. Finally, let the ciphertext $c = \left((\vec I_A^{(1)}, \ldots, \vec I_A^{(m)} ), \vec r, key \xor m  \right)$.
-		\item $\dec(sk, c)$: Bob computes the shared key and decrypts the message. Formally, let $c = \left((\vec I_A^{(1)}, \ldots, \vec I_A^{(m)} ), \vec r, c^*  \right)$. Bob computes the shared key just like Alice, using $(\vec k \cdot \vec r) \xor c^* = m'$. Output the bit $m'$.
+		\item $\enc(pk, \vec m \in \{0,1\}^m)$: run Alice's half of the protocol $m$ times, solving for the shared key, and then encrypting a message under that key. More formally, generate $m$ lists of $c\log(n)$ sets $S_A^{(j,i)} \subset [\ell]$ such that $|S_A^{(j,i)}| = \sqrt{\ell}$. Then, generate lists of instances $\vec I_A^{(j,i)}$ for $i \in \{1,\ldots, m\}$ and $j \in \{1, \ldots, c\log(n)\}$, where for every instance $I_{k}^{(j,i)} \in \vec I_A^{(j,i)}$, $I_{k}^{(j,i)} = \Generate(n,1)$ if $k \in S_A^{(j,i)}$ and otherwise use $\Generate(n,0)$. Then, for all of these $m \cdot c\log(n)$ instances, generate a random vector $\vec r^{i,j}$ of length $\log(\ell)$ for the final part of the key exchange. Now, for each of these $m$ instances, compute the shared key as in Construction the non-interactive version \ref{const:fg-interactive-keyxc} (see lemma \ref{lem:non-interactive-const}), to get a vector of keys $\vec k = (k_1, \ldots, k_m)$. If any of these exchanges fail, output $\bot$.
+		Finally, let the ciphertext $ct = \left( \{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec k \xor \vec m \right)$.
+		\item $\dec(sk, ct)$: Bob computes the shared key and decrypts the message. Formally, let $ct = \left(\{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec c^*  \right)$. Bob computes the shared key just like Alice to get $\vec k$, and then decrypts the message with $\vec k \xor c^* = \vec m'$. Output the $m$-bit message $\vec m'$.
 	\end{itemize}
 
 	Now we will prove this is indeed a fine-grained public key cryptosystem. First, because the key exchange took Alice and Bob $\PFT{\ell(n)T(n)}$ time, this scheme is efficient, requiring at most $(\ell(n)T(n))^{1 - \delta} \cdot m \cdot (c \log n) = \~O(\ell(n)T(n)^{(1 - \delta)})$ for constant $\delta > 0$.
 	
 	Next, the scheme is correct. This comes directly from the fact that the key exchange succeeds with probability $1 - \insig(n)$.
 	
-	Lastly, the scheme is secure. This is a simple reduction from the security game to an eavesdropper. For sake of contradiction, let Eve be a $\PFT{\ell(n)T(n)}$ adversary that can win the CPA-security game as in Definition \ref{def:fg-pkc} with probability $\frac 1 2 + \epsilon$ where $\epsilon = \sig(n)$. Eve can then directly win the key exchange wi†h the same advantage because the message the challenger gives to Eve is simply a transcript of a key exchange.
+	Lastly, the scheme is secure. This is a simple reduction from the security game to an eavesdropper. For sake of contradiction, let Eve be a $\PFT{\ell(n)T(n)}$ adversary that can win the CPA-security game as in Definition \ref{def:fg-pkc} with probability $\frac 1 2 + \epsilon$ where $\epsilon = \sig(n)$. Eve can then directly win the key exchange with the same advantage because the message and public key the challenger gives to Eve contains a key exchange (contains multiple key exchanges, but we can simulate all but one).
 \end{proof}
-
-%We detail how to turn this non-interactive fine-grained key-exchange into a fine-grained public key cryptosystem in Appendix \ref{TODO}.
-%
-%Finally, we are going to amplify the security of our cryptosystem using lemmas from \cite{DNR04}.
-%
-%\begin{theorem}\label{thm:fgkeyx-fgpkc}
-%	If we have a weak $T(n)$-fine-grained public-key cryptosystem with correctness $1 - \insig(n)$, and soundness against adversaries with constant advantage, then there exists a strong $T(n)$-fine-grained public-key cryptosystem.
-%\end{theorem}
-%\begin{proof}
-%	We will reference two key lemmas from \cite{DNR04}: lemmas 1 and 2. First, \cite{DNR04} deals in the one-way properties of any semantically-secure\footnote{To be formal, we are looking at IND-CPA secure public-key schemes. These are just schemes that are secure against a chosen plaintext attack in the following way: an adversary chooses two messages to be encrypted, a challenger encrypts one of them at random, giving the encryption back to the adversary, and the adversary cannot distinguish which ciphertext was encrypted.} public-key encryption scheme. If a scheme is $\beta$-one-way ($\beta$-OW), then that just means that it is difficult to invert as a one-way function, not that an adversary could not win in a security game. However, in the case where $\beta = \frac 1 2 + \alpha$ where $\alpha$ is the advantage an adversary has in winning the CPA game in a single-bit encryption scheme, then one-way-ness translates to winning such a security game.
-%	
-%	So, let $\beta = \frac 1 2 + \alpha$ for our weak $T(n)$-fine-grained public key cryptosystem $(\keygen, \enc, \dec)$. Let our amplified $T(n)$ cryptosystem just be the parallel repetition of the original $2\log(n)$ times, and the message be the XOR of all encrypted bits.
-%	
-%	Lemma 1 of \cite{DNR04} states that if we repeat an encryption scheme in parallel $m$ times, then the one-way-ness of the protocol is $\frac 1 {p(n)}$ for any polynomial such that $\frac 1 {p(n)} > 32/(1 - \beta) \cdot e^{-m(1 - \beta)^2/256}$, against adversaries running in time $T(n)$. Note that this comes from a setting where we allow honest parties polynomial time to work. In our setting, we only allow parties $\~O(T(n))$ time. This changes the result to be $\frac 1 {p'(n)}$ for any polynomial at most $p'(n) = \~O(T(n))$ (see Theorem 4.1 of \cite{BIN97} --- our simulator can only run in $T(n)$ time).
-%	So, we will let $m = \log n$, which is sub-polynomial in $n$. Recall that $T(n) = \~\omega(n)$. So, this yields $32/(1 - \beta) \cdot e^{-m(1 - \beta)^2/256} = \~\Omega(\frac 1 {n})$ for constant $\beta$.
-%	
-%	Lemma 2 of \cite{DNR04} states that if we convert a message of length $m$ (the number of times we repeat) to a message of length $1$ by XOR'ing all of the bits together, a one-way-ness of $\beta'$ translates into an advantage of $\sqrt{\beta'}$. This takes our $1/n$-OW scheme from above and yields a function that an adversary would have advantage $\frac 1 {\sqrt n}$ in distinguishing from random. This is still an insignificant advantage, and so we have accomplished our goal.
-%	\qed
-%\end{proof}
-
-Note that this encryption scheme can be used to send any sub-polynomial number of bits, just by running it in sequence sub-polynomially many times. %We also note that public keys can be reused a subpoly number of times. However, any more than that, and we may leak too much about the secret, depending on the gap between $T(n)$ and the amount of time honest parties require.
- We also want to note that the adversary's advantage cannot be any less than $\frac{1}{ \poly(n)}$ since, due to the fine-grained nature of the scheme, the adversary can always solve the hard problem via guessing.
-%We can also boost the probability Alice and Bob successfully communicate just by having them use the protocol for the same message multiple times.
-
 
 \begin{corollary}
 	Given the \strongzkc~over range $R = \ell(n)^2 n^{2k}$, there exists a\\ $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
@@ -279,10 +257,6 @@ The \zThclique~hypothesis (the Zero Triangle hypothesis) is generally better bel
 
 Also, since the \zkclique-hypothesis may be more believable over a smaller range, say $R = n^k$, we can combine Corollary \ref{cor:kcliqueKeyExchange} and Theorem \ref{thm:rangeExtendThm} to get the below result: even with a relatively small range, we can still build a fine-grained public-key cryptosystem.
 
-%TODO: This is where you left off. Check out theorem 26 on page 144
 \begin{corollary}
 	Given the \strongzkc~over range $R = n^{k}$, there exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
 \end{corollary}
-\begin{proof}
-	%TODO
-\end{proof}
