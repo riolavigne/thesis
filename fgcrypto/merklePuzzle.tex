@@ -202,7 +202,7 @@ As shown in Theorem \ref{thm:amplifyKeyXC}, we can also amplify a key exchange t
 \end{remark}
 
 \begin{corollary}\label{cor:strongFGKeyXc}
-	If a problem $P$ is $\ell(n)$-\keyER, then a $\strongfgkeyxc{\ell(n)T(n)}$ exists.
+	If a problem $P$ is $\ell(n)$-\keyER, then a $\textsf{Strong }(\ell(n)T(n))$-$\textsf{FG}$-\textsf{Key\-Ex\-change} exists.
 \end{corollary}
 \begin{proof}
 	The probability of error in Construction \ref{const:fg-interactive-keyxc} is at most $\frac{1}{10,000 \ell(n) e}$, and $\ell(n) = n^{\Omega(1)}$ (due to the fact that $\ell(n)$ comes from the definition of list-hard, Definition \ref{def:aclh}. The probability a $\PFT{\ell(n)T(n)}$ eavesdropper has of resolving the key is $\frac 1 2 + \alpha$ where $\alpha\leq \frac 1 4$. This means our $\beta \leq \frac 3 4 = O(1)$. Since the clauses in theorem \ref{thm:amplifyKeyXC} are met, a $\strongfgkeyxc{\ell(n)T(n)}$ exists.
@@ -224,7 +224,7 @@ Finally, using the fact that Alice and Bob do not use each other's messages to p
 	First, consider an amplified, non-interactive version of Construction \ref{const:fg-interactive-keyxc} (combination of Corollary \ref{cor:strongFGKeyXc} and lemma \ref{lem:non-interactive-const}): Alice and Bob run the protocol $m$ times in parallel, where $m = \subpoly(n)$.
 	The $m$-bit key they agree is the vector of keys exchanged. We now define the three algorithms for a fine-grained public key cryptosystem.
 	\begin{itemize}
-		\item $\keygen(1^n)$: run Bob's half of the non-interactive protocol $m$ times, generating $m$ collections of $c\log(n)$ lists of $\ell(n)$ instances of $P$: $\{(\vec I_B^{(1,i)}, \ldots,$ $\vec I_B^{(c\log(n), i)} )\}_{i \in [m]}$. Each list $\vec I_B^{(j,i)}$ has a random set $S_B^{(j,i)} \subset [\ell]$ where instances $I_k \in \vec I_B^{(j,i)}$ are from $\Generate(n,1)$ if $k \in S_B^{(j,i)}$ and from $\Generate(n,0)$ otherwise. The public key is $pk = \{(\vec I_B^{(1,i)}, \ldots, \vec I_B^{(c\log(n), i)} )\}_{i \in [m]}$ and the secret key is $sk = \{(S_B^{(1,i)}, \ldots, S_B^{(c\log(n),i)})\}_{i \in m}$.
+		\item $\keygen(1^n)$: run Bob's half of the non-interactive protocol $m$ times, generating $m$ collections of $c\log(n)$ lists of $\ell(n)$ instances of $P$: $\{(\vec I_B^{(1,i)}, \ldots,$ $\vec I_B^{(c\log(n), i)} )\}_{i \in [m]}$. Each list $\vec I_B^{(j,i)}$ has a random set $S_B^{(j,i)} \subset [\ell]$ where instances $I_k \in \vec I_B^{(j,i)}$ are from $\Generate(n,1)$ if $k \in S_B^{(j,i)}$ and from $\Generate(n,0)$ otherwise. The public key is $pk = \{(\vec I_B^{(1,i)}, \ldots, \vec I_B^{(c\log(n), i)} )\}_{i \in [m]}$ and the secret key is $sk = \{(S_B^{(1,i)}, \ldots,$ $S_B^{(c\log(n),i)})\}_{i \in m}$.
 		\item $\enc(pk, \vec m \in \{0,1\}^m)$: run Alice's half of the protocol $m$ times, solving for the shared key, and then encrypting a message under that key. More formally, generate $m$ lists of $c\log(n)$ sets $S_A^{(j,i)} \subset [\ell]$ such that $|S_A^{(j,i)}| = \sqrt{\ell}$. Then, generate lists of instances $\vec I_A^{(j,i)}$ for $i \in \{1,\ldots, m\}$ and $j \in \{1, \ldots, c\log(n)\}$, where for every instance $I_{k}^{(j,i)} \in \vec I_A^{(j,i)}$, $I_{k}^{(j,i)} = \Generate(n,1)$ if $k \in S_A^{(j,i)}$ and otherwise use $\Generate(n,0)$. Then, for all of these $m \cdot c\log(n)$ instances, generate a random vector $\vec r^{i,j}$ of length $\log(\ell)$ for the final part of the key exchange. Now, for each of these $m$ instances, compute the shared key as in Construction the non-interactive version \ref{const:fg-interactive-keyxc} (see lemma \ref{lem:non-interactive-const}), to get a vector of keys $\vec k = (k_1, \ldots, k_m)$. If any of these exchanges fail, output $\bot$.
 		Finally, let the ciphertext $ct = \left( \{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec k \xor \vec m \right)$.
 		\item $\dec(sk, ct)$: Bob computes the shared key and decrypts the message. Formally, let $ct = \left(\{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec c^*  \right)$. Bob computes the shared key just like Alice to get $\vec k$, and then decrypts the message with $\vec k \xor c^* = \vec m'$. Output the $m$-bit message $\vec m'$.
@@ -238,7 +238,7 @@ Finally, using the fact that Alice and Bob do not use each other's messages to p
 \end{proof}
 
 \begin{corollary}
-	Given the \strongzkc~over range $R = \ell(n)^2 n^{2k}$, there exists a\\ $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
+	Given the \strongzkc~over the range $R =$ $\ell(n)^2 n^{2k}$, there exists a $\fgkeyxc{\ell(n)T(n)}{1/4}{\insig(n)}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$ for every polynomial $\ell(n)= n ^{\Omega(1)}$.
 	
 	There also exists a $\ell(n)T(n)$-fine-grained public-key cryptosystem, where we can encrypt a sub-polynomial sized message in time $\tilde{O}\left(n^{k}\sqrt{\ell(n)} + n^2\ell(n)\right)$.
 	

@@ -97,14 +97,16 @@ Here we will show that the key exchange algorithm terminates in time $\~O(n^{k+2
 	Computing the probability that there are no unintended matches for either Alice or Bob, we get the following union bound:
 	\begin{align*}
 	\Pr[\mbox{no unintended matches}] &\le 1 - \Pr[\mbox{ exists unintended match}]\\
-	&\ge 1 - \sum{i = 1}^\ell \left( \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i] + \Pr[\mathsf{BtoA}_i \vert \mathsf{NoMatch}_i] \right)\\
+	&\ge 1 - \sum{i = 1}^\ell \left( \Pr[\mathsf{AtoB}_i \vert \mathsf{NoMatch}_i]\right.\\
+		&\qquad + \left.\Pr[\mathsf{BtoA}_i \vert \mathsf{NoMatch}_i] \right)\\
 	&\ge 1 - \frac{2\ell}{\hat R} \ge 1 - \frac{4n^k}{n^{4k}} = 1 - \frac{4}{n^{3k}}.
 	\end{align*}
 	
 	Finally, putting these probabilities together, we get the probability that Alice and Bob do not fail after a round is
 	\begin{align*}
 	\Pr[\mbox{Alice and Bob stop}] &\ge \Pr[\mbox{1 intended match} \land \mbox{no unintended matches}]\\
-	&= \Pr[\mbox{1 intended match}] \cdot \Pr[\mbox{no unintnded matches} | \mbox{1 intended}]\\
+	&= \Pr[\mbox{1 intended match}] \cdot\\
+		&\qquad \Pr[\mbox{no unintnded matches} | \mbox{1 intended}]\\
 	&\ge \Pr[\mbox{1 intended match}] \cdot \Pr[\mbox{no unintnded matches}]\\
 	&\ge \frac{1}{2e} \cdot \left(1 - \frac{4}{n^{3k}} \right)\\
 	&\ge \frac{1}{4e}.
@@ -132,7 +134,7 @@ Now we prove that assuming \strongzkc~over range $R = n^{8k}$, then an eavesdrop
 	Let $\cB$ be our List-Problem adversary that will use $\cA$. As in Lemma \ref{lem:eve-time}, we will take our list problem, split each instance, and plant in some of those instances before we hand what should look like a transcript to $\cA$. $\cA$ will then return an index, which $\cB$ can brute-force check in time $O(n^k)$. This process is as follows:
 	\begin{enumerate}
 		\item Adversary $\cB$ gets a list problem of \zkclique: $\vec I = ( I_1, \ldots, I_\ell )$.
-		\item $\cB$ splits $\vec I$ via $\Split_{Cor}$ to get $m = \binom k 2$ pairs of lists: $\vec I^{(c)} = ( (I_{1,0}^{(c)}, I_{1,1}^{(c)}), \ldots,  (I_{\ell,0}^{(c)}, I_{\ell,1}^{(c)}))$ for every $c \in [m]$.
+		\item $\cB$ splits $\vec I$ via $\Split_{Cor}$ to get $m = \binom k 2$ pairs of lists: $\vec I^{(c)} = ( (I_{1,0}^{(c)}, I_{1,1}^{(c)}), \ldots,  (I_{\ell,0}^{(c)},$ $I_{\ell,1}^{(c)}))$ for every $c \in [m]$.
 		\item For every $i \in \ell$, $\cB$ chooses with probability $\frac 1 2$ to add $i$ to set $S_{plantA}$, and with the same probability add $i$ to $S_{PlantB}$.
 		Then for each $c \in [m]$ and every $i \in S_{plantA}$ and $j \in S_{PlantB}$, $\cB$ replaces $I_{i, 0}^{(c)}$ with $\Generate(n,1)$ and $I_{j, 1}^{(c)}$ with $\Generate(n,1)$.
 		
@@ -180,7 +182,7 @@ Much like our original construction, we will now prove that Construction \ref{co
 
 \begin{theorem}\label{thm:n2-weak-keyxc}
 	Given the strong \zkclique over range $R \ge n^{8k}$, there exists a
-	$\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$, where Alice and Bob can exchange a sub-polynomial-sized key in time $\tilde{O}\left(n^{2k + 2}\right)$.
+	$\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$, where Alice and Bob can exchange a sub-poly\-nomial sized key in time $\tilde{O}\left(n^{2k + 2}\right)$.
 \end{theorem}
 \begin{proof}
 	This is just a combination of the above lemmas. The probability that the algorithm is correct \emph{and} runs in time $\~O(n^{k+2})$ is $1 - \frac{1}{n^{6k}} - \negl(n) \ge 1 - \frac{1}{n^{5k}}$, by combining Lemmas \ref{lem:n2-alice-bob-time} and \ref{lem:n2-keyxc-correct}. Then, Lemma \ref{lem:n2-eve-time} states that any eavesdropper requires time at least $\~\Omega(n^{2k})$ to have a $\frac 1 4$ advantage in guessing the shared key.
@@ -193,7 +195,7 @@ Now, an eavesdropper having a $\frac 1 4$ advantage at guessing a shared key is 
 	$\strongfgkeyxc{n^{2k}}$ where Alice and Bob run in time $\~O(n^{k+2})$.
 \end{corollary}
 \begin{proof}
-	Theorem \ref{thm:n2-weak-keyxc} shows that there exists a $\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$. This means that we can apply Theorem \ref{thm:amplifyKeyXC} and get a $\fgkeyxc{n^2}{\insig(n)}{\insig(n)}$. Note that amplifying the key exchange only multiplies the runtime by a sub-polynomial amount ($c\log(n)$), and so the fine-grained runtime is the same: $\~O(n^{k+2})$.
+	Theorem \ref{thm:n2-weak-keyxc} shows that there exists a $\fgkeyxc{n^{2k}}{1/4}{1/n^{5k}}$. This means that we can apply Theorem \ref{thm:amplifyKeyXC} and get a $\fgkeyxc{n^2}{\insig(n)}{\insig(n)}$. Note that amplifying the key exchange only multiplies the runtime by a sub-poly\-nomial amount ($c\log(n)$), and so the fine-grained runtime is the same: $\~O(n^{k+2})$.
 \end{proof}
 
 Finally, as before, we can compile our interactive key exchange into one that does not involve interaction.
@@ -219,11 +221,11 @@ Then, because we do not need interaction, we get a public key cryptosystem.
 \begin{proof}
 	We will use the same transformation from the proof of Theorem \ref{thm:fg-pkc-exists}: use the amplified, non-interactive version of Construction \ref{const:better-keyxc} (Lemma \ref{lem:non-interactive-const}) $m = \subpoly(n)$ times in parallel. The construction is as follows:
 	\begin{itemize}
-		\item $\keygen(1^n)$: run Bob's half of the protocol $m$ times, generating $m \cdot c\log(n)$ lists of $2n^k$ instances of \zkclique, $\{(\vec I_B^{i,1}, \ldots, \vec I_B^{i,c\log(n)})\}_{i \in [m]}$, along with witnesses (if planted) $\{(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})\}_{i \in [m]}$. Bob publishes $\vec{pk} = \{(\vec I_B^{i,1}, \ldots, \vec I_B^{i,c\log(n)})\}_{i \in [m]}$ and keeps $\vec{sk} = \{(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})\}_{i \in [m]}$ as the secret key.
+		\item $\keygen(1^n)$: run Bob's half of the protocol $m$ times, generating $m \cdot c\log(n)$ lists of $2n^k$ instances of \zkclique, $\{(\vec I_B^{i,1}, \ldots, \vec I_B^{i,c\log(n)})\}_{i \in [m]}$, along with witnesses (if planted) $\{(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})\}_{i \in [m]}$. Bob publishes the public key $\vec{pk} = \{(\vec I_B^{i,1}, \ldots, \vec I_B^{i,c\log(n)})\}_{i \in [m]}$ and keeps $\vec{sk} = \{(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})\}_{i \in [m]}$ as the secret key.
 		
 		\item $\enc(pk, \vec m \in \{0,1\}^m)$: run Alice's half of the protocol $m$ times as well. Alice generates $m \cdot c \log(n)$ lists of $2n^k$ instances of \zkclique~and their witnesses (if they were planted) along with a random vector for dot-producting: $\{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}$ and $\{(\vec w_A^{i, 1}, \ldots, \vec w_A^{i, c\log(n)})\}_{i \in [m]}$. Alice then executes the amplified key exchange per Corollary \ref{cor:strongFGKeyXc} and Lemma \ref{lem:n2-non-interactive-const} to get a shared key $k_i$ for each $i \in [m]$. If any of the key exchanges fail, Alice outputs $\bot$, and the encryption fails. Otherwise, Alice has a vector $\vec k$ and outputs the ciphertext $ct = \left( \{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec k \xor \vec m \right)$.
 		
-		\item $\dec(sk, ct)$: Bob uses his secret key to finish the $m$ key exchanges, using $ct$, and then uses that vector of keys $\vec k$ to decrypt the message. More formally, let $sk = \{(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})\}_{i \in [m]}$ and $ct = \left( \{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec c \right)$. For every $i \in [m]$, $(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})$ and $((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))$ is a transcript for the amplified non-interactive key exchange (see Lemma \ref{lem:n2-non-interactive-const}) from Bob's perspective, and so Bob will be able to extract a key $k^i$. Let $\vec k =(k^1, \ldots, k^m)$, and $\vec m' = \vec k \xor \vec c$. Output $\vec m'$ as the decrypted message.
+		\item $\dec(sk, ct)$: Bob uses his secret key to finish the $m$ key exchanges, using $ct$, and then uses that vector of keys $\vec k$ to decrypt the message. More formally, let $sk = \{(\vec w_B^{i, 1}, \ldots, \vec w_B^{i, c\log(n)})\}_{i \in [m]}$ and parse the ciphertext as $ct = \left( \{((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))\}_{i \in [m]}, \vec c \right)$. For every $i \in [m]$, $(\vec w_B^{i, 1}, \ldots,$  $\vec w_B^{i, c\log(n)})$ and $((\vec I_A^{i,1}, \vec r^{i, 1}), \ldots, (\vec I_A^{i,c\log(n)}, \vec r^{i, c \log(n)}))$ are a transcript for the amplified non-interactive key exchange (see Lemma \ref{lem:n2-non-interactive-const}) from Bob's perspective, and so Bob will be able to extract a key $k^i$. Let $\vec k =(k^1, \ldots, k^m)$, and $\vec m' = \vec k \xor \vec c$. Output $\vec m'$ as the decrypted message.
 	\end{itemize}
 	
 	Now we will prove this is a fine-grained public key cryptosystem. First, we look at how much time Alice and Bob took to run. They ran the amplified key exchange $m$ times, taking a total of $\~O(2n^{k+2})$ time since $m = \subpoly(n)$. So, Alice and Bob took $\PFT{n^{2k}}$ time.

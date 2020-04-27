@@ -15,7 +15,7 @@ Traditional cryptography has notions of weak and strong OWFs. Weak OWFs can be i
 Here we will briefly define ``medium'' $T(n)$-FGOWFs, and show how they can imply a ``strong'' $T(n)$-FGOWF, where ``strong'' refers to definition \ref{def:fg-owf}
 
 \begin{definition}
-	A function $f$ is a medium $T(n)$-FGOWF if there exists a sub-polynomial function $Q(n)$ such that for all $\PFT{T(n)}$ adversaries $\cA$,
+	A function $f$ is a medium $T(n)$-FGOWF if there exists a sub-polyno\-mial function $Q(n)$ such that for all $\PFT{T(n)}$ adversaries $\cA$,
 	\[ \Pr_{x \getsr \{0,1\}^n}\bigl[ \cA(f(x)) \in f\inv(f(x)) \bigr] \le 1 - \frac 1 {Q(n)}. \]
 \end{definition}
 
@@ -25,12 +25,12 @@ Here we will briefly define ``medium'' $T(n)$-FGOWFs, and show how they can impl
 \begin{proof}
 	The structure of this proof will follow Yao's original argument augmenting weak OWFs to strong ones. Intuitively, we are able to use this argument because sub-polynomial functions compose well with each other.
 	
-	Assume for the sake of contradiction that no strong $T(n)$-FGOWF exists. Then, there exists some function $p’(n)$ such that $p’(n)$ is sub-polynomial and for all functions $f$ computable in $T(n)^{1-\epsilon}$ time there exists a $PFT_{T(n)}$ adversary that can invert the function $f$ with probability $1-\frac{1}{p’(n)}$.
+	Assume for the sake of contradiction that no strong $T(n)$-FGOWF exists. Then, there exists some function $p'(n)$ such that $p'(n)$ is sub-polynomial and for all functions $f$ computable in $T(n)^{1-\epsilon}$ time there exists a $PFT_{T(n)}$ adversary that can invert the function $f$ with probability $1-\frac{1}{p'(n)}$.
 	
 	Let $f$ be a medium $T(n)$-FGOWF, where the probability any $\PFT{T(n)}$ adversary inverts it is $1 - \frac 1 {Q(n)}$. The basic idea will be to produce $g$ that is just a concatenation of many $f$s, just as in the traditional cryptographic case.
 	
 	For any positive-integer function $c(n)$, let $g(x_1 || \dots || x_{c(n)}) = f(x_1)||$ $\dots ||f(x_{c(n)})$, where $||$ denotes concatenation.
-	Let $c(n) = 4 \left( Q(n)r(n) \right)^2$ (or the ceiling of $4 \left( Q(n)r(n) \right)^2$, if not an integer). 	Where $r(n)$ is a subpolynomial function such that $r(n) \ge p’(c(n) \cdot n)$. Note that $p’(n)$ is subpolynomial, and that as a result some such function $r(n)$ exists. Specifically, setting $r(n) = p'(n^2)$ satisfies both criteria.
+	Let $c(n) = 4 \left( Q(n)r(n) \right)^2$ (or the ceiling of $4 ( Q(n)\cdot $ $r(n))^2$, if not an integer). 	Where $r(n)$ is a subpolynomial function such that $r(n) \ge p'(c(n) \cdot n)$. Note that $p'(n)$ is subpolynomial, and that as a result some such function $r(n)$ exists. Specifically, setting $r(n) = p'(n^2)$ satisfies both criteria.
 	
 	Now note that $c(n) \cdot n = \~O(n)$, and so $T(c(n) \cdot n) = \~O(T(n))$. Furthermore, $g$ is a $T(c(n) \cdot n) = O(T(n))$-FGOWF since $c(n)$ is subpolynomial.
 	
@@ -78,12 +78,11 @@ Here we will briefly define ``medium'' $T(n)$-FGOWFs, and show how they can impl
 		&\le \frac{c(n)}{2c^2(n)p(n)} = \frac{1}{2c(n)p(n)}
 		\end{align*}
 		So, if we just union bound over all $j$, we get
-		\[ \Pr_{\vec x}[\cA(\vec z) \mbox{ succeeds} \land \mbox{some } x_j \mbox{ are bad}] \le \sum_{j = 1}^{c(n)} \Pr_{\vec x}[\cA_0(f(x_j))\mbox{ succeeds} \land x_j\mbox{ is bad}] \le \frac{1}{2p(n)}. \]
-		
-
-		
+		\begin{align*}
+		\Pr_{\vec x}[\cA(\vec z) \mbox{ succeeds} \land \mbox{some } x_j \mbox{ are bad}] &\le \sum_{j = 1}^{c(n)} \Pr_{\vec x}[\cA_0(f(x_j))\mbox{ succeeds} \land x_j\mbox{ is bad}]\\
+		&\le \frac{1}{2p(n)}
+		\end{align*}
 		And one more quick upper bound yields
-		
 		\begin{align*}
 	\Pr[\cA(\vec z) \mbox{ succeeds} \land \mbox{all } x_j \mbox{ are good}] &\le \Pr_{\vec x}[\mbox{all $x_j$ good}]\\
 	&< \left(1 - \frac{1}{2p(n)}\right)^{c(n)}\\
@@ -91,7 +90,7 @@ Here we will briefly define ``medium'' $T(n)$-FGOWFs, and show how they can impl
 	&\leq e^{- 2\left(Q(n)\right)^2 \cdot p(n)} < \frac 1 {2p(n)}.
 		\end{align*}
 		
-		Finally, this yields the contradiction to the claim that there are at least $2^n(\frac{1}{2p(n)})$ bad elements:
+		Finally, this gives us a contradiction to the claim that there are at least $2^n(\frac{1}{2p(n)})$ bad elements:
 		\begin{align*}
 		\Pr_{\vec x}[\cA(\vec z) \mbox{ succeeds}] < \frac{1}{p(n)}.
 		\end{align*}
@@ -222,7 +221,7 @@ Recall that in traditional cryptography, any OWF implies the existence of anothe
 	\Pr[\cB(f(x,y)) = y] & \ge \Pr[\cB(f(x,y)) = y | (x,y)\in S ] \cdot \frac \epsilon 2\\
 	&= \frac \epsilon 2 \left( 1 - \Pr[\exists i \mbox{ s.t. } y_i \neq z_i | (x,y) \in S] \right)\\
 	&\ge \frac \epsilon 2 \left(1 - Q(n)\Pr[y_i \neq z_i | (x,y) \in S]\right)\\
-	&\ge \frac \epsilon 2 \left(1 - Q(n)\Pr[y_i \neq z_i | (x,y) \in S \land \mbox{guessed all $b_i$ correctly}]\cdot \frac 1 m\right)\\
+	&\ge \frac \epsilon 2 \left(1 - Q(n)\Pr[y_i \neq z_i | (x,y) \in S \land \mbox{guess all $b_i$ correctly}]\cdot \frac 1 m\right)\\
 	&\ge \frac \epsilon 2 \left(1 - \frac {Q(n)}{m} \cdot \frac{1}{m(\epsilon/2)^2} \right)\\
 	&= \frac \epsilon 2 - \frac{4Q(n)}{m^2\epsilon}
 	\end{align*}

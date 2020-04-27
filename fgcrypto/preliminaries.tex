@@ -108,7 +108,11 @@ This particular security guarantee protects against chosen plaintext attacks. Bu
 	\begin{itemize}
 		\item They are efficient. There exists a constant $\delta > 0$ such that all three algorithms run in time $O\left(T(n)^{1-\delta}\right)$.
 		\item They are correct. For all messages $m$,
-		\[ \Pr_{\keygen,\enc,\dec}[\dec(sk, \enc(pk,m)) = m \vert (pk,sk) \gets \keygen(1^\lambda)] \ge 1 - \insig(n). \]
+		\begin{align*}
+		\Pr_{\keygen,\enc,\dec}&[\dec(sk, \enc(pk,m)) = m \vert (pk,sk) \gets \keygen(1^\lambda)] \ge\\
+		&1 - \insig(n). 
+		\end{align*}
+%		\[ \Pr_{\keygen,\enc,\dec}[\dec(sk, \enc(pk,m)) = m \vert (pk,sk) \gets \keygen(1^\lambda)] \ge 1 - \insig(n). \]
 	\end{itemize}
 
 The cryptosystem is \emph{CPA-secure} if any $\PFT{T(n)}$ adversary $\cA$ has an insignificant advantage in winning the following game:

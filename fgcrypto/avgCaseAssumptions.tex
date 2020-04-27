@@ -59,7 +59,7 @@ We also define a similar notion for search problems. Intuitively, it is hard to 
 	
 	$P$ is Average Case Search Hard in time $T(n)$ if $T(n)=\Omega(n)$ and
 	\begin{itemize}
-		\item there exists a $\PFT{T(n)}$ algorithm $V$ (a fine-grained verifier) such that $V(I, wit(I)) = 1$ if $I$ has a solution and $wit(I)$ is a witness for it and $0$ otherwise
+		\item there exists a $\PFT{T(n)}$ algorithm $V$ (a fine-grained verifier) such that $V(I,$ $wit(I))$ $= 1$ if $I$ has a solution and $wit(I)$ is a witness for it and $0$ otherwise
 		\item and for any  $\PFT{ T(n)}$ algorithm $A$
 		\[ \Pr_{I \sim D_1}[A(I) = wit(I)] \le 1/100. \]
 	\end{itemize}
@@ -205,7 +205,7 @@ $n^{1+\delta}$-\ACIH~ for some $\delta>0$.
 \end{definition}
 
 \begin{definition}[\Weakzkc]
-	There exists some large enough constant $c$ such that for all constants $c'>c$, distinguishing $D^{zkc}_{0}[c'R,n]$ and $D^{zkc}_{1}[c'R,n]$ is
+	There exists some large enough constant $c$ such that for all constants $c'>c$, distinguishing $D^{zkc}_{0}[c'R,n]$ and $D^{zkc}_{1}$ $[c'R,n]$ is
 	$n^{2+\delta}$-\ACIH~ for some $\delta>0$.
 	
 	Notice that the \zkclique-$R$ problem is of size $O(n^2)$.
